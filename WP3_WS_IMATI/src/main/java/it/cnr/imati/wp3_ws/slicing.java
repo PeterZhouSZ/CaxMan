@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.wp3_ws_imati;
+package it.cnr.imati.wp3_ws;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -13,8 +13,8 @@ import javax.jws.WebParam;
  *
  * @author cino
  */
-@WebService(serviceName = "orientation_optimization")
-public class orientation_optimization {
+@WebService(serviceName = "slicing")
+public class slicing {
 
     /**
      * This is a sample web service operation
