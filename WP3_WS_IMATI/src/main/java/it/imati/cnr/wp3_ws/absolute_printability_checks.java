@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "absolute_printability_checks", targetNamespace = "http://wp3_ws.cnr.imati.it/")
+@WebService(serviceName = "cino")
 public class absolute_printability_checks 
 {
  
@@ -27,25 +27,25 @@ public class absolute_printability_checks
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "absolute_printability_checks_operation")
+    @WebMethod(operationName = "daniela")
     public void absolute_printability_checks_operation (
-            @WebParam(name            = "serviceID", 
+            @WebParam(name            = "uno", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
             
-            @WebParam(name            = "sessionToken", 
+            @WebParam(name            = "due", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String sessionToken,
             
-            @WebParam(name            = "annotated_STL_URI_in",
+            @WebParam(name            = "tre",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String annotated_STL_URI_in,
             
-            @WebParam(name            = "annotated_STL_URI_out", 
+            @WebParam(name            = "quattro", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<String> annotated_STL_URI_out,
             
-            @WebParam(name            = "absolute_printability_flag", 
+            @WebParam(name            = "cinque", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {
