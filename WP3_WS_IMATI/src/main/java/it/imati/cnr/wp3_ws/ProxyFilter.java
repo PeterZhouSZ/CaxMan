@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package it.cnr.imati.wp3_ws;
+package it.imati.cnr.wp3_ws;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;
