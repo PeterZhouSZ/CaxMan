@@ -42,16 +42,16 @@ public class slicing
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String annotated_STL_URI_in,
             
-            @WebParam(name            = "annotated_STL_URI_out", 
+            @WebParam(name            = "sliced_CLI_URI_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> annotated_STL_URI_out,
+                      mode            = WebParam.Mode.OUT)  Holder<String> sliced_CLI_URI_out,
             
-            @WebParam(name            = "absolute_printability_flag", 
+            @WebParam(name            = "volumetric_CLI_URI_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
+                      mode            = WebParam.Mode.OUT)  Holder<String> volumetric_CLI_URI_out) 
     {
-        annotated_STL_URI_out.value      = "POBA";
-        absolute_printability_flag.value = false;
+        sliced_CLI_URI_out.value     = "POBA";
+        volumetric_CLI_URI_out.value = "POBA";
     }
     
     

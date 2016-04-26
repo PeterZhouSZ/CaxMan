@@ -44,14 +44,9 @@ public class support_structures_generation
             
             @WebParam(name            = "annotated_STL_URI_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> annotated_STL_URI_out,
-            
-            @WebParam(name            = "absolute_printability_flag", 
-                      targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
+                      mode            = WebParam.Mode.OUT)  Holder<String> annotated_STL_URI_out)
     {
-        annotated_STL_URI_out.value      = "POBA";
-        absolute_printability_flag.value = false;
+        annotated_STL_URI_out.value = "POBA";
     }
     
     
