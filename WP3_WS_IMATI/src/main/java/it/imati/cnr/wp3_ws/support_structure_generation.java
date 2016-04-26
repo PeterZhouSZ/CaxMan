@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "support_structure_generation")
+@WebService(serviceName = "support_structure_generation", targetNamespace = "http://wp3_ws.cnr.imati.it/")
 public class support_structure_generation 
 {
  
@@ -27,8 +27,8 @@ public class support_structure_generation
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "support_structure_generation")
-    public void support_structure_generation(
+    @WebMethod(operationName = "support_structure_generation_operation")
+    public void support_structure_generation_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,

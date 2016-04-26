@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "absolute_printability_checks")
+@WebService(serviceName = "absolute_printability_checks", targetNamespace = "http://wp3_ws.cnr.imati.it/")
 public class absolute_printability_checks 
 {
  
@@ -27,8 +27,8 @@ public class absolute_printability_checks
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "absolute_printability_checks")
-    public void absolute_printability_checks(
+    @WebMethod(operationName = "absolute_printability_checks_operation")
+    public void absolute_printability_checks_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,

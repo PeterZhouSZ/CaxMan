@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "orientation_optimization")
+@WebService(serviceName = "orientation_optimization", targetNamespace="http://wp3_ws.cnr.imati.it/")
 public class orientation_optimization 
 {
  
@@ -27,8 +27,8 @@ public class orientation_optimization
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "orientation_optimization")
-    public void orientation_optimization(
+    @WebMethod(operationName = "orientation_optimization_operation")
+    public void orientation_optimization_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,

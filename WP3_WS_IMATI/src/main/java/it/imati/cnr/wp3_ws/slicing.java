@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "slicing")
+@WebService(serviceName = "slicing", targetNamespace = "http://wp3_ws.cnr.imati.it/")
 public class slicing 
 {
  
@@ -27,8 +27,8 @@ public class slicing
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "slicing")
-    public void slicing(
+    @WebMethod(operationName = "slicing_operation")
+    public void slicing_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,

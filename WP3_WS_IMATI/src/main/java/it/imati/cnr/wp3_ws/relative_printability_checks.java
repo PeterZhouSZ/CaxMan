@@ -17,7 +17,7 @@ import javax.xml.ws.Holder;
  *
  * @author cino
  */
-@WebService(serviceName = "relative_printability_checks")
+@WebService(serviceName = "relative_printability_checks", targetNamespace = "http://wp3_ws.cnr.imati.it/")
 public class relative_printability_checks 
 {
  
@@ -27,8 +27,8 @@ public class relative_printability_checks
     //
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
-    @WebMethod(operationName = "relative_printability_checks")
-    public void relative_printability_checks(
+    @WebMethod(operationName = "relative_printability_checks_operation")
+    public void relative_printability_checks_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
