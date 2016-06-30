@@ -7,7 +7,6 @@ package it.imati.cnr.wp3_ws;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,6 +54,7 @@ public class orientation_optimization
     {        
         
         String line = "token vuoto";
+        StringBuilder sb = new StringBuilder();
         
         try
         {
@@ -66,18 +66,19 @@ public class orientation_optimization
             
             Process p = b.start();
             
-            InputStream stdout = p.getInputStream();
-            BufferedReader reader = new BufferedReader (new InputStreamReader(stdout));
+            BufferedReader reader = new BufferedReader (new InputStreamReader(p.getInputStream()));
             
-            while ((line = reader.readLine()) != null)
-                System.out.print(line);
+            line = reader.readLine();
+            
+            if (line != null)
+                sb.append(line);
         }
         catch(IOException e)
         {
             line = "CRASHED";
         }
         
-        annotated_STL_URI_out.value      = line;
+        annotated_STL_URI_out.value      = sb.toString();
         absolute_printability_flag.value = false;
     }
     
