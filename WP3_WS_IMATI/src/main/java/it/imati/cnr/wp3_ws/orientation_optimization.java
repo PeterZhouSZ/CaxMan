@@ -50,29 +50,22 @@ public class orientation_optimization
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
-        Process p = null;
-        
         try
         {
             String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman > ~/token.txt";
             
-            p = Runtime.getRuntime().exec(cmd);
+            Process p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
         }
         catch(IOException | InterruptedException e)
         {
-            annotated_STL_URI_out.value      = "HA CRASHATO";
+            annotated_STL_URI_out.value      = "CRASHED";
             absolute_printability_flag.value = false;
         }
-
-        int exitValue = p.exitValue();
         
-        if (exitValue == 0)
-        {           
-            annotated_STL_URI_out.value      = "POBA";
-            absolute_printability_flag.value = false;
-        }
+        annotated_STL_URI_out.value      = "POBA";
+        absolute_printability_flag.value = false;
     }
     
     
