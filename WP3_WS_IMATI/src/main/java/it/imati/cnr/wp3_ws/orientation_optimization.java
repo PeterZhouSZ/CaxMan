@@ -5,7 +5,10 @@
  */
 package it.imati.cnr.wp3_ws;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebService;
@@ -50,21 +53,32 @@ public class orientation_optimization
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
+        
+        String line = "token vuoto";
+        
         try
         {
             String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman > ~/token.txt";
+            String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";
             
-            Process p = Runtime.getRuntime().exec(cmd);
-            p.waitFor();
+            ProcessBuilder b = new ProcessBuilder(cmd);
+            b.redirectOutput();
+            
+            Process p = b.start();
+            
+            InputStream stdout = p.getInputStream();
+            BufferedReader reader = new BufferedReader (new InputStreamReader(stdout));
+            
+            while ((line = reader.readLine()) != null)
+                System.out.print(line);
         }
-        catch(IOException | InterruptedException e)
+        catch(IOException e)
         {
             annotated_STL_URI_out.value      = "CRASHED";
             absolute_printability_flag.value = false;
         }
         
-        annotated_STL_URI_out.value      = "POBA";
+        annotated_STL_URI_out.value      = line;
         absolute_printability_flag.value = false;
     }
     
