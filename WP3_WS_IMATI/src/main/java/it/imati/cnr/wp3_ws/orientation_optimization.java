@@ -61,9 +61,7 @@ public class orientation_optimization
             String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";
             
-            ProcessBuilder b = new ProcessBuilder(cmd);
-            
-            Process p = b.start();
+            Process p = Runtime.getRuntime().exec(cmd);
             
             BufferedReader reader = new BufferedReader (new InputStreamReader(p.getInputStream()));
             
@@ -71,14 +69,19 @@ public class orientation_optimization
             
             if (line != null)
                 sb.append(line);
+            
+            annotated_STL_URI_out.value      = sb.toString();
+            absolute_printability_flag.value = true;
         }
         catch(IOException e)
         {
             line = "CRASHED";
+            
+            annotated_STL_URI_out.value      = line;
+            absolute_printability_flag.value = false;
         }
         
-        annotated_STL_URI_out.value      = sb.toString();
-        absolute_printability_flag.value = false;
+        
     }
     
     
