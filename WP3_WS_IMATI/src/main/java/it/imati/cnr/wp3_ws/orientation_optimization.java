@@ -62,8 +62,8 @@ public class orientation_optimization
         }
         catch(IOException | InterruptedException e)
         {
-            System.out.println("Ma che cazzo");
-            System.exit(1);
+            annotated_STL_URI_out.value      = "HA CRASHATO";
+            absolute_printability_flag.value = false;
         }
 
         int exitValue = p.exitValue();
