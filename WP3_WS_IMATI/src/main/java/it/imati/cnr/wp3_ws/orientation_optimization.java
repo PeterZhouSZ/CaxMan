@@ -75,9 +75,7 @@ public class orientation_optimization
         }
         catch(IOException e)
         {
-            annotated_STL_URI_out.value      = "CRASHED";
-            absolute_printability_flag.value = false;
-            exit();
+            line = "CRASHED";
         }
         
         annotated_STL_URI_out.value      = line;
