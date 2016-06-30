@@ -49,9 +49,30 @@ public class orientation_optimization
             @WebParam(name            = "absolute_printability_flag", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
-    {
-        annotated_STL_URI_out.value      = "POBA";
-        absolute_printability_flag.value = false;
+    {        
+        Process p = null;
+        
+        try
+        {
+            String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
+            String cmd    = "python " + path + "getToken.py > ~/token.txt";
+            
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        }
+        catch(IOException | InterruptedException e)
+        {
+            System.out.println("Ma che cazzo");
+            System.exit(1);
+        }
+
+        int exitValue = p.exitValue();
+        
+        if (exitValue == 0)
+        {           
+            annotated_STL_URI_out.value      = "POBA";
+            absolute_printability_flag.value = false;
+        }
     }
     
     
