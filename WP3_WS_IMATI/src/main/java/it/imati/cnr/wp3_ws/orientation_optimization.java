@@ -55,7 +55,7 @@ public class orientation_optimization
         try
         {
             String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String cmd    = "python " + path + "getToken.py > ~/token.txt";
+            String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman > ~/token.txt";
             
             p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
