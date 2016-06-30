@@ -62,7 +62,6 @@ public class orientation_optimization
             String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";
             
             ProcessBuilder b = new ProcessBuilder(cmd);
-            b.redirectOutput();
             
             Process p = b.start();
             
