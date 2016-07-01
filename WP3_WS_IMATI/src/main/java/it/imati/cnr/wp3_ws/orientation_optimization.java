@@ -70,7 +70,7 @@ public class orientation_optimization
             
             String  token    = sb.toString();                       
             String  file_in  = "swift://caxman/imati-ge/T_supported.off";
-            String  file_out = "~/T_supported_oriented.off";
+            String  file_out = "/root/T_supported_oriented.off";
             
             String  cmd2     = "python " + path + "download_gss.py " + 
                                file_in + " " + file_out + " " + token;
