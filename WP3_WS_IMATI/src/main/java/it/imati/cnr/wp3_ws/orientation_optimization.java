@@ -73,7 +73,7 @@ public class orientation_optimization
             String  file_in  = "swift://caxman/imati-ge/T_supported.off";
             String  file_out = "~/T_supported_oriented.off";
             String  cmd2     = "python" + path + "download_gss.py " + file_in + " " + file_out + " " + token;
-            Process p2       = Runtime.getRuntime().exec(cmd);
+            Process p2       = Runtime.getRuntime().exec(cmd2);
             
             annotated_STL_URI_out.value      = "DOWNLOADED";
             absolute_printability_flag.value = true;
