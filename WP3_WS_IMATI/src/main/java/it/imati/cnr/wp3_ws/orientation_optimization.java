@@ -79,8 +79,8 @@ public class orientation_optimization
             
            
             String  file_up  = "swift://caxman/imati-ge/T_supported_oriented.off";
-            String  cmd3     = "python " + path + "upload_gss.py " + file_out + " " +
-                               file_up + " " + token;
+            String  cmd3     = "python " + path + "upload_gss.py " + file_up + " " +
+                               file_out + " " + token;
             Process p3       = Runtime.getRuntime().exec(cmd3);
                        
             annotated_STL_URI_out.value      = cmd3;
