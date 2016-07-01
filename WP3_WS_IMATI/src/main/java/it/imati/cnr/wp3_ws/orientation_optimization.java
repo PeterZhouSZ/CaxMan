@@ -58,10 +58,9 @@ public class orientation_optimization
         
         try
         {
-            String path   = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String cmd    = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";
-            
-            Process p = Runtime.getRuntime().exec(cmd);
+            String  path = "/root/infrastructureClients/gssClients/gssPythonClients/";
+            String  cmd  = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";           
+            Process p    = Runtime.getRuntime().exec(cmd);
             
             BufferedReader reader = new BufferedReader (new InputStreamReader(p.getInputStream()));
             
@@ -69,8 +68,16 @@ public class orientation_optimization
             
             if (line != null) sb.append(line);
             
-            annotated_STL_URI_out.value      = sb.toString();
+            String token = sb.toString();
+                        
+            String  file_in  = "swift://caxman/imati-ge/T_supported.off";
+            String  file_out = "~/T_supported_oriented.off";
+            String  cmd2     = "python" + path + "download_gss.py " + file_in + " " + file_out + " " + token;
+            Process p2       = Runtime.getRuntime().exec(cmd);
+            
+            annotated_STL_URI_out.value      = "DOWNLOADED";
             absolute_printability_flag.value = true;
+            
         }
         catch(IOException e)
         {
