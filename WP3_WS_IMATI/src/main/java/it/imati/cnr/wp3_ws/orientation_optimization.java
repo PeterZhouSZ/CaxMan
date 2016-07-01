@@ -77,7 +77,7 @@ public class orientation_optimization
             
             Process p2       = Runtime.getRuntime().exec(cmd2);
             
-            annotated_STL_URI_out.value      = "DOWNLOADED";
+            annotated_STL_URI_out.value      = cmd2;
             absolute_printability_flag.value = true;
             
         }
