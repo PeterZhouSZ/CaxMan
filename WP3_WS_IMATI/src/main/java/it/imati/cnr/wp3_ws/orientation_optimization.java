@@ -67,8 +67,7 @@ public class orientation_optimization
             
             line = reader.readLine();
             
-            if (line != null)
-                sb.append(line);
+            if (line != null) sb.append(line);
             
             annotated_STL_URI_out.value      = sb.toString();
             absolute_printability_flag.value = true;
@@ -79,9 +78,7 @@ public class orientation_optimization
             
             annotated_STL_URI_out.value      = line;
             absolute_printability_flag.value = false;
-        }
-        
-        
+        }                
     }
     
     
