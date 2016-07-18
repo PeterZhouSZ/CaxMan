@@ -56,7 +56,7 @@ public class absolute_printability_checks
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/detect_voids_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String orientedFilename     = "/root/checked.ann";
+            String checkedFilename      = "/root/checked.ann";
             String outputURI            = "swift://caxman/imati-ge/checked.ann";
             
             // Download File
@@ -64,15 +64,15 @@ public class absolute_printability_checks
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
             // Run orientation
-            String cmdRunOrientation = pathOrientationTool + "detect_voids_service " + downloadedFilename + " " + orientedFilename;
-            Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
+            String cmdRunDetectVoids = pathOrientationTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
+            Process p2 = Runtime.getRuntime().exec(cmdRunDetectVoids);
             
             // Check output existence
-            File f = new File(orientedFilename);
+            File f = new File(checkedFilename);
             if(!f.exists() || f.isDirectory()) throw new IOException("File does not exist");
           
             // Upload output
-            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
+            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + checkedFilename + " " + sessionToken;
             Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
                
             annotated_STL_URI_out.value      = outputURI;
