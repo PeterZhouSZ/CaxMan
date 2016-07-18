@@ -66,7 +66,7 @@ public class orientation_optimization
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
-            Process p2 = Runtime.getRuntime().exec(cmdDownload);
+            Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
