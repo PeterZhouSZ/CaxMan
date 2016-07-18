@@ -6,6 +6,7 @@
 package it.imati.cnr.wp3_ws;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
@@ -67,6 +68,10 @@ public class orientation_optimization
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
+            
+            // Check output existence
+            File f = new File(orientedFilename);
+            if(!f.exists() || f.isDirectory()) throw new IOException("File does not exist");
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
