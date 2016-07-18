@@ -52,46 +52,33 @@ public class orientation_optimization
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
-        
-        String line = "token vuoto";
-        StringBuilder sb = new StringBuilder();
-        
         try
         {
-            String  path = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String  cmd  = "python " + path + "getToken.py imati s8Q48TxUw=5 caxman";           
-            Process p    = Runtime.getRuntime().exec(cmd);
+            String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
+            String pathOrientationTool  = "/root/CaxMan/orientation_service/";
+            String downloadedFilename   = "/root/dowloaded.off";      
+            String orientedFilename     = "/root/oriented.ann";
+            String outputURI            = "swift://caxman/imati-ge/oriented.ann";
             
-            BufferedReader reader = new BufferedReader (new InputStreamReader(p.getInputStream()));
+            // Download File
+            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+            Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
-            line = reader.readLine();
-            
-            if (line != null) sb.append(line);
-            
-            String  token    = sb.toString();                       
-            String  file_in  = "swift://caxman/imati-ge/T_supported.off";
-            String  file_out = "/root/T_supported_oriented.off";
-            
-            String  cmd2     = "python " + path + "download_gss.py " + 
-                               file_in + " " + file_out + " " + token;
-            
-            Process p2       = Runtime.getRuntime().exec(cmd2);
-            
-           
-            String  file_up  = "swift://caxman/imati-ge/T_supported_oriented.off";
-            String  cmd3     = "python " + path + "upload_gss.py " + file_up + " " +
-                               file_out + " " + token;
-            Process p3       = Runtime.getRuntime().exec(cmd3);
-                       
-            annotated_STL_URI_out.value      = cmd3;
+            // Run orientation
+            String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
+            Process p2 = Runtime.getRuntime().exec(cmdDownload);
+
+            // Upload output
+            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
+            Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
+               
+            annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
             
         }
         catch(IOException e)
-        {
-            line = "CRASHED";
-            
-            annotated_STL_URI_out.value      = line;
+        {           
+            annotated_STL_URI_out.value      = "";
             absolute_printability_flag.value = false;
         }                
     }
