@@ -63,21 +63,36 @@ public class orientation_optimization
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/orientation_service/";
-            String downloadedFilename   = "/root/dowloaded_" + sdate + ".off";      
-            String orientedFilename     = "/root/oriented_" + sdate +".ann";
+            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";      
+            String orientedFilename     = "/root/CAxManIO/oriented_" + sdate + ".ann";
             String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+            
+            System.out.print("[RUNNING] : " + cmdDownload);
+            
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
+            
+            System.out.print("[COMPLETED] : " + cmdDownload);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
+            
+            System.out.print("[RUNNING] : " + cmdRunOrientation);
+            
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
 
+            System.out.print("[COMPLETED] : " + cmdRunOrientation);
+            
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
+            
+            System.out.print("[RUNNING] : " + cmdUploadOutput);
+            
             Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
+            
+            System.out.print("[COMPLETED] : " + cmdUploadOutput);
                
             annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
@@ -85,7 +100,7 @@ public class orientation_optimization
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = "";
+            annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
         }                
     }
