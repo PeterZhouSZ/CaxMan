@@ -56,7 +56,7 @@ public class orientation_optimization
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String sdate = dateFormat.format(new Date());
 
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
@@ -64,8 +64,8 @@ public class orientation_optimization
 
         String workingDir           = "/root/";
         String downloadedFilename   = "dowloaded" + sdate + ".off";      
-        String orientedFilename     = "oriented_" + sdate + ".ann";
-        String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
+        String orientedFilename     = "oriented" + sdate + ".ann";
+        String outputURI            = "swift://caxman/imati-ge/oriented" + sdate + ".ann";
         
         try
         {                   
