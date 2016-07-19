@@ -74,14 +74,14 @@ public class orientation_optimization
             String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
             
             // Download File
-            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + workingDir + downloadedFilename + " " + workingDir + sessionToken;
+            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + workingDir + downloadedFilename + " " + sessionToken;
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
             File input = new File(workingDir, downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
             
             // Run orientation
-            String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
+            String cmdRunOrientation = pathOrientationTool + "orientation_service " + workingDir + downloadedFilename + " " + workingDir + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
             File output = new File(workingDir, orientedFilename);
