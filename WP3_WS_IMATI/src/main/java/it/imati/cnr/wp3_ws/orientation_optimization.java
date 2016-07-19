@@ -7,7 +7,6 @@ package it.imati.cnr.wp3_ws;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,7 +64,6 @@ public class orientation_optimization
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
         String pathOrientationTool  = "/root/CaxMan/orientation_service/";
 
-
         String workingDir           = "/root/";
         String downloadedFilename   = "dowloaded.off";      
         String orientedFilename     = "oriented_" + sdate + ".ann";
@@ -77,13 +75,15 @@ public class orientation_optimization
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + workingDir + downloadedFilename + " " + sessionToken;
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
-            FileInputStream input = new FileInputStream(workingDir + downloadedFilename);   // throws an exception is file does not exists
+            File input = new File(workingDir, downloadedFilename);
+            if (!input.getAbsoluteFile().exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + workingDir + downloadedFilename + " " + workingDir + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
-            FileInputStream output = new FileInputStream(workingDir + orientedFilename);   // throws an exception is file does not exists
+            File output = new File(workingDir, orientedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException ("Error in creating output " + orientedFilename);
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
@@ -99,8 +99,7 @@ public class orientation_optimization
         {           
             annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
-        }        
-        
+        }                
     }
     
     
