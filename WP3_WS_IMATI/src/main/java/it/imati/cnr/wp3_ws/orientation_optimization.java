@@ -57,15 +57,13 @@ public class orientation_optimization
     {        
         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        Date date = new Date();
-
-        String sdate = dateFormat.format(date);
+        String sdate = dateFormat.format(new Date());
 
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
         String pathOrientationTool  = "/root/CaxMan/orientation_service/";
 
         String workingDir           = "/root/";
-        String downloadedFilename   = "dowloaded.off";      
+        String downloadedFilename   = "dowloaded" + sdate + ".off";      
         String orientedFilename     = "oriented_" + sdate + ".ann";
         String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
         
