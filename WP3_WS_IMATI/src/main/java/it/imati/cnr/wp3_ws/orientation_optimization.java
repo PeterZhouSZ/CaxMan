@@ -74,14 +74,14 @@ public class orientation_optimization
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
             File input = new File(downloadedFilename);
-            if (!input.exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
+            if (!input.getAbsoluteFile().exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
             File output = new File(orientedFilename);
-            if (!output.exists()) throw new IOException ("Error in creating output " + orientedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException ("Error in creating output " + orientedFilename);
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
