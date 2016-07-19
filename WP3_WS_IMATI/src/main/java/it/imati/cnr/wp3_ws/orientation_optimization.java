@@ -58,6 +58,8 @@ public class orientation_optimization
     {        
         try
         {
+            System.setProperty( "user.dir", "/root/");
+            
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             Date date = new Date();
             
