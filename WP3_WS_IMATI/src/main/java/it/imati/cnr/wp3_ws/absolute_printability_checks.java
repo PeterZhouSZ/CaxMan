@@ -57,13 +57,11 @@ public class absolute_printability_checks
         try
         {
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            Date date = new Date();
-            
-            String sdate = dateFormat.format(date);
+            String sdate = dateFormat.format(new Date());
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool  = "/root/CaxMan/detect_voids_service/";
-            String downloadedFilename   = "/root/dowloaded.off";      
+            String pathDetectVoidsTool  = "/root/CaxMan/detect_voids_service/";
+            String downloadedFilename   = "/root/dowloaded_" + sdate + ".off";        
             String checkedFilename      = "/root/abs_checked_" + sdate + ".ann";
             String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".ann";
             
@@ -72,7 +70,7 @@ public class absolute_printability_checks
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
             // Run orientation
-            String cmdRunDetectVoids = pathOrientationTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
+            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunDetectVoids);
             
             // Upload output
