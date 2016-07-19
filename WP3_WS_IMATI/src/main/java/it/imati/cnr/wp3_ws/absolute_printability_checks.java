@@ -7,6 +7,9 @@ package it.imati.cnr.wp3_ws;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebService;
@@ -53,11 +56,14 @@ public class absolute_printability_checks
     {
         try
         {
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            Date date = new Date();
+            
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/detect_voids_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String checkedFilename      = "/root/checked.ann";
-            String outputURI            = "swift://caxman/imati-ge/checked.ann";
+            String checkedFilename      = "/root/checked_" + dateFormat.format(date) + ".ann";
+            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + dateFormat.format(date) + ".ann";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;

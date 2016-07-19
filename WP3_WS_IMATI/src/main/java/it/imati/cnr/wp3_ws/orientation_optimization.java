@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jws.WebService;
@@ -55,11 +58,14 @@ public class orientation_optimization
     {        
         try
         {
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            Date date = new Date();
+            
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/orientation_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String orientedFilename     = "/root/oriented.ann";
-            String outputURI            = "swift://caxman/imati-ge/oriented.ann";
+            String orientedFilename     = "/root/oriented_" + dateFormat.format(date) + ".ann";
+            String outputURI            = "swift://caxman/imati-ge/oriented_" + dateFormat.format(date) + ".ann";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
