@@ -62,7 +62,7 @@ public class absolute_printability_checks
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/detect_voids_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String checkedFilename      = "/root/checked_" + dateFormat.format(date) + ".ann";
+            String checkedFilename      = "/root/abs_checked_" + dateFormat.format(date) + ".ann";
             String outputURI            = "swift://caxman/imati-ge/abs_checked_" + dateFormat.format(date) + ".ann";
             
             // Download File
@@ -87,7 +87,7 @@ public class absolute_printability_checks
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = "";
+            annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
         }                
     }

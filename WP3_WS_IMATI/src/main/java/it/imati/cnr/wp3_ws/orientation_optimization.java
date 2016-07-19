@@ -77,7 +77,7 @@ public class orientation_optimization
             
             // Check output existence
             File f = new File(orientedFilename);
-            if(!f.exists() || f.isDirectory()) throw new IOException("File does not exist");
+            if(!f.exists() || f.isDirectory()) throw new IOException("Output file does not exist");
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
@@ -89,7 +89,7 @@ public class orientation_optimization
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = "";
+            annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
         }                
     }
