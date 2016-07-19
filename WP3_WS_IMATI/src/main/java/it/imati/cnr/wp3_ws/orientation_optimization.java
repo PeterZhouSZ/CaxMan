@@ -5,6 +5,7 @@
  */
 package it.imati.cnr.wp3_ws;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,9 +72,13 @@ public class orientation_optimization
             
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
-            p1.waitFor();
+            p1.waitFor();   // wait the download process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdDownload);
+            
+            // Check if the input has been downloaded
+            File input = new File(downloadedFilename);
+            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_STL_URI_in);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
@@ -82,9 +87,13 @@ public class orientation_optimization
             
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
 
-            p2.waitFor();
+            p2.waitFor();   // wait the orientation process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdRunOrientation);
+            
+            // Check if the output has been generated
+            File output = new File(orientedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + orientedFilename);
             
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
@@ -93,20 +102,28 @@ public class orientation_optimization
             
             Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
             
+            p3.waitFor();   // wait the upload process to finish its task
+            
             System.out.print("[COMPLETED] : " + cmdUploadOutput);
                
+            // Return the address of the uploaded output
             annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
             
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = e.getMessage();
+            annotated_STL_URI_out.value      = "";
             absolute_printability_flag.value = false;
+            
+            System.err.println("ERROR: " + e.getMessage());
         }        
         catch(InterruptedException e)
         {
+            annotated_STL_URI_out.value      = "";
+            absolute_printability_flag.value = false;
             
+            System.err.println("ERROR: " + e.getMessage());
         }
     }
     

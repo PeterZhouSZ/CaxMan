@@ -5,6 +5,7 @@
  */
 package it.imati.cnr.wp3_ws;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -66,25 +67,63 @@ public class absolute_printability_checks
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+             System.out.print("[RUNNING] : " + cmdDownload);
+            
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
+            p1.waitFor();   // wait the download process to finish its task
+            
+            System.out.print("[COMPLETED] : " + cmdDownload);
+            
+            // Check if the input has been downloaded
+            File input = new File(downloadedFilename);
+            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_STL_URI_in);
+            
             // Run orientation
-            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
+            String cmdRunDetectVoids = pathDetectVoidsTool + "orientation_service " + downloadedFilename + " " + checkedFilename;
+            
+            System.out.print("[RUNNING] : " + cmdRunDetectVoids);
+            
             Process p2 = Runtime.getRuntime().exec(cmdRunDetectVoids);
+
+            p2.waitFor();   // wait the detect voids process to finish its task
+            
+            System.out.print("[COMPLETED] : " + cmdRunDetectVoids);
+            
+            // Check if the output has been generated
+            File output = new File(checkedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + checkedFilename);
             
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + checkedFilename + " " + sessionToken;
+            
+            System.out.print("[RUNNING] : " + cmdUploadOutput);
+            
             Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
-               
+            
+            p3.waitFor();   // wait the upload process to finish its task
+            
+            System.out.print("[COMPLETED] : " + cmdUploadOutput);
+            
+            // Return the address of the uploaded output
             annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
             
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = e.getMessage();
+            annotated_STL_URI_out.value      = "";
             absolute_printability_flag.value = false;
-        }                
+            
+            System.err.println("ERROR: " + e.getMessage());
+        }      
+        catch(InterruptedException e)
+        {
+            annotated_STL_URI_out.value      = "";
+            absolute_printability_flag.value = false;
+            
+            System.err.println("ERROR: " + e.getMessage());
+        }
     }
     
     
