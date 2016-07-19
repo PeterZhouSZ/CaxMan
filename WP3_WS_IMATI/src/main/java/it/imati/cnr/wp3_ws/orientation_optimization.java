@@ -66,24 +66,26 @@ public class orientation_optimization
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/orientation_service/";
-            String downloadedFilename   = "/root/dowloaded.off";      
-            String orientedFilename     = "/root/oriented_" + sdate + ".ann";
+            
+            
+            String workingDir           = "/root/";
+            String downloadedFilename   = "dowloaded.off";      
+            String orientedFilename     = "oriented_" + sdate + ".ann";
             String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
             
             // Download File
-            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + workingDir + downloadedFilename + " " + workingDir + sessionToken;
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
-            File input = new File(downloadedFilename);
+            File input = new File(workingDir, downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
-            
-            //File output = new File(orientedFilename);
-            if (!Files.exists(Paths.get(orientedFilename))) throw new IOException ("Error in creating output " + orientedFilename);
+            File output = new File(workingDir, orientedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException ("Error in creating output " + orientedFilename);
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
