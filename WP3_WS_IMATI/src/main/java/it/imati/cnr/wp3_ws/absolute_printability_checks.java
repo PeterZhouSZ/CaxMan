@@ -61,8 +61,8 @@ public class absolute_printability_checks
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathDetectVoidsTool  = "/root/CaxMan/detect_voids_service/";
-            String downloadedFilename   = "/root/dowloaded_" + sdate + ".off";        
-            String checkedFilename      = "/root/abs_checked_" + sdate + ".ann";
+            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";        
+            String checkedFilename      = "/root/CAxManIO/abs_checked_" + sdate + ".ann";
             String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".ann";
             
             // Download File
@@ -80,7 +80,7 @@ public class absolute_printability_checks
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_STL_URI_in);
             
             // Run orientation
-            String cmdRunDetectVoids = pathDetectVoidsTool + "orientation_service " + downloadedFilename + " " + checkedFilename;
+            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
             
             System.out.print("[RUNNING] : " + cmdRunDetectVoids);
             
@@ -108,6 +108,10 @@ public class absolute_printability_checks
             // Return the address of the uploaded output
             annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
+            
+            // Remove input and output files
+            //input.delete();
+            //output.delete();
             
         }
         catch(IOException e)

@@ -110,6 +110,10 @@ public class orientation_optimization
             annotated_STL_URI_out.value      = outputURI;
             absolute_printability_flag.value = true;
             
+            // Remove input and output files
+            //input.delete();
+            //output.delete();
+            
         }
         catch(IOException e)
         {           
