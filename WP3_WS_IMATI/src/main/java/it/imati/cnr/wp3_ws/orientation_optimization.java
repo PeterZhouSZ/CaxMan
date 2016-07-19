@@ -61,11 +61,13 @@ public class orientation_optimization
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             Date date = new Date();
             
+            String sdate = dateFormat.format(date);
+            
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/orientation_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String orientedFilename     = "/root/oriented_" + dateFormat.format(date) + ".ann";
-            String outputURI            = "swift://caxman/imati-ge/oriented_" + dateFormat.format(date) + ".ann";
+            String orientedFilename     = "/root/oriented_" + sdate + ".ann";
+            String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
@@ -77,7 +79,7 @@ public class orientation_optimization
             
             // Check output existence
             File f = new File(orientedFilename);
-            if(!f.exists() || f.isDirectory()) throw new IOException("Output file does not exist");
+            if(!f.exists()) throw new IOException("Output file " + orientedFilename + " does not exist");
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;

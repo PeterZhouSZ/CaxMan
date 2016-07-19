@@ -59,11 +59,13 @@ public class absolute_printability_checks
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             Date date = new Date();
             
+            String sdate = dateFormat.format(date);
+            
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/detect_voids_service/";
             String downloadedFilename   = "/root/dowloaded.off";      
-            String checkedFilename      = "/root/abs_checked_" + dateFormat.format(date) + ".ann";
-            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + dateFormat.format(date) + ".ann";
+            String checkedFilename      = "/root/abs_checked_" + sdate + ".ann";
+            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".ann";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
@@ -75,7 +77,7 @@ public class absolute_printability_checks
             
             // Check output existence
             File f = new File(checkedFilename);
-            if(!f.exists() || f.isDirectory()) throw new IOException("File does not exist");
+            if(!f.exists()) throw new IOException("Output file " + checkedFilename + " does not exist");
           
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + checkedFilename + " " + sessionToken;
