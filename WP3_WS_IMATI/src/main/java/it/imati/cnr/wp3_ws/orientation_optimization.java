@@ -5,10 +5,11 @@
  */
 package it.imati.cnr.wp3_ws;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,9 +58,7 @@ public class orientation_optimization
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
         try
-        {
-            System.setProperty( "user.dir", "/root/");
-            
+        {           
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             Date date = new Date();
             
@@ -82,8 +81,9 @@ public class orientation_optimization
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
-            File output = new File(orientedFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException ("Error in creating output " + orientedFilename);
+            
+            //File output = new File(orientedFilename);
+            if (!Files.exists(Paths.get(orientedFilename))) throw new IOException ("Error in creating output " + orientedFilename);
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
