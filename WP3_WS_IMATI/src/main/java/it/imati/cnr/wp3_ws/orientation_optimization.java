@@ -6,10 +6,9 @@
 package it.imati.cnr.wp3_ws;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,35 +56,34 @@ public class orientation_optimization
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
     {        
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date date = new Date();
+
+        String sdate = dateFormat.format(date);
+
+        String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
+        String pathOrientationTool  = "/root/CaxMan/orientation_service/";
+
+
+        String workingDir           = "/root/";
+        String downloadedFilename   = "dowloaded.off";      
+        String orientedFilename     = "oriented_" + sdate + ".ann";
+        String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
+        
         try
-        {           
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            Date date = new Date();
-            
-            String sdate = dateFormat.format(date);
-            
-            String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool  = "/root/CaxMan/orientation_service/";
-            
-            
-            String workingDir           = "/root/";
-            String downloadedFilename   = "dowloaded.off";      
-            String orientedFilename     = "oriented_" + sdate + ".ann";
-            String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
-            
+        {                   
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + workingDir + downloadedFilename + " " + sessionToken;
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
-            File input = new File(workingDir, downloadedFilename);
-            if (!input.getAbsoluteFile().exists()) throw new IOException ("Error in downloading input " + annotated_STL_URI_in);
+            FileInputStream input = new FileInputStream(workingDir + downloadedFilename);   // throws an exception is file does not exists
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + workingDir + downloadedFilename + " " + workingDir + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
             
-            File output = new File(workingDir, orientedFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException ("Error in creating output " + orientedFilename);
+            FileInputStream output = new FileInputStream(workingDir + orientedFilename);   // throws an exception is file does not exists
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
@@ -101,7 +99,8 @@ public class orientation_optimization
         {           
             annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
-        }                
+        }        
+        
     }
     
     
