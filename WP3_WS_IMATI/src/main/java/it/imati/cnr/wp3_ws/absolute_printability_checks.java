@@ -5,7 +5,6 @@
  */
 package it.imati.cnr.wp3_ws;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

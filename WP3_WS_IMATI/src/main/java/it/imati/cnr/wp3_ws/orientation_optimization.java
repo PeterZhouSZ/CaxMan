@@ -5,10 +5,7 @@
  */
 package it.imati.cnr.wp3_ws;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,6 +71,8 @@ public class orientation_optimization
             
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
             
+            p1.waitFor();
+            
             System.out.print("[COMPLETED] : " + cmdDownload);
             
             // Run orientation
@@ -83,6 +82,8 @@ public class orientation_optimization
             
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
 
+            p2.waitFor();
+            
             System.out.print("[COMPLETED] : " + cmdRunOrientation);
             
             // Upload output
@@ -102,7 +103,11 @@ public class orientation_optimization
         {           
             annotated_STL_URI_out.value      = e.getMessage();
             absolute_printability_flag.value = false;
-        }                
+        }        
+        catch(InterruptedException e)
+        {
+            
+        }
     }
     
     
