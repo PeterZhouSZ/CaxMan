@@ -75,10 +75,6 @@ public class absolute_printability_checks
             String cmdRunDetectVoids = pathOrientationTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunDetectVoids);
             
-            // Check output existence
-            File f = new File(checkedFilename);
-            if(!f.exists()) throw new IOException("Output file " + checkedFilename + " does not exist");
-          
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + checkedFilename + " " + sessionToken;
             Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);

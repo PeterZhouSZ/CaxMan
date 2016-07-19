@@ -76,10 +76,6 @@ public class orientation_optimization
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
             Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
-            
-            // Check output existence
-            File f = new File(orientedFilename);
-            if(!f.exists()) throw new IOException("Output file " + orientedFilename + " does not exist");
 
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + orientedFilename + " " + sessionToken;
