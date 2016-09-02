@@ -14,8 +14,8 @@ import javax.xml.ws.Holder;
  *
  * @author daniela
  */
-@WebService(serviceName = "send_revision_request_to_WP2")
-public class send_revision_request_to_WP2 {
+@WebService(serviceName = "send_to_WP2")
+public class send_to_WP2 {
   
     // The namespace should match the package name in the first non-commented line of this file. 
     // If package name is a.b.c, the namespace should be "http://c.b.a/" (casae sensitive)
@@ -24,7 +24,7 @@ public class send_revision_request_to_WP2 {
     private final String namespace = "http://wp3_ws.cnr.imati.it/";
         
     
-    @WebMethod(operationName = "send_to_WP2")
+    @WebMethod(operationName = "send_to_WP2_opname")
     public void send_to_WP2(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
