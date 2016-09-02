@@ -34,6 +34,10 @@ public class send_revision_request_to_WP2 {
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String sessionToken,
             
+            @WebParam(name            = "annotated_tessellation", 
+                      targetNamespace = namespace, 
+                      mode            = WebParam.Mode.IN)  String annotated_tessellation,
+            
             @WebParam(name            = "annotated_STL_URI_out", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<String> message )  {
