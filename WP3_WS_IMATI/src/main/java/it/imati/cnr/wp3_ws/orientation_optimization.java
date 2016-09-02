@@ -52,7 +52,7 @@ public class orientation_optimization
             
             @WebParam(name            = "absolute_printability_flag", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<Boolean> absolute_printability_flag) 
+                      mode            = WebParam.Mode.OUT)  Holder<Integer> absolute_printability_flag) 
     {        
         try
         {
@@ -108,7 +108,7 @@ public class orientation_optimization
                
             // Return the address of the uploaded output
             annotated_STL_URI_out.value      = outputURI;
-            absolute_printability_flag.value = true;
+            absolute_printability_flag.value = 0;
             
             // Remove input and output files
             //input.delete();
@@ -118,14 +118,14 @@ public class orientation_optimization
         catch(IOException e)
         {           
             annotated_STL_URI_out.value      = "";
-            absolute_printability_flag.value = false;
+            absolute_printability_flag.value = 1;
             
             System.err.println("ERROR: " + e.getMessage());
         }        
         catch(InterruptedException e)
         {
             annotated_STL_URI_out.value      = "";
-            absolute_printability_flag.value = false;
+            absolute_printability_flag.value = 1;
             
             System.err.println("ERROR: " + e.getMessage());
         }
