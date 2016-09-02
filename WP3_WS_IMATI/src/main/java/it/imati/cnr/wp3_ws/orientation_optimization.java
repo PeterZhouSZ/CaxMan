@@ -107,7 +107,8 @@ public class orientation_optimization
             System.out.print("[COMPLETED] : " + cmdUploadOutput);
                
             // Return the address of the uploaded output
-            annotated_STL_URI_out.value      = outputURI;
+            //annotated_STL_URI_out.value      = outputURI;
+            annotated_STL_URI_out.value      = annotated_STL_URI_in;
             absolute_printability_flag.value = 0;
             
             // Remove input and output files
