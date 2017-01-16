@@ -62,7 +62,7 @@ public class slicing
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/stl2cli/build/";
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
-            String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".zip";
+            String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".cli";
             String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".zip";
             
             // Download File
@@ -93,7 +93,7 @@ public class slicing
             
             // Check if the output has been generated
             File output = new File(slicedFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + slicedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException(cmdRunOrientation + ": Error in generating output " + slicedFilename);
             
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + slicedFilename + " " + sessionToken;
