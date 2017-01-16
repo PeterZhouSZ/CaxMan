@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     caxlib::Trimesh m(argv[1]);
     caxlib::orient(m, angle_thresh, dirs_pool_size);
 
-    //m.save(argv[2]);
+    m.save(argv[2]);
 
     return 0;
 }
