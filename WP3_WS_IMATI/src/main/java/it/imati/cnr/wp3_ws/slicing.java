@@ -60,7 +60,7 @@ public class slicing
             String sdate = dateFormat.format(new Date());
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool  = "/root/CaxMan/stl2cli/";
+            String pathOrientationTool  = "/root/stl2cli/build/";
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
             String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".zip";
             String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".zip";
