@@ -13,12 +13,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    double angle_thresh = argv[2];
-    double dirs_pool_size = argv[3];
-
     caxlib::Trimesh m(argv[1]);
 
-    caxlib::detect_voids(m, angle_thresh, dirs_pool_size);
+    caxlib::detect_voids(m); //, angle_thresh, dirs_pool_size);
 
     m.save(argv[2]);
 
