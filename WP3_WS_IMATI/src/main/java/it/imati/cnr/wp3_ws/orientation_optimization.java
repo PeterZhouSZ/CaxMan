@@ -42,9 +42,9 @@ public class orientation_optimization
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String sessionToken,
             
-            @WebParam(name            = "annotated_STL_URI_in",
+            @WebParam(name            = "annotated_tessellation_URI_in",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  String annotated_STL_URI_in,
+                      mode            = WebParam.Mode.IN)  String annotated_tessellation_URI_in,
             
             @WebParam(name            = "annotated_STL_URI_out", 
                       targetNamespace = namespace, 
@@ -61,12 +61,12 @@ public class orientation_optimization
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathOrientationTool  = "/root/CaxMan/orientation_service/";
-            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";      
-            String orientedFilename     = "/root/CAxManIO/oriented_" + sdate + ".ann";
-            String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".ann";
+            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
+            String orientedFilename     = "/root/CAxManIO/oriented_" + sdate + ".zip";
+            String outputURI            = "swift://caxman/imati-ge/oriented_" + sdate + ".zip";
             
             // Download File
-            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
             
             System.out.print("[RUNNING] : " + cmdDownload);
             
@@ -78,7 +78,7 @@ public class orientation_optimization
             
             // Check if the input has been downloaded
             File input = new File(downloadedFilename);
-            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_STL_URI_in);
+            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
             // Run orientation
             String cmdRunOrientation = pathOrientationTool + "orientation_service " + downloadedFilename + " " + orientedFilename;
@@ -108,7 +108,7 @@ public class orientation_optimization
                
             // Return the address of the uploaded output
             //annotated_STL_URI_out.value      = outputURI;
-            annotated_STL_URI_out.value      = annotated_STL_URI_in;
+            annotated_STL_URI_out.value      = orientedFilename;
             absolute_printability_flag.value = 0;
             
             // Remove input and output files

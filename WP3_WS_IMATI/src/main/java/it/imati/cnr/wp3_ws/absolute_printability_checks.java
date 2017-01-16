@@ -42,13 +42,13 @@ public class absolute_printability_checks
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String sessionToken,
             
-            @WebParam(name            = "annotated_STL_URI_in",
+            @WebParam(name            = "annotated_tessellation_URI_in",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  String annotated_STL_URI_in,
+                      mode            = WebParam.Mode.IN)  String annotated_tessellation_URI_in,
             
-            @WebParam(name            = "annotated_STL_URI_out", 
+            @WebParam(name            = "annotated_tessellation_URI_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> annotated_STL_URI_out,
+                      mode            = WebParam.Mode.OUT)  Holder<String> annotated_tessellation_URI_out,
             
             @WebParam(name            = "absolute_printability_flag", 
                       targetNamespace = namespace, 
@@ -61,12 +61,12 @@ public class absolute_printability_checks
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             String pathDetectVoidsTool  = "/root/CaxMan/detect_voids_service/";
-            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";        
-            String checkedFilename      = "/root/CAxManIO/abs_checked_" + sdate + ".ann";
-            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".ann";
+            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";        
+            String checkedFilename      = "/root/CAxManIO/abs_checked_" + sdate + ".zip";
+            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
             
             // Download File
-            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_STL_URI_in + " " + downloadedFilename + " " + sessionToken;
+            String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
              System.out.print("[RUNNING] : " + cmdDownload);
             
             Process p1 = Runtime.getRuntime().exec(cmdDownload);
@@ -77,7 +77,7 @@ public class absolute_printability_checks
             
             // Check if the input has been downloaded
             File input = new File(downloadedFilename);
-            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_STL_URI_in);
+            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
             // Run orientation
             String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
@@ -106,8 +106,7 @@ public class absolute_printability_checks
             System.out.print("[COMPLETED] : " + cmdUploadOutput);
             
             // Return the address of the uploaded output
-            //annotated_STL_URI_out.value      = outputURI;
-            annotated_STL_URI_out.value      = annotated_STL_URI_in;
+            annotated_tessellation_URI_out.value      = checkedFilename;
             absolute_printability_flag.value = 0;
             
             // Remove input and output files
@@ -117,14 +116,14 @@ public class absolute_printability_checks
         }
         catch(IOException e)
         {           
-            annotated_STL_URI_out.value      = "";
+            annotated_tessellation_URI_out.value      = "";
             absolute_printability_flag.value = 1;
             
             System.err.println("ERROR: " + e.getMessage());
         }      
         catch(InterruptedException e)
         {
-            annotated_STL_URI_out.value      = "";
+            annotated_tessellation_URI_out.value      = "";
             absolute_printability_flag.value = 1;
             
             System.err.println("ERROR: " + e.getMessage());
