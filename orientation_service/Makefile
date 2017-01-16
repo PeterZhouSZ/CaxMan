@@ -6,10 +6,10 @@
 #LIB_DIR = /media/daniela/Shared/Devel/lib/
 #CAXLIB_DIR = $(LIB_DIR)caxlib
 IMATISTL_DIR = $(LIB_DIR)ImatiSTL-4.2
-LIBZIP_DIR = $(LIB_DIR)
+LIBZIP_DIR = $(LIB_DIR)libzip-1.1.3/lib
 TETGEN_DIR = $(LIB_DIR)tetgen1.5.0
-TINYXML2_DIR = $(LIB_DIR)
-ZLIB_DIR = $(LIB_DIR)
+TINYXML2_DIR = $(LIB_DIR)tinyxml2
+ZLIB_DIR = $(LIB_DIR)zlib-1.2.8
 
 
 CC= g++
