@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 3)
     {
-        caxlib::logger << "Usage: ./detect_voids input.off output.ann" << caxlib::endl;
+        caxlib::logger << "Usage: ./detect_voids input.zip output.zip" << caxlib::endl;
         return 0;
     }
 
