@@ -119,8 +119,6 @@ public class support_structures_generation
             System.err.println("ERROR: " + e.getMessage());
         }
     }
-    }
-    
     
     /*
     *  Utility function for less verbose logging
