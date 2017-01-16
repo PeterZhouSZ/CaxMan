@@ -113,14 +113,14 @@ public class slicing
         }
         catch(IOException e)
         {           
-            sliced_CLI_URI_out.value        = "";
+            sliced_CLI_URI_out.value        = "ERROR: " + e.getMessage();
             volumetric_CLI_URI_out.value    = "";
             
             System.err.println("ERROR: " + e.getMessage());
         }        
         catch(InterruptedException e)
         {
-            sliced_CLI_URI_out.value        = "";
+            sliced_CLI_URI_out.value        = "ERROR: " + e.getMessage();
             volumetric_CLI_URI_out.value    = "";
             
             System.err.println("ERROR: " + e.getMessage());
