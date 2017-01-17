@@ -60,18 +60,26 @@ public class absolute_printability_checks
             String sdate = dateFormat.format(new Date());
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathDetectVoidsTool  = "/root/CaxMan/detect_voids_service/";
+            
+            String pathDetectVoidsTool      = "/root/CaxMan/detect_voids_service/build/";
+            String pathDetectThinWallsTool  = "/root/thinwalls_and_cavities/build/";
+            String pathDetectCavitiesTool   = "/root/thinwalls_and_cavities/build/";
+            
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";        
-            String checkedFilename      = "/root/CAxManIO/abs_checked_" + sdate + ".zip";
+            String voidFilename         = "/root/CAxManIO/voids_checked_" + sdate + ".zip";
+            String thinwallsFilename    = "/root/CAxManIO/thinwalls_checked_" + sdate + ".zip";
+            String cavitiesFilename     = "/root/CAxManIO/cavities_checked_" + sdate + ".zip";
             String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
+            
+            String lastOutput;
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
-             System.out.print("[RUNNING] : " + cmdDownload);
+            System.out.print("[RUNNING] : " + cmdDownload);
             
-            Process p1 = Runtime.getRuntime().exec(cmdDownload);
+            Process p_download = Runtime.getRuntime().exec(cmdDownload);
             
-            p1.waitFor();   // wait the download process to finish its task
+            p_download.waitFor();   // wait the download process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdDownload);
             
@@ -79,40 +87,84 @@ public class absolute_printability_checks
             File input = new File(downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
-            // Run orientation
-            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + checkedFilename;
+            // Void Detection
+            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + voidFilename;
             
             System.out.print("[RUNNING] : " + cmdRunDetectVoids);
             
-            Process p2 = Runtime.getRuntime().exec(cmdRunDetectVoids);
+            Process p_voids = Runtime.getRuntime().exec(cmdRunDetectVoids);
 
-            p2.waitFor();   // wait the detect voids process to finish its task
+            p_voids.waitFor();   // wait the detect voids process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdRunDetectVoids);
             
             // Check if the output has been generated
-            File output = new File(checkedFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + checkedFilename);
+            File output_void = new File(voidFilename);
+            if (!output_void.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + voidFilename);
+            
+            lastOutput = voidFilename;
+            
+            if (p_voids.exitValue() != 0)
+                absolute_printability_flag.value = 1;   // There are some voids
+            else
+            {
+                // Thin Walls
+                String cmdRunDetectThinWalls = pathDetectThinWallsTool + "thinwalls_cavities --thinwalls --input " + downloadedFilename + " --output" + thinwallsFilename;
+            
+                System.out.print("[RUNNING] : " + cmdRunDetectThinWalls);
+            
+                Process p_thinwalls = Runtime.getRuntime().exec(cmdRunDetectThinWalls);
+
+                p_thinwalls.waitFor();   // wait the detect voids process to finish its task
+            
+                System.out.print("[COMPLETED] : " + cmdRunDetectVoids);
+            
+                // Check if the output has been generated
+                File output_thinwalls = new File(thinwallsFilename);
+                if (!output_thinwalls.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + thinwallsFilename);
+                
+                lastOutput = thinwallsFilename;
+                
+                if (p_thinwalls.exitValue() != 0)
+                    absolute_printability_flag.value = 1;   // There are some thinwalls
+                else
+                {
+                    // Cavities
+                    String cmdRunDetectCavities = pathDetectCavitiesTool + "thinwalls_cavities --cavities --input " + downloadedFilename + " --output" + thinwallsFilename;
+
+                    System.out.print("[RUNNING] : " + cmdRunDetectCavities);
+
+                    Process p_cavities = Runtime.getRuntime().exec(cmdRunDetectCavities);
+
+                    p_cavities.waitFor();   // wait the detect voids process to finish its task
+
+                    System.out.print("[COMPLETED] : " + cmdRunDetectCavities);
+
+                    // Check if the output has been generated
+                    File output_cavities = new File(cavitiesFilename);
+                    if (!output_cavities.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + cavitiesFilename);
+
+                    lastOutput = cavitiesFilename;
+                    
+                    if (p_cavities.exitValue() != 0)
+                        absolute_printability_flag.value = 1;   // There are some cavities
+                }
+            }
             
             // Upload output
-            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + checkedFilename + " " + sessionToken;
+            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + lastOutput + " " + sessionToken;
             
             System.out.print("[RUNNING] : " + cmdUploadOutput);
             
-            Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
+            Process p_upload = Runtime.getRuntime().exec(cmdUploadOutput);
             
-            p3.waitFor();   // wait the upload process to finish its task
+            p_upload.waitFor();   // wait the upload process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdUploadOutput);
             
             // Return the address of the uploaded output
-            annotated_tessellation_URI_out.value      = checkedFilename;
-            absolute_printability_flag.value = 0;
-            
-            // Remove input and output files
-            //input.delete();
-            //output.delete();
-            
+            annotated_tessellation_URI_out.value      = outputURI;
+
         }
         catch(IOException e)
         {           
