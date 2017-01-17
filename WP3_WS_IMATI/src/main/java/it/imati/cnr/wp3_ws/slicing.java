@@ -63,7 +63,7 @@ public class slicing
             String pathOrientationTool  = "/root/stl2cli/build/";
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
             String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".cli";
-            String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".zip";
+            String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".cli";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
