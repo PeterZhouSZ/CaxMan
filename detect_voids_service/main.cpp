@@ -1,7 +1,7 @@
-#include <caxlib/process_plan/voids.h>
-#include <caxlib/trimesh/trimesh.h>
-#include <caxlib/tetmesh/tetmesh.h>
-#include <caxlib/tetgen_wrap.h>
+#include <process_plan/voids.h>
+#include <trimesh/trimesh.h>
+#include <tetmesh/tetmesh.h>
+#include <tetgen_wrap.h>
 
 #include <iostream>
 
