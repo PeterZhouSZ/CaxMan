@@ -56,7 +56,7 @@ public class support_structures_generation
             String sdate = dateFormat.format(new Date());
             
             String pathGSSTools              = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool       = "/root/CaxMan/support_structures_service/";
+            String pathSupportStructuresTool = "/root/CaxMan/support_structures_service/";
             String downloadedFilename        = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
             String supportStructuresFilename = "/root/CAxManIO/support_strucures_" + sdate + ".zip";
             String outputURI                 = "swift://caxman/imati-ge/support_strucures_" + sdate + ".zip";
@@ -76,34 +76,37 @@ public class support_structures_generation
             File input = new File(downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
-            // Run orientation
-            String cmdRunOrientation = pathOrientationTool + "slicing_service " + downloadedFilename + " " + supportStructuresFilename;
-            
-            System.out.print("[RUNNING] : " + cmdRunOrientation);
-            
-            Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
-
-            p2.waitFor();   // wait the orientation process to finish its task
-            
-            System.out.print("[COMPLETED] : " + cmdRunOrientation);
-            
-            // Check if the output has been generated
-            File output = new File(supportStructuresFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + supportStructuresFilename);
-            
-            // Upload output
-            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + supportStructuresFilename + " " + sessionToken;
-            
-            System.out.print("[RUNNING] : " + cmdUploadOutput);
-            
-            Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
-            
-            p3.waitFor();   // wait the upload process to finish its task
-            
-            System.out.print("[COMPLETED] : " + cmdUploadOutput);
+//            // Run orientation
+//            String cmdRunOrientation = pathOrientationTool + "support_structure_generation_service " + downloadedFilename + " " + supportStructuresFilename;
+//            
+//            System.out.print("[RUNNING] : " + cmdRunOrientation);
+//            
+//            Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
+//
+//            p2.waitFor();   // wait the orientation process to finish its task
+//            
+//            System.out.print("[COMPLETED] : " + cmdRunOrientation);
+//            
+//            // Check if the output has been generated
+//            File output = new File(supportStructuresFilename);
+//            if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + supportStructuresFilename);
+//            
+//            // Upload output
+//            String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + supportStructuresFilename + " " + sessionToken;
+//            
+//            System.out.print("[RUNNING] : " + cmdUploadOutput);
+//            
+//            Process p3 = Runtime.getRuntime().exec(cmdUploadOutput);
+//            
+//            p3.waitFor();   // wait the upload process to finish its task
+//            
+//            System.out.print("[COMPLETED] : " + cmdUploadOutput);
                
-            // Return the address of the uploaded output
-            annotated_tessellation_URI_out.value        = supportStructuresFilename;            
+//            // Return the address of the uploaded output
+//            annotated_tessellation_URI_out.value        = supportStructuresFilename;  
+
+            annotated_tessellation_URI_out.value        = annotated_tessellation_URI_in;
+
             
         }
         catch(IOException e)
