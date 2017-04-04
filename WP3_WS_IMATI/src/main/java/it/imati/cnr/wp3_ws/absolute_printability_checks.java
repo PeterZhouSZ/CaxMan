@@ -61,15 +61,17 @@ public class absolute_printability_checks
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             
+            String pathGeometricChecksTool  = "/root/geometric_integrity_checks/build/";
             String pathDetectVoidsTool      = "/root/CaxMan/detect_voids_service/build/";
             String pathDetectThinWallsTool  = "/root/thinwalls_and_cavities/build/";
             String pathDetectCavitiesTool   = "/root/thinwalls_and_cavities/build/";
             
-            String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";        
-            String voidFilename         = "/root/CAxManIO/voids_checked_" + sdate + ".zip";
-            String thinwallsFilename    = "/root/CAxManIO/thinwalls_checked_" + sdate + ".zip";
-            String cavitiesFilename     = "/root/CAxManIO/cavities_checked_" + sdate + ".zip";
-            String outputURI            = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
+            String downloadedFilename       = "/root/CAxManIO/dowloaded_" + sdate + ".zip";   
+            String geometricChecksFilename  = "/root/CAxManIO/geometric_checked_" + sdate + ".zip";
+            String voidFilename             = "/root/CAxManIO/voids_checked_" + sdate + ".zip";
+            String thinwallsFilename        = "/root/CAxManIO/thinwalls_checked_" + sdate + ".zip";
+            String cavitiesFilename         = "/root/CAxManIO/cavities_checked_" + sdate + ".zip";
+            String outputURI                = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
             
             String lastOutput;
             
@@ -86,6 +88,20 @@ public class absolute_printability_checks
             // Check if the input has been downloaded
             File input = new File(downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
+            
+            // Void Detection
+            String cmdRunGeometricChecks = pathGeometricChecksTool + "geometric_integrity_checks " + downloadedFilename + " " + geometricChecksFilename;
+            
+            System.out.print("[RUNNING] : " + cmdRunGeometricChecks);
+            
+            Process p_checks = Runtime.getRuntime().exec(cmdRunGeometricChecks);
+
+            p_checks.waitFor();   // wait the detect voids process to finish its task
+            
+            System.out.print("[COMPLETED] : " + cmdRunGeometricChecks);
+            
+            File output_geometric_checks = new File(geometricChecksFilename);
+            if (!output_geometric_checks.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + output_geometric_checks);
             
             // Void Detection
             String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + voidFilename;
