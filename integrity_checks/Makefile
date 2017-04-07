@@ -33,7 +33,7 @@ SOURCES.C    = main.cpp
 
 OBJECTS  =  $(SOURCES.C:.C=.o)
 
-EXECUTABLES  =  ./build/thinwalls_cavities
+EXECUTABLES  =  ./build/integrity_checks
 
 #----------
 
