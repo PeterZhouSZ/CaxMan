@@ -5,6 +5,11 @@
  */
 package it.imati.cnr.wp3_ws;
 
+import it.imati.cnr.tools.CavitiesDetection;
+import it.imati.cnr.tools.GlobalChecks;
+import it.imati.cnr.tools.IntegrityChecks;
+import it.imati.cnr.tools.ThinwallsDetection;
+import it.imati.cnr.tools.VoidDetection;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -61,19 +66,15 @@ public class absolute_printability_checks
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
             
-            String pathGeometricChecksTool  = "/root/geometric_integrity_checks/build/";
-            String pathDetectVoidsTool      = "/root/CaxMan/detect_voids_service/build/";
-            String pathDetectThinWallsTool  = "/root/CaxMan/thinwalls_and_cavities/build/";
-            String pathDetectCavitiesTool   = "/root/CaxMan/thinwalls_and_cavities/build/";
-            
             String downloadedFilename       = "/root/CAxManIO/dowloaded_" + sdate + ".zip";   
             String geometricChecksFilename  = "/root/CAxManIO/geometric_checked_" + sdate + ".zip";
             String voidFilename             = "/root/CAxManIO/voids_checked_" + sdate + ".zip";
             String thinwallsFilename        = "/root/CAxManIO/thinwalls_checked_" + sdate + ".zip";
             String cavitiesFilename         = "/root/CAxManIO/cavities_checked_" + sdate + ".zip";
+            String globalChecksFilename     = "/root/CAxManIO/global_checked_" + sdate + ".zip";
             String outputURI                = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
             
-            String lastOutput;
+            String lastOutput   = "";
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
@@ -87,85 +88,109 @@ public class absolute_printability_checks
             
             // Check if the input has been downloaded
             File input = new File(downloadedFilename);
-            if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
-            // Void Detection
-            String cmdRunGeometricChecks = pathGeometricChecksTool + "geometric_integrity_checks " + downloadedFilename + " " + geometricChecksFilename;
+            if (!input.getAbsoluteFile().exists()) 
+                throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
-            System.out.print("[RUNNING] : " + cmdRunGeometricChecks);
-            
-            Process p_checks = Runtime.getRuntime().exec(cmdRunGeometricChecks);
-
-            p_checks.waitFor();   // wait the detect voids process to finish its task
-            
-            System.out.print("[COMPLETED] : " + cmdRunGeometricChecks);
-            
-            File output_geometric_checks = new File(geometricChecksFilename);
-            if (!output_geometric_checks.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + output_geometric_checks);
-            
-            // Void Detection
-            String cmdRunDetectVoids = pathDetectVoidsTool + "detect_voids_service " + downloadedFilename + " " + voidFilename;
-            
-            System.out.print("[RUNNING] : " + cmdRunDetectVoids);
-            
-            Process p_voids = Runtime.getRuntime().exec(cmdRunDetectVoids);
-
-            p_voids.waitFor();   // wait the detect voids process to finish its task
-            
-            System.out.print("[COMPLETED] : " + cmdRunDetectVoids);
+            //////////////////////////////////////////////////////////////////////////////////
+            // Integrity Checks
+            IntegrityChecks ic = new IntegrityChecks();
+            int result_ic = ic.run(downloadedFilename, geometricChecksFilename);
             
             // Check if the output has been generated
-            File output_void = new File(voidFilename);
-            if (!output_void.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + voidFilename);
+            File output_ic = new File(geometricChecksFilename);
             
-            lastOutput = voidFilename;
+            if(output_ic.getAbsoluteFile().exists()) 
+                throw new IOException("Error in generating output " + geometricChecksFilename);
             
-            if (p_voids.exitValue() != 0)
-                absolute_printability_flag.value = 1;   // There are some voids
+            if (result_ic != 0)
+            {
+                lastOutput    = geometricChecksFilename;
+                absolute_printability_flag.value        = 1;
+            }
             else
             {
-                // Thin Walls
-                String cmdRunDetectThinWalls = pathDetectThinWallsTool + "thinwalls_cavities --thinwalls --input " + downloadedFilename + " --output" + thinwallsFilename;
             
-                System.out.print("[RUNNING] : " + cmdRunDetectThinWalls);
-            
-                Process p_thinwalls = Runtime.getRuntime().exec(cmdRunDetectThinWalls);
-
-                p_thinwalls.waitFor();   // wait the detect voids process to finish its task
-            
-                System.out.print("[COMPLETED] : " + cmdRunDetectVoids);
-            
-                // Check if the output has been generated
-                File output_thinwalls = new File(thinwallsFilename);
-                if (!output_thinwalls.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + thinwallsFilename);
+                //////////////////////////////////////////////////////////////////////////////////
+                // Void Detection
+                VoidDetection vd = new VoidDetection();
+                int result_vd = ic.run(geometricChecksFilename, voidFilename);
                 
-                lastOutput = thinwallsFilename;
+                 // Check if the output has been generated
+                File output_vd = new File(voidFilename);
+            
+                if(output_vd.getAbsoluteFile().exists()) 
+                    throw new IOException("Error in generating output " + geometricChecksFilename);
                 
-                if (p_thinwalls.exitValue() != 0)
-                    absolute_printability_flag.value = 1;   // There are some thinwalls
+                lastOutput = voidFilename;
+               
+                if (result_vd != 0)
+                {
+                    absolute_printability_flag.value    = 1;
+                }
                 else
                 {
-                    // Cavities
-                    String cmdRunDetectCavities = pathDetectCavitiesTool + "thinwalls_cavities --cavities --input " + downloadedFilename + " --output" + thinwallsFilename;
-
-                    System.out.print("[RUNNING] : " + cmdRunDetectCavities);
-
-                    Process p_cavities = Runtime.getRuntime().exec(cmdRunDetectCavities);
-
-                    p_cavities.waitFor();   // wait the detect voids process to finish its task
-
-                    System.out.print("[COMPLETED] : " + cmdRunDetectCavities);
-
-                    // Check if the output has been generated
-                    File output_cavities = new File(cavitiesFilename);
-                    if (!output_cavities.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + cavitiesFilename);
-
-                    lastOutput = cavitiesFilename;
+                    //////////////////////////////////////////////////////////////////////////////////
+                    // ThinWalls Detection
+                    ThinwallsDetection twd = new ThinwallsDetection();
+                    int result_twd = twd.run (voidFilename, thinwallsFilename);
                     
-                    if (p_cavities.exitValue() != 0)
-                        absolute_printability_flag.value = 1;   // There are some cavities
+                    // Check if the output has been generated
+                    File output_twd = new File(thinwallsFilename);
+            
+                    if(output_twd.getAbsoluteFile().exists()) 
+                        throw new IOException("Error in generating output " + thinwallsFilename);
+
+                    lastOutput = thinwallsFilename;
+                    
+                    if (result_twd != 0)
+                    {
+                        absolute_printability_flag.value    = 1;
+                    }
+                    else
+                    {
+                        //////////////////////////////////////////////////////////////////////////////////
+                        // Cavities Detection
+                        CavitiesDetection cd = new CavitiesDetection();
+                        int result_cd = cd.run(thinwallsFilename, cavitiesFilename);
+                        
+                        // Check if the output has been generated
+                        File output_cd = new File(cavitiesFilename);
+            
+                        if(output_cd.getAbsoluteFile().exists()) 
+                            throw new IOException("Error in generating output " + cavitiesFilename);
+                        
+                        lastOutput = cavitiesFilename;
+                        
+                        if (result_cd != 0)
+                        {
+                            absolute_printability_flag.value    = 1;
+                        }
+                        else
+                        {
+                            //////////////////////////////////////////////////////////////////////////////////
+                            // Global Checks
+                            GlobalChecks gc = new GlobalChecks();
+                            int result_gc = cd.run(cavitiesFilename, globalChecksFilename);
+                        
+                            // Check if the output has been generated
+                            File output_gc = new File(globalChecksFilename);
+            
+                            if(output_cd.getAbsoluteFile().exists()) 
+                                throw new IOException("Error in generating output " + globalChecksFilename);
+                            
+                            lastOutput = globalChecksFilename;
+                        
+                            if (result_cd != 0)
+                            {
+                                absolute_printability_flag.value    = 1;
+                            }
+
+                        }
+                    } 
                 }
             }
+
             
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + lastOutput + " " + sessionToken;

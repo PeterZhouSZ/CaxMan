@@ -10,11 +10,10 @@
 int main(int argc, char *argv[])
 {
     std::string zip_filename = argv[1];
-    std::string out_basename = argv[2];
+    std::string out_zip_filename = argv[2];
 
-    std::string out_off_filename = out_basename + ".off";
-    std::string out_ann_filename = out_basename + ".ann";
-    std::string out_zip_filename = out_basename + ".zip";
+    std::string out_off_filename = out_zip_filename.substr(0, out_zip_filename.find_last_of('.')) + ".off";
+    std::string out_ann_filename = out_zip_filename.substr(0, out_zip_filename.find_last_of('.')) + ".ann";
 
     const char * off_filename = "tmp.off";
     const char * ann_filename = "tmp.ann";
@@ -45,5 +44,5 @@ int main(int argc, char *argv[])
 
     caxlib::create_zip(out_zip_filename, out_off_filename, out_ann_filename);
 
-    return 0;
+    return boundaries;
 }
