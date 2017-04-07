@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#include "io/write_ANN.h"
+#include "caxlib/io/write_ANN.h"
 
-#include "io/read_ZIP.h"
-#include "io/write_ZIP.h"
+#include "caxlib/io/read_ZIP.h"
+#include "caxlib/io/write_ZIP.h"
 
 #include "checks.h"
 
