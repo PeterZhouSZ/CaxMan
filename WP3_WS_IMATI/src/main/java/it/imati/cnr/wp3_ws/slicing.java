@@ -48,11 +48,7 @@ public class slicing
             
             @WebParam(name            = "sliced_CLI_URI_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> sliced_CLI_URI_out,
-            
-            @WebParam(name            = "volumetric_CLI_URI_out", 
-                      targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> volumetric_CLI_URI_out) 
+                      mode            = WebParam.Mode.OUT)  Holder<String> sliced_CLI_URI_out) 
     {
         try
         {
@@ -60,7 +56,7 @@ public class slicing
             String sdate = dateFormat.format(new Date());
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool  = "/root/stl2cli/build/";
+            String pathOrientationTool  = "/root/CaxMan/stl2cli/build/";
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
             String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".cli";
             String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".cli";
@@ -108,20 +104,17 @@ public class slicing
                
             // Return the address of the uploaded output
             sliced_CLI_URI_out.value        = slicedFilename;            
-            volumetric_CLI_URI_out.value    = "";
             
         }
         catch(IOException e)
         {           
             sliced_CLI_URI_out.value        = "ERROR: " + e.getMessage();
-            volumetric_CLI_URI_out.value    = "";
             
             System.err.println("ERROR: " + e.getMessage());
         }        
         catch(InterruptedException e)
         {
             sliced_CLI_URI_out.value        = "ERROR: " + e.getMessage();
-            volumetric_CLI_URI_out.value    = "";
             
             System.err.println("ERROR: " + e.getMessage());
         }

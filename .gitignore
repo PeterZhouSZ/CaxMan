@@ -1,4 +1,5 @@
 /WP3_WS_IMATI/target/
+/integrity_checks/build
 /orientation_service/build/
 /detect_voids_service/build/
 /thinwalls_and_cavities/build/
