@@ -1,6 +1,6 @@
 #LIB_DIR = /media/daniela/Shared/Devel/lib/
 
-CAXLIB_DIR = $(LIB_DIR)caxlib
+#CAXLIB_DIR = $(LIB_DIR)caxlib
 LIBZIP_DIR = $(LIB_DIR)libzip-1.1.3
 TETGEN_DIR = $(LIB_DIR)tetgen1.5.0
 TINYXML2_DIR = $(LIB_DIR)tinyxml2

@@ -1,5 +1,5 @@
-#include "caxlib/process_plan/global_checks.h"
-#include <trimesh/trimesh.h>
+#include <caxlib/process_plan/global_checks.h>
+#include <caxlib/trimesh/trimesh.h>
 
 #include <iostream>
 

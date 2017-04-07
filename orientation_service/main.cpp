@@ -1,5 +1,5 @@
-#include <process_plan/orient.h>
-#include <trimesh/trimesh.h>
+#include <caxlib/process_plan/orient.h>
+#include <caxlib/trimesh/trimesh.h>
 
 #include <iostream>
 

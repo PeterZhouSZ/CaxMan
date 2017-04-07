@@ -1,5 +1,5 @@
-#include "caxlib/process_plan/support_structures.h"
-#include <trimesh/drawable_trimesh.h>
+#include <caxlib/process_plan/support_structures.h>
+#include <caxlib/trimesh/trimesh.h>
 
 #include <iostream>
 
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    caxlib::DrawableTrimesh m(argv[1]);
+    caxlib::Trimesh m(argv[1]);
     caxlib::create_support_structures(m);
 
     m.save(argv[2]);
