@@ -45,7 +45,8 @@ EXECUTABLES  =  ./build/thinwalls_cavities
 
 
 $(EXECUTABLES): $(OBJECTS)
-
+	
+	mkdir -p ./build
 	$(CC) $(FLAGS) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLES) $(LIBS)
 
 
