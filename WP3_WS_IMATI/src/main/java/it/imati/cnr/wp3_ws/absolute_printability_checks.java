@@ -63,8 +63,8 @@ public class absolute_printability_checks
             
             String pathGeometricChecksTool  = "/root/geometric_integrity_checks/build/";
             String pathDetectVoidsTool      = "/root/CaxMan/detect_voids_service/build/";
-            String pathDetectThinWallsTool  = "/root/thinwalls_and_cavities/build/";
-            String pathDetectCavitiesTool   = "/root/thinwalls_and_cavities/build/";
+            String pathDetectThinWallsTool  = "/root/CaxMan/thinwalls_and_cavities/build/";
+            String pathDetectCavitiesTool   = "/root/CaxMan/thinwalls_and_cavities/build/";
             
             String downloadedFilename       = "/root/CAxManIO/dowloaded_" + sdate + ".zip";   
             String geometricChecksFilename  = "/root/CAxManIO/geometric_checked_" + sdate + ".zip";
