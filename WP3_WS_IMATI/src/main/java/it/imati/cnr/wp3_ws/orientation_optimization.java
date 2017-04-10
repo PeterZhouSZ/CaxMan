@@ -109,7 +109,11 @@ public class orientation_optimization
             // Return the address of the uploaded output
             //annotated_STL_URI_out.value      = outputURI;
             annotated_STL_URI_out.value      = orientedFilename;
-            absolute_printability_flag.value = 0;
+            
+            if (p3.exitValue() == 0)
+                absolute_printability_flag.value = 0;
+            else
+                absolute_printability_flag.value = 1;
             
             // Remove input and output files
             //input.delete();
