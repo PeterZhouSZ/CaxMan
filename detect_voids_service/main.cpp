@@ -15,9 +15,12 @@ int main(int argc, char *argv[])
 
     caxlib::Trimesh m(argv[1]);
 
-    caxlib::detect_voids(m); //, angle_thresh, dirs_pool_size);
+    bool has_voids = caxlib::detect_voids(m); //, angle_thresh, dirs_pool_size);
 
     m.save(argv[2]);
+
+    if (has_voids)
+    	return 1;
 
     return 0;
 }
