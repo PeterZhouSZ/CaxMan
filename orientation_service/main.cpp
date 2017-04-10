@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
     caxlib::Trimesh m(argv[1]);
     bool ok = caxlib::orient(m, angle_thresh, dirs_pool_size);
 
+    m.save(argv[2]);
+
     if (ok) 
-    {
-        m.save(argv[2]);
         return 0;
-    }
-    else return -1;
+
+    return -1;
 }
