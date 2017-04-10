@@ -95,13 +95,8 @@ public class absolute_printability_checks
             //////////////////////////////////////////////////////////////////////////////////
             // Integrity Checks
             IntegrityChecks ic = new IntegrityChecks();
+
             int result_ic = ic.run(downloadedFilename, geometricChecksFilename);
-            
-            // Check if the output has been generated
-            File output_ic = new File(geometricChecksFilename);
-            
-            if(output_ic.getAbsoluteFile().exists()) 
-                throw new IOException("Error in generating output " + geometricChecksFilename);
             
             if (result_ic != 0)
             {
@@ -116,12 +111,6 @@ public class absolute_printability_checks
                 VoidDetection vd = new VoidDetection();
                 int result_vd = ic.run(geometricChecksFilename, voidFilename);
                 
-                 // Check if the output has been generated
-                File output_vd = new File(voidFilename);
-            
-                if(output_vd.getAbsoluteFile().exists()) 
-                    throw new IOException("Error in generating output " + geometricChecksFilename);
-                
                 lastOutput = voidFilename;
                
                 if (result_vd != 0)
@@ -134,12 +123,6 @@ public class absolute_printability_checks
                     // ThinWalls Detection
                     ThinwallsDetection twd = new ThinwallsDetection();
                     int result_twd = twd.run (voidFilename, thinwallsFilename);
-                    
-                    // Check if the output has been generated
-                    File output_twd = new File(thinwallsFilename);
-            
-                    if(output_twd.getAbsoluteFile().exists()) 
-                        throw new IOException("Error in generating output " + thinwallsFilename);
 
                     lastOutput = thinwallsFilename;
                     
@@ -154,12 +137,6 @@ public class absolute_printability_checks
                         CavitiesDetection cd = new CavitiesDetection();
                         int result_cd = cd.run(thinwallsFilename, cavitiesFilename);
                         
-                        // Check if the output has been generated
-                        File output_cd = new File(cavitiesFilename);
-            
-                        if(output_cd.getAbsoluteFile().exists()) 
-                            throw new IOException("Error in generating output " + cavitiesFilename);
-                        
                         lastOutput = cavitiesFilename;
                         
                         if (result_cd != 0)
@@ -172,16 +149,10 @@ public class absolute_printability_checks
                             // Global Checks
                             GlobalChecks gc = new GlobalChecks();
                             int result_gc = cd.run(cavitiesFilename, globalChecksFilename);
-                        
-                            // Check if the output has been generated
-                            File output_gc = new File(globalChecksFilename);
-            
-                            if(output_cd.getAbsoluteFile().exists()) 
-                                throw new IOException("Error in generating output " + globalChecksFilename);
                             
                             lastOutput = globalChecksFilename;
                         
-                            if (result_cd != 0)
+                            if (result_gc != 0)
                             {
                                 absolute_printability_flag.value    = 1;
                             }

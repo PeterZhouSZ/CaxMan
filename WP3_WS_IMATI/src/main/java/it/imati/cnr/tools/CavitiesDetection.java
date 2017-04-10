@@ -29,12 +29,12 @@ public class CavitiesDetection
 
         p.waitFor();   // wait the integrity cjhecks process to finish its task
 
-        System.out.print("[COMPLETED] : " + cmd);
-
-        File output = new File(out_filename);
+        File output = new File (out_filename);
 
         if (!output.getAbsoluteFile().exists()) 
-            throw new IOException("Error in generating output " + out_filename);
+            throw new IOException("[ERROR] Output " + out_filename + " does not exist.");
+        
+        System.out.print("[COMPLETED] : " + cmd);
 
         return p.exitValue();
     }
