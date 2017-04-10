@@ -22,7 +22,7 @@ INCLUDES =
 
 OBJECTS  =  $(SOURCES.C:.C=.o)
 
-EXECUTABLES  =  ./build/orientation_service
+EXECUTABLES  =  ./build/support_structures
 
 #----------
 
