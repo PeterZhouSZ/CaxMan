@@ -148,7 +148,7 @@ public class absolute_printability_checks
                             //////////////////////////////////////////////////////////////////////////////////
                             // Global Checks
                             GlobalChecks gc = new GlobalChecks();
-                            int result_gc = cd.run(cavitiesFilename, globalChecksFilename);
+                            int result_gc = gc.run(cavitiesFilename, globalChecksFilename);
                             
                             lastOutput = globalChecksFilename;
                         
