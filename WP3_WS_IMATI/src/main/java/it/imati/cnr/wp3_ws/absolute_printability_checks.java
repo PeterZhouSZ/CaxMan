@@ -75,6 +75,8 @@ public class absolute_printability_checks
             String outputURI                = "swift://caxman/imati-ge/abs_checked_" + sdate + ".zip";
             
             String lastOutput   = "";
+            absolute_printability_flag.value = 0;
+
             
             // Download File
             String cmdDownload = "python " + pathGSSTools + "download_gss.py " + annotated_tessellation_URI_in + " " + downloadedFilename + " " + sessionToken;
