@@ -91,6 +91,11 @@ public class orientation_optimization
             
             System.out.print("[COMPLETED] : " + cmdRunOrientation);
             
+            if (p2.exitValue() == 0)
+                absolute_printability_flag.value = 0;
+            else
+                absolute_printability_flag.value = 1;
+            
             // Check if the output has been generated
             File output = new File(orientedFilename);
             if (!output.getAbsoluteFile().exists()) throw new IOException("Error in generating output " + orientedFilename);
@@ -110,10 +115,6 @@ public class orientation_optimization
             //annotated_STL_URI_out.value      = outputURI;
             annotated_STL_URI_out.value      = orientedFilename;
             
-            if (p3.exitValue() == 0)
-                absolute_printability_flag.value = 0;
-            else
-                absolute_printability_flag.value = 1;
             
             // Remove input and output files
             //input.delete();
