@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class IntegrityChecks 
 {
-    static String toolPath  = "/root/geometric_integrity_checks/build/integrity_checks";
+    static String toolPath  = "/root/CaxMan/integrity_checks/build/integrity_checks";
     
     public
     int run (String in_filename, String out_filename) throws IOException, InterruptedException

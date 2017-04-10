@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class GlobalChecks 
 {
-    static String toolPath  = "/root/global_checks/build/global_checks";
+    static String toolPath  = "/root/CaxMan/global_checks/build/global_checks";
     
     public
     int run (String in_filename, String out_filename) throws IOException, InterruptedException
