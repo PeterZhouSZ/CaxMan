@@ -27,14 +27,9 @@ public class IntegrityChecks
             
             Process p = Runtime.getRuntime().exec(cmd);
 
-            p.waitFor();   // wait the integrity cjhecks process to finish its task
+            p.waitFor();   // wait the integrity checks process to finish its task
             
             System.out.print("[COMPLETED] : " + cmd);
-            
-            File output = new File(out_filename);
-            
-            if (!output.getAbsoluteFile().exists()) 
-                throw new IOException("Error in generating output " + out_filename);
             
             return p.exitValue();
             
