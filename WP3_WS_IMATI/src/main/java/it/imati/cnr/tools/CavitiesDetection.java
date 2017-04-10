@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class CavitiesDetection 
 {
-    static String toolPath  = "/root/CaxMan/thinwalls_and_cavities/build/thinwalls_and_cavities";
+    static String toolPath  = "/root/CaxMan/thinwalls_and_cavities/build/thinwalls_cavities";
     
     public
     int run (String in_filename, String out_filename) throws IOException, InterruptedException
