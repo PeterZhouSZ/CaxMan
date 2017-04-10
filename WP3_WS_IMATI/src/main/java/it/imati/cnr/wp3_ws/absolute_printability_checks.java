@@ -109,7 +109,7 @@ public class absolute_printability_checks
                 //////////////////////////////////////////////////////////////////////////////////
                 // Void Detection
                 VoidDetection vd = new VoidDetection();
-                int result_vd = ic.run(geometricChecksFilename, voidFilename);
+                int result_vd = vd.run(geometricChecksFilename, voidFilename);
                 
                 lastOutput = voidFilename;
                
