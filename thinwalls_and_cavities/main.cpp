@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
     eps3D.set_parallelism(do_it_parallel);
     eps3D.set_compute_all(compute_all);
 
-    eps3D.save_annotations_ZIP((output_filename + ".zip").c_str());
+    eps3D.save_annotations_ZIP(output_filename.c_str());
 
     return 0;
 }
