@@ -28,6 +28,10 @@ public class IntegrityChecks
             Process p = Runtime.getRuntime().exec(cmd);
 
             p.waitFor();   // wait the integrity checks process to finish its task
+	    File output = new File (out_filename);
+
+	    if (!output.getAbsoluteFile().exists()) 
+                throw new IOException("[ERROR] Output " + out_filename + " does not exist.");
             
             System.out.print("[COMPLETED] : " + cmd);
             
