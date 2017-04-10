@@ -56,7 +56,7 @@ public class slicing
             String sdate = dateFormat.format(new Date());
             
             String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-            String pathOrientationTool  = "/root/CaxMan/stl2cli/build/";
+            String pathSlicingTool      = "/root/CaxMan/stl2cli/build/";
             String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".zip";      
             String slicedFilename       = "/root/CAxManIO/sliced_" + sdate + ".cli";
             String outputURI            = "swift://caxman/imati-ge/sliced_" + sdate + ".cli";
@@ -77,19 +77,19 @@ public class slicing
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + annotated_tessellation_URI_in);
             
             // Run orientation
-            String cmdRunOrientation = pathOrientationTool + "stl2cli " + downloadedFilename + " " + slicedFilename;
+            String cmdRunSlicing = pathSlicingTool + "stl2cli " + downloadedFilename + " " + slicedFilename;
             
-            System.out.print("[RUNNING] : " + cmdRunOrientation);
+            System.out.print("[RUNNING] : " + cmdRunSlicing);
             
-            Process p2 = Runtime.getRuntime().exec(cmdRunOrientation);
+            Process p2 = Runtime.getRuntime().exec(cmdRunSlicing);
 
             p2.waitFor();   // wait the orientation process to finish its task
             
-            System.out.print("[COMPLETED] : " + cmdRunOrientation);
+            System.out.print("[COMPLETED] : " + cmdRunSlicing);
             
             // Check if the output has been generated
             File output = new File(slicedFilename);
-            if (!output.getAbsoluteFile().exists()) throw new IOException(cmdRunOrientation + ": Error in generating output " + slicedFilename);
+            if (!output.getAbsoluteFile().exists()) throw new IOException("[ERROR] : Error in generating output " + slicedFilename);
             
             // Upload output
             String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + slicedFilename + " " + sessionToken;
