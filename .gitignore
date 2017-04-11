@@ -5,6 +5,7 @@
 /thinwalls_and_cavities/build/
 /stl2cli/build/
 /global_checks/build/
+/support_structures/build/
 
 /integrity_checks/integrity_checks.pro.user
 /thinwalls_and_cavities/thinwalls_and_cavities.pro.user
