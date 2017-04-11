@@ -40,7 +40,10 @@ public class get_if_then_else_output {
             
             @WebParam(name            = "output", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> output ) {
+                      mode            = WebParam.Mode.OUT)  Holder<String> output ) 
+    {
+    
+        System.out.print("[COMPLETED] : " + if_then_else_output + " is the final output.");
         
         output.value = if_then_else_output;
     }

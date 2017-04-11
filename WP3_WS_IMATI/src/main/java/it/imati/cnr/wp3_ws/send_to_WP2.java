@@ -43,6 +43,9 @@ public class send_to_WP2 {
                       mode            = WebParam.Mode.OUT)  Holder<String> message )  {
         
         
-        message.value = " A revision request has been sent to WP2. " ;
+        System.out.print("[COMPLETED] : " + annotated_tessellation + " to be sent to WP2.");
+
+        
+        message.value = annotated_tessellation ;
     }
 }

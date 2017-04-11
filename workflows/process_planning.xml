@@ -20,15 +20,15 @@
       <service URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#absolute_printability_checks_opname_Service" x="550" y="72">
         <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#sessionToken"/>
         <input URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#serviceID"/>
-        <input ID="fileChooser_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#annotated_STL_URI_in"/>
-        <output ID="absolute_printability_checks_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#annotated_STL_URI_out"/>
+        <input ID="fileChooser_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#annotated_tessellation_URI_in"/>
+        <output ID="absolute_printability_checks_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#annotated_tessellation_URI_out"/>
         <output ID="absolute_printability_checks_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/absolute_printability_checks.owl#absolute_printability_flag"/>
       </service>
       <if>
         <condition>equalTo(absolute_printability_checks_opname_Process1_output2, 0)</condition>
         <then>
           <service URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#orientation_optimization_opname_Service" x="497" y="377">
-            <input ID="absolute_printability_checks_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#annotated_STL_URI_in"/>
+            <input ID="absolute_printability_checks_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#annotated_tessellation_URI_in"/>
             <input URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#serviceID"/>
             <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#sessionToken"/>
             <output ID="orientation_optimization_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#absolute_printability_flag"/>
@@ -38,10 +38,10 @@
             <condition>equalTo(orientation_optimization_opname_Process1_output1, 0)</condition>
             <then>
               <service URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#support_structures_generation_opname_Service" x="702" y="525">
-                <input ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_STL_URI_in"/>
+                <input ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_tessellation_URI_in"/>
                 <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#sessionToken"/>
                 <input ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#serviceID"/>
-                <output ID="support_structures_generation_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_STL_URI_out"/>
+                <output ID="support_structures_generation_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_tessellation_URI_out"/>
               </service>
               <service URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#slicing_opname_Service">
                 <input URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#sessionToken" ID="main_input1"/>
