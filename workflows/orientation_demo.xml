@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<workflow URI="http://www.caxman.eu/workflows/wp3_imati/orientation_demo.owl#OrientationDemo">
+  <input ID="main_input1" URI="http://www.caxman.eu/workflows/wp3_imati/orientation_demo.owl#extraParameters" x="71" y="394"/>
+  <input ID="main_input2" URI="http://www.caxman.eu/workflows/wp3_imati/orientation_demo.owl#sessionToken" x="60" y="44"/>
+  <output ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/workflows/wp3_imati/orientation_demo.owl#output_flag" x="995" y="136"/>
+  <output ID="orientation_optimization_opname_Process1_output1" URI="http://www.caxman.eu/workflows/wp3_imati/orientation_demo.owl#output_tessellation" x="983" y="42"/>
+  <services>
+    <sequence>
+      <service URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#fileChooser_Service" x="383" y="251">
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#gssToken"/>
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#description"/>
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#serviceID"/>
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#header_base64"/>
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#filter"/>
+        <input ID="main_input2" URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#sessionToken"/>
+        <input URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#buttonText"/>
+        <input ID="main_input1" URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#extraParameters"/>
+        <output ID="fileChooser_Process1_output1" URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#status_base64"/>
+        <output ID="fileChooser_Process1_output2" URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#fileSelected"/>
+      </service>
+      <service URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#orientation_optimization_opname_Service" x="658" y="65">
+        <input URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#serviceID"/>
+        <input ID="fileChooser_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#annotated_tessellation_URI_in"/>
+        <input ID="main_input2" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#sessionToken"/>
+        <output ID="orientation_optimization_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#absolute_printability_flag"/>
+        <output ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/orientation_optimization.owl#annotated_STL_URI_out"/>
+      </service>
+    </sequence>
+  </services>
+</workflow>
+

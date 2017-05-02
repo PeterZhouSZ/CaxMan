@@ -2,7 +2,7 @@
 <workflow URI="http://www.caxman.eu/workflows/wp3_imati/process_planning.owl#ProcessPlanning">
   <input ID="main_input1" URI="http://www.caxman.eu/workflows/wp3_imati/process_planning.owl#sessionToken" x="13" y="25"/>
   <input ID="main_input2" URI="http://www.caxman.eu/workflows/wp3_imati/process_planning.owl#extraParameters" x="13" y="523"/>
-  <output ID="get_output_Process1_output1" URI="http://www.caxman.eu/workflows/wp3_imati/process_planning.owl#out1" x="1343" y="24"/>
+  <output ID="get_output_Process1_output1" URI="http://www.caxman.eu/workflows/wp3_imati/process_planning.owl#out1" x="1729" y="11"/>
   <services>
     <sequence>
       <service URI="http://www.caxman.eu/apps/sintef/fileChooser03.owl#fileChooser_Service" x="145" y="161">
@@ -37,13 +37,13 @@
           <if>
             <condition>equalTo(orientation_optimization_opname_Process1_output1, 0)</condition>
             <then>
-              <service URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#support_structures_generation_opname_Service" x="702" y="525">
+              <service URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#support_structures_generation_opname_Service" x="696" y="600">
                 <input ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_tessellation_URI_in"/>
                 <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#sessionToken"/>
                 <input ID="orientation_optimization_opname_Process1_output2" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#serviceID"/>
                 <output ID="support_structures_generation_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/support_structures_generation.owl#annotated_tessellation_URI_out"/>
               </service>
-              <service URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#slicing_opname_Service">
+              <service URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#slicing_opname_Service" x="1056" y="539">
                 <input URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#sessionToken" ID="main_input1"/>
                 <input URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#serviceID"/>
                 <input URI="http://www.caxman.eu/sync/wp3_imati/slicing.owl#annotated_tessellation_URI_in" ID="support_structures_generation_opname_Process1_output1"/>
@@ -51,8 +51,8 @@
               </service>
             </then>
             <else>
-              <service URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#send_to_WP2_opname_Service" x="961" y="259">
-                <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_tessellation"/>
+              <service URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#send_to_WP2_opname_Service" x="1136" y="301">
+                <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_tessellation" ID="orientation_optimization_opname_Process1_output2"/>
                 <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#serviceID"/>
                 <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#sessionToken"/>
                 <output ID="send_to_WP2_opname_Process1_output1" URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_STL_URI_out"/>
@@ -61,15 +61,15 @@
           </if>
         </then>
         <else>
-          <service URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#send_to_WP2_opname_Service" x="961" y="259">
-            <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_tessellation"/>
+          <service URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#send_to_WP2_opname_Service" x="957" y="131">
+            <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_tessellation" ID="absolute_printability_checks_opname_Process1_output1"/>
             <input URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#serviceID"/>
             <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#sessionToken"/>
             <output ID="send_to_WP2_opname_Process2_output1" URI="http://www.caxman.eu/sync/wp3_imati/send_to_WP2.owl#annotated_STL_URI_out"/>
           </service>
         </else>
       </if>
-      <service URI="http://www.caxman.eu/sync/wp3_imati/get_if_then_else_output.owl#get_output_Service" x="1096" y="104">
+      <service URI="http://www.caxman.eu/sync/wp3_imati/get_if_then_else_output.owl#get_output_Service" x="1318" y="10">
         <input URI="http://www.caxman.eu/sync/wp3_imati/get_if_then_else_output.owl#serviceID"/>
         <input URI="http://www.caxman.eu/sync/wp3_imati/get_if_then_else_output.owl#if_then_else_output"/>
         <input ID="main_input1" URI="http://www.caxman.eu/sync/wp3_imati/get_if_then_else_output.owl#sessionToken"/>
