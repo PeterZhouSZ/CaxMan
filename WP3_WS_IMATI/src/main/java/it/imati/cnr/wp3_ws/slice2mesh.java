@@ -22,7 +22,7 @@ import javax.xml.ws.Holder;
  * @author cino
  */
 @WebService(serviceName = "slice2mesh")
-public class support_structures_generation 
+public class slice2mesh
 {
  
     // The namespace should match the package name in the first non-commented line of this file. 
@@ -33,7 +33,7 @@ public class support_structures_generation
         
     
     @WebMethod(operationName = "slice2mesh_opname")
-    public void support_structures_generation_operation (
+    public void slice2mesh_operation (
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -76,7 +76,6 @@ public class support_structures_generation
             File input = new File(downloadedFilename);
             if (!input.getAbsoluteFile().exists()) throw new IOException("Error in downloading " + cil_file_URI_in);
             
-            // Run support structures generation
             String cmdRunSlice2mesh = pathSlice2Mesh + "slice2mesh_caxman " + downloadedFilename + " " + tetmeshFilename;
             
             System.out.print("[RUNNING] : " + cmdRunSlice2mesh);
