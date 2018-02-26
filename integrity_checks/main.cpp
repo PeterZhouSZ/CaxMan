@@ -37,12 +37,15 @@ int main(int argc, char *argv[])
     remove (off_filename);
     remove (ann_filename);
 
-    int boundaries = check_boundaries (tin, lt_ann);
+    int boundaries = annotate_boundaries (tin, lt_ann);
+    int no_manifold = annotate_no_manifold(tin, lt_ann);
+    int incostintent_normals = annotate_inconsistent_normals(tin, lt_ann);
+    int intersections = annotate_intersections(tin, lt_ann);
 
     caxlib::write_ANN(out_ann_filename.c_str(), glob_ann, lv_ann, lt_ann);
     tin.saveOFF(out_off_filename.c_str());
 
     caxlib::create_zip(out_zip_filename, out_off_filename, out_ann_filename);
 
-    return boundaries;
+    return boundaries + no_manifold + incostintent_normals + intersections;
 }
