@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     if (tin.load(off_filename) != 0)
     {
         IMATI_STL::ImatiSTL::error("Can't load input file\n");
+        return -1;
     }
 
     std::cout << tin.V.numels() << " vertices." << std::endl;
