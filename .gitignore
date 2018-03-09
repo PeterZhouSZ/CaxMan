@@ -1,4 +1,6 @@
 /WP3_WS_IMATI/target/
+/WP3_WS_IMATI/.m2/
+
 /integrity_checks/build
 /orientation_service/build/
 /detect_voids_service/build/
@@ -7,8 +9,10 @@
 /global_checks/build/
 /support_structures/build/
 
+/build/
 /integrity_checks/integrity_checks.pro.user
 /thinwalls_and_cavities/thinwalls_and_cavities.pro.user
+
 
 
 

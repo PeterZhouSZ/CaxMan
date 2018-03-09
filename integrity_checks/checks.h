@@ -9,7 +9,14 @@
 
 using namespace T_MESH;
 
-int check_boundaries(IMATI_STL::TriMesh &tin, std::vector<caxlib::TriangleAnnotations> &lt_ann);
+int annotate_boundaries(IMATI_STL::TriMesh &tin, std::vector<caxlib::TriangleAnnotations> &lt_ann);
+
+int annotate_no_manifold (IMATI_STL::TriMesh &tin, std::vector<caxlib::TriangleAnnotations> &lt_ann);
+
+int annotate_inconsistent_normals (IMATI_STL::TriMesh &tin, std::vector<caxlib::TriangleAnnotations> &lt_ann);
+
+int annotate_intersections (IMATI_STL::TriMesh &tin, std::vector<caxlib::TriangleAnnotations> &lt_ann);
+
 
 #include "checks.cpp"
 
