@@ -46,7 +46,31 @@ public class support_structures_generation
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String annotated_tessellation_URI_in,
             
-            @WebParam(name            = "annotated_tessellation_URI_out", 
+            @WebParam(name            = "support_density_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double support_density_in,
+
+            @WebParam(name            = "support_thickness_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double support_thickness_in,
+
+            @WebParam(name            = "support_top_height_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double support_top_height_in,
+
+            @WebParam(name            = "support_top_length_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double support_top_length_in,
+
+            @WebParam(name            = "overhang_angle_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double overhang_angle_in,
+
+            @WebParam(name            = "base_displacement_in",
+                      targetNamespace = namespace,
+                      mode            = WebParam.Mode.IN)  Double base_displacement_in,
+
+            @WebParam(name            = "annotated_tessellation_URI_out",
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<String> annotated_tessellation_URI_out)
     {
