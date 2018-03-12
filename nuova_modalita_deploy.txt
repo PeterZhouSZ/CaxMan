@@ -1,0 +1,14 @@
+
+# update code
+git pull
+
+# enter services' folder
+cd WP3_WS_IMATI
+
+# make new docker image
+./build.sh
+
+# launch docker (and the serve within it)
+./run.sh
+
+
