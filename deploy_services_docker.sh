@@ -17,11 +17,17 @@ echo "Rebuilding services"
 
 ./build.sh
 
-printf "\nRestarting Glassfish in background.. "
-
 printf "\nDOCKER_CONTAINER_ID = "
 ./run.sh
 
-printf "\nServices will be available in a while ..."
+printf "\nRestarting Glassfish in background ..."
 
-printf "\n\nTo check Glassfish log, use :\n  docker logs DOCKER_CONTAINER_ID\n\n\n"
+until $(curl --output /dev/null --silent --head --fail https://caxman.clesgo.net/imati/wp3/orientation_optimization?wsdl); 
+do 
+	printf '.';
+	sleep 1;
+done
+
+printf "\n\n Deployed Web services! \n\n"
+
+#printf "\n\nTo check Glassfish log, use :\n  docker logs DOCKER_CONTAINER_ID\n\n\n"
