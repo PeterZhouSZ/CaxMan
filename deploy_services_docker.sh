@@ -8,8 +8,6 @@ rm -r *
 
 cd ..
 
-tmux kill-session -t deploy_services &> /root/docker_log
-
 echo "Stopping and killing existing docker images ... "
 
 docker stop $(docker ps -a | grep 'wp3_services' |awk '{print $1}') &>> /root/docker_log
@@ -19,9 +17,11 @@ echo "Rebuilding services"
 
 ./build.sh
 
-tmux new-session -d -s deploy_services
+printf "\nRestarting Glassfish in background.. "
 
-echo "Restarting Glassfish .. Services will be available in a while ..."
+printf "\nDOCKER_CONTAINER_ID = "
+./run.sh
 
-tmux send-key ./run.sh C-m
-tmux detach -s deploy_services
+printf "\nServices will be available in a while ..."
+
+printf "\n\nTo check Glassfish log, use :\n  docker logs DOCKER_CONTAINER_ID\n\n\n"
