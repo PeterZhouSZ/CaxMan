@@ -2,6 +2,9 @@
 
 /WP3_WS_IMATI/target/
 /WP3_WS_IMATI/.m2/
+/WP3_WS_IMATI/cpp/
+/WP3_WS_IMATI/libs/
+/WP3_WS_IMATI/third_party_libs/
 
 /integrity_checks/build
 /orientation_service/build/
