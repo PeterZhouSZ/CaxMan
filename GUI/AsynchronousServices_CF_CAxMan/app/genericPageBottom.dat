@@ -1,0 +1,9 @@
+</div>
+<div style='position:relative;top:20px;left:0.3%;'>
+		
+				<button type="reset" class="btn btn-default" onclick='resetfields();'>Reset</button>
+				<button type="button" class="btn btn-default" onclick='validatefields()'>Submit</button>
+</div>
+
+</body>
+</html>

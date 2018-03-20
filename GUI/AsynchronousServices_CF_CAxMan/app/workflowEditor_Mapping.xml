@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><workflow URI="http://www.caxman.eu/workflows/igd/ApplicationExample.owl#Web_Application_Example">
+  <input ID="main_input1" URI="http://www.caxman.eu/workflows/igd/ApplicationExample.owl#sessionToken" x="-1" y="68"/>
+  <input ID="main_input2" URI="http://www.caxman.eu/workflows/igd/ApplicationExample.owl#extraParameters" x="9" y="332"/>
+   <output ID="startApplication_Process1_output2" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Chamber_Temperature" x="993" y="93"/>
+        <output ID="startApplication_Process1_output3" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#No_Print_Zone" x="996" y="141"/>
+        <output ID="startApplication_Process1_output4" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Poisson_s_ratio_" x="996" y="184"/>
+        <output ID="startApplication_Process1_output5" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Linear_Isotropic_Hardening_Coefficient" x="998" y="233"/>
+        <output ID="startApplication_Process1_output6" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Yield_stress_" x="999" y="279"/>
+        <output ID="startApplication_Process1_output7" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Layer_thickness_" x="1001" y="329"/>
+        <output ID="startApplication_Process1_output8" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Exp_Isotropic_Hardening_Coefficient" x="1002" y="378"/>
+        <output ID="startApplication_Process1_output9" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Kinematic_hardening_" x="1000" y="426"/>
+        <output ID="startApplication_Process1_output10" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Laser_beam_diameter" x="1003" y="475"/>
+        <output ID="startApplication_Process1_output11" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Thermal_expansion_coefficient" x="1002" y="519"/>
+<output ID="startApplication_Process1_output12" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Isotropic_Hardening_Law" x="991" y="562"/>
+<output ID="startApplication_Process1_output13" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Instantaneous_Elastic_Modulus_Young_modulus_" x="991" y="609"/>
+<output ID="startApplication_Process1_output14" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Material" x="493" y="435"/>
+<output ID="startApplication_Process1_output15" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Elastic_viscosity_" x="493" y="476"/>
+<output ID="startApplication_Process1_output16" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Elastic_Modulus_at_Infinite_Time" x="493" y="516"/>
+<output ID="startApplication_Process1_output17" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Thermal_shrinkage" x="491" y="562"/>
+<output ID="startApplication_Process1_output18" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Material_Density" x="491" y="602"/>
+<output ID="startApplication_Process1_output19" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Printing_Chamber_Dimensions_build_volume_" x="591" y="3"/>
+<output ID="startApplication_Process1_output20" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Plastic_viscosity" x="754" y="2"/>
+<output ID="startApplication_Process1_output21" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Saturation_stress_" x="1037" y="4"/>
+<output ID="startApplication_Process1_output22" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Critical_Temperature_" x="893" y="-1"/>
+  <services>
+    <sequence>
+      <service URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#startApplication_Service" x="221" y="79">
+        <input ID="main_input1" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#sessionToken"/>
+        <input URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#serviceID"/>
+        <output ID="startApplication_Process1_output1" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#status_base64"/>
+        <output ID="startApplication_Process1_output2" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Chamber_Temperature"/>
+        <output ID="startApplication_Process1_output3" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#No_Print_Zone"/>
+        <output ID="startApplication_Process1_output4" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Poisson_s_ratio_"/>
+        <output ID="startApplication_Process1_output5" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Linear_Isotropic_Hardening_Coefficient"/>
+        <output ID="startApplication_Process1_output6" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Yield_stress_"/>
+        <output ID="startApplication_Process1_output7" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Layer_thickness_"/>
+        <output ID="startApplication_Process1_output8" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Exp_Isotropic_Hardening_Coefficient"/>
+        <output ID="startApplication_Process1_output9" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Kinematic_hardening_"/>
+        <output ID="startApplication_Process1_output10" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Laser_beam_diameter"/>
+        <output ID="startApplication_Process1_output11" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Thermal_expansion_coefficient"/>
+<output ID="startApplication_Process1_output12" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Isotropic_Hardening_Law"/>
+<output ID="startApplication_Process1_output13" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Instantaneous_Elastic_Modulus_Young_modulus_"/>
+<output ID="startApplication_Process1_output14" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Material"/>
+<output ID="startApplication_Process1_output15" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Elastic_viscosity_"/>
+<output ID="startApplication_Process1_output16" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Elastic_Modulus_at_Infinite_Time"/>
+<output ID="startApplication_Process1_output17" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Thermal_shrinkage"/>
+<output ID="startApplication_Process1_output18" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Material_Density"/>
+<output ID="startApplication_Process1_output19" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Printing_Chamber_Dimensions_build_volume_"/>
+<output ID="startApplication_Process1_output20" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Plastic_viscosity"/>
+<output ID="startApplication_Process1_output21" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Saturation_stress_"/>
+<output ID="startApplication_Process1_output22" URI="http://www.caxman.eu/apps/igd/ApplicationExample.owl#Critical_Temperature_"/>
+      </service>
+    </sequence>
+  </services>
+</workflow>

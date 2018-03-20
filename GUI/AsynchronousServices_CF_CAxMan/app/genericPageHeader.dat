@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' href='https://api.eu-cloudflow.eu/igd/resources/bootstrap/css/bootstrap.min.css'>
+	<link rel="stylesheet" type="text/css" href="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery-ui.min.css">
+	<script type="text/javascript" src="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery.js"></script>
+	<script type="text/javascript" src="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery-ui.js"></script>
+	<script type="text/javascript">
+	function conver2expnotation(num)
+	{
+		return num.toExponential();
+	}
+	
+	function getJSONObject()
+	{
+	
+		var str = {};
+		
+	
+	
+	return str;
+	}
+	
+	
+
+	function getJSONObject()
+	{
+	
+	var str = '';
+	
+	
+	return str;
+	}
+	
+	
+
+  function soapMsg() {
+            var xmlreqhttp = new XMLHttpRequest();
+            xmlreqhttp.open('POST', 'https://api.caxman.eu/igd/examples/WebApplication', true);
+			var xmlOut = getJSONObject();
+			//alert(b64_xmlOut);
+            //Soap Request
+            var sr ='<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sam="http://example.com/sample.wsdl">'+
+					'<soapenv:Header/>'+
+					'<soapenv:Body>'+
+					'<sam:serviceExecutionFinishCall>'+
+						'<sam:xmlOutputs>'+xmlOut+'</sam:xmlOutputs>'+
+					'</sam:serviceExecutionFinishCall>'+
+					'</soapenv:Body>'+
+					'</soapenv:Envelope>';    
+            xmlreqhttp.onreadystatechange = function () {
+                if (xmlreqhttp.readyState == 4) {
+				 //alert('ready');
+                    if (xmlreqhttp.status == 200) {
+                      // alert('Done');
+                    }
+					else
+					{	
+						alert('Error while Sending Request status: '+xmlreqhttp.status+' Response :'+xmlreqhttp.responseText);
+					}
+                }
+            }
+            //For sending the Post Request
+           //xmlreqhttp.setRequestHeader('Content-Type', 'text/xml');
+           xmlreqhttp.send(sr);
+		}
+		
+	//Validation
+	function validatefields()
+	{
+	  
+		soapMsg();
+	}
+	
+	
+	
+	</script>
+</head>
+<body>
+<div class='jumbotron'>
+		<div class='row' style='margin: 10px;' class='container'>
+			<img src='https://api.caxman.eu/igd/resources/_custom/img/caxman_logo.png' style='width: 10%;height: 10%'>
+			<img src='https://api.eu-cloudflow.eu/igd/resources/_custom/img/igd_rgb.gif' style='width: 15%;height: 15%;margin-left:50px'>
+		</div>
+</div> 
+<div class="row"  style='position:relative;left:0.3%;'>

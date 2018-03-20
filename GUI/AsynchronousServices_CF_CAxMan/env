@@ -1,0 +1,4 @@
+# CONTEXT_ROOT defines the deployment location relative to the host.
+# Set this variable such that it fits to the URL under which the VM hosting the
+# app can be reached.
+CONTEXT_ROOT=/imati/wp3/
