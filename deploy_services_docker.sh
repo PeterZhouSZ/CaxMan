@@ -8,6 +8,35 @@ rm -r *
 
 cd ..
 
+echo "Copying service executable ... "
+
+CPP_FOLDER="cpp/"
+
+mkdir -p $CPP_FOLDER
+
+cp -r /root/CaxMan/detect_voids_service $CPP_FOLDER
+cp -r /root/CaxMan/global_checks $CPP_FOLDER
+cp -r /root/CaxMan/integrity_checks $CPP_FOLDER
+cp -r /root/CaxMan/orientation_service $CPP_FOLDER
+cp -r /root/CaxMan/slice2mesh $CPP_FOLDER
+cp -r /root/CaxMan/stl2cli $CPP_FOLDER
+cp -r /root/CaxMan/support_structures $CPP_FOLDER
+cp -r /root/CaxMan/thinwalls_and_cavities $CPP_FOLDER
+
+echo "Copying libs ... " 
+
+LIB_FOLDER="libs/"
+mkdir -p $LIB_FOLDER
+
+cp -r /usr/local/lib/ $LIB_FOLDER
+
+echo "Copying third_party libs ... " 
+
+TP_LIB_FOLDER="third_party_libs/"
+mkdir -p $TP_LIB_FOLDER
+
+cp -r /root/third_party_libs $TP_LIB_FOLDER
+
 echo "Stopping and killing existing docker images ... "
 
 docker stop $(docker ps -a | grep 'wp3_services' |awk '{print $1}') &>> /root/docker_log
