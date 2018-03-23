@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' href='https://api.eu-cloudflow.eu/igd/resources/bootstrap/css/bootstrap.min.css'>
+	<link rel="stylesheet" type="text/css" href="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery-ui.min.css">
+	<script type="text/javascript" src="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery.js"></script>
+	<script type="text/javascript" src="https://api.eu-cloudflow.eu/igd/resources/jquery/jquery-ui.js"></script>
+	<script type="text/javascript">
+	function conver2expnotation(num)
+	{
+		return num.toExponential();
+	}
+	
+	function getJSONObject()
+	{
+	
+		var str = {};
+		
+	
+	
+	return str;
+	}
+	
+	
+
+	function getJSONObject()
+	{
+	
+	var str = '';
+	
+	
+	return str;
+	}
+	
+	
+
+  function soapMsg() {
+            var xmlreqhttp = new XMLHttpRequest();
+            xmlreqhttp.open('POST', 'https://api.caxman.eu/igd/examples/WebApplication', true);
+			var xmlOut = getJSONObject();
+			//alert(b64_xmlOut);
+            //Soap Request
+            var sr ='<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sam="http://example.com/sample.wsdl">'+
+					'<soapenv:Header/>'+
+					'<soapenv:Body>'+
+					'<sam:serviceExecutionFinishCall>'+
+						'<sam:xmlOutputs>'+xmlOut+'</sam:xmlOutputs>'+
+					'</sam:serviceExecutionFinishCall>'+
+					'</soapenv:Body>'+
+					'</soapenv:Envelope>';    
+            xmlreqhttp.onreadystatechange = function () {
+                if (xmlreqhttp.readyState == 4) {
+				 //alert('ready');
+                    if (xmlreqhttp.status == 200) {
+                      // alert('Done');
+                    }
+					else
+					{	
+						alert('Error while Sending Request status: '+xmlreqhttp.status+' Response :'+xmlreqhttp.responseText);
+					}
+                }
+            }
+            //For sending the Post Request
+           //xmlreqhttp.setRequestHeader('Content-Type', 'text/xml');
+           xmlreqhttp.send(sr);
+		}
+		
+	//Validation
+	function validatefields()
+	{
+	  
+		soapMsg();
+	}
+	
+	
+	
+	</script>
+</head>
+<body>
+<div class='jumbotron'>
+		<div class='row' style='margin: 10px;' class='container'>
+			<img src='https://api.caxman.eu/igd/resources/_custom/img/caxman_logo.png' style='width: 10%;height: 10%'>
+			<img src='https://api.eu-cloudflow.eu/igd/resources/_custom/img/igd_rgb.gif' style='width: 15%;height: 15%;margin-left:50px'>
+		</div>
+</div> 
+<div class="row"  style='position:relative;left:0.3%;'>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Layer thickness (&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Layer thickness " min ="20.0" max ="60.0"class="form-control" value="40.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Laser beam diameter(&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Laser beam diameter" min ="100.0" max ="500.0"class="form-control" value="Variable (1)"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Material" class="form-control" value="Inconel 718"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Printing Chamber Dimensions (build volume)(mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">No-Print Zone(mm x mm x mm x mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Chamber Temperature(&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Chamber Temperature" min ="20.0" max ="100.0"class="form-control" value="20.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material Density(kg/m3)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Material Density" min ="2000.0" max ="20000.0"class="form-control" value="8220.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal expansion coefficient(m/&#186;C-1)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal expansion coefficient" min ="1e-06" max ="0.00022"class="form-control" value="1.29e-05"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal shrinkage</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal shrinkage" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Instantaneous Elastic Modulus (Young modulus)(Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Instantaneous Elastic Modulus (Young modulus)" min ="65000000000.0" max ="2.5e+11"class="form-control" value="2.076e+11"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic Modulus at Infinite Time</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic Modulus at Infinite Time" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Poisson&#8217;s ratio     (unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Poisson&#8217;s ratio     " min ="0.2" max ="0.5"class="form-control" value="0.29"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic viscosity </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic viscosity " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Yield stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Yield stress " min ="200000000.0" max ="2500000000.0"class="form-control" value="720000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Saturation stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Saturation stress " min ="--" max ="--"class="form-control" value="820000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Isotropic Hardening Law</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Isotropic Hardening Law" class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Linear Isotropic Hardening Coefficient(MPa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Linear Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="80.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Exp. Isotropic Hardening Coefficient(unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Exp. Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="120.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Kinematic hardening </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Kinematic hardening " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Plastic viscosity</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Plastic viscosity" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Critical Temperature (&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Critical Temperature " min ="--" max ="--"class="form-control" value="800.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Layer thickness (&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Layer thickness " min ="20.0" max ="60.0"class="form-control" value="40.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Laser beam diameter(&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Laser beam diameter" min ="100.0" max ="500.0"class="form-control" value="Variable (1)"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Material" class="form-control" value="Inconel 718"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Printing Chamber Dimensions (build volume)(mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">No-Print Zone(mm x mm x mm x mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Chamber Temperature(&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Chamber Temperature" min ="20.0" max ="100.0"class="form-control" value="20.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material Density(kg/m3)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Material Density" min ="2000.0" max ="20000.0"class="form-control" value="8220.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal expansion coefficient(m/&#186;C-1)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal expansion coefficient" min ="1e-06" max ="0.00022"class="form-control" value="1.29e-05"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal shrinkage</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal shrinkage" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Instantaneous Elastic Modulus (Young modulus)(Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Instantaneous Elastic Modulus (Young modulus)" min ="65000000000.0" max ="2.5e+11"class="form-control" value="2.076e+11"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic Modulus at Infinite Time</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic Modulus at Infinite Time" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Poisson&#8217;s ratio     (unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Poisson&#8217;s ratio     " min ="0.2" max ="0.5"class="form-control" value="0.29"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic viscosity </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic viscosity " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Yield stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Yield stress " min ="200000000.0" max ="2500000000.0"class="form-control" value="720000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Saturation stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Saturation stress " min ="--" max ="--"class="form-control" value="820000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Isotropic Hardening Law</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Isotropic Hardening Law" class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Linear Isotropic Hardening Coefficient(MPa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Linear Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="80.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Exp. Isotropic Hardening Coefficient(unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Exp. Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="120.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Kinematic hardening </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Kinematic hardening " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Plastic viscosity</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Plastic viscosity" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Critical Temperature (&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Critical Temperature " min ="--" max ="--"class="form-control" value="800.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Layer thickness (&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Layer thickness " min ="20.0" max ="60.0"class="form-control" value="40.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Laser beam diameter(&#956;m)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Laser beam diameter" min ="100.0" max ="500.0"class="form-control" value="Variable (1)"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Material" class="form-control" value="Inconel 718"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Printing Chamber Dimensions (build volume)(mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+	<input id ="param_Name" type="number" name="Printing Chamber Dimensions (build volume)" min ="250.0" max ="325.0"class="form-control" value="250.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">No-Print Zone(mm x mm x mm x mm x mm x mm)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+	<input id ="param_Name" type="number" name="No-Print Zone" min ="-3.0" max ="-3.0"class="form-control" value="-3.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Chamber Temperature(&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Chamber Temperature" min ="20.0" max ="100.0"class="form-control" value="20.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Material Density(kg/m3)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Material Density" min ="2000.0" max ="20000.0"class="form-control" value="8220.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal expansion coefficient(m/&#186;C-1)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal expansion coefficient" min ="1e-06" max ="0.00022"class="form-control" value="1.29e-05"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Thermal shrinkage</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Thermal shrinkage" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Instantaneous Elastic Modulus (Young modulus)(Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Instantaneous Elastic Modulus (Young modulus)" min ="65000000000.0" max ="2.5e+11"class="form-control" value="2.076e+11"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic Modulus at Infinite Time</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic Modulus at Infinite Time" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Poisson&#8217;s ratio     (unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Poisson&#8217;s ratio     " min ="0.2" max ="0.5"class="form-control" value="0.29"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Elastic viscosity </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Elastic viscosity " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Yield stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Yield stress " min ="200000000.0" max ="2500000000.0"class="form-control" value="720000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Saturation stress (Pa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Saturation stress " min ="--" max ="--"class="form-control" value="820000000.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Isotropic Hardening Law</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="text" name="Isotropic Hardening Law" class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Linear Isotropic Hardening Coefficient(MPa)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Linear Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="80.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Exp. Isotropic Hardening Coefficient(unitless)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Exp. Isotropic Hardening Coefficient" min ="--" max ="--"class="form-control" value="120.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Kinematic hardening </label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Kinematic hardening " min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Plastic viscosity</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Plastic viscosity" min ="--"  max ="--"class="form-control" value=""/>
+</div>
+<hr/>
+</div>
+</div>
+<div class="col-xs-4">
+<div class="row">
+<div class="col-xs-12">
+	<label for="usr">Critical Temperature (&#186;C)</label>
+</div>
+<div class="col-xs-12">
+	<input id ="param_Name" type="number" name="Critical Temperature " min ="--" max ="--"class="form-control" value="800.0"/>
+</div>
+<hr/>
+</div>
+</div>
+<input type="hidden"  id="FieldValues" value="" /></div>
+<div style='position:relative;top:20px;left:0.3%;'>
+		
+				<button type="reset" class="btn btn-default" onclick='resetfields();'>Reset</button>
+				<button type="button" class="btn btn-default" onclick='validatefields()'>Submit</button>
+</div>
+
+</body>
+</html>
