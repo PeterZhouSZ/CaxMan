@@ -8,6 +8,8 @@ rm -r *
 
 cd ..
 
+#mvn package
+
 echo "Copying service executable ... "
 
 CPP_FOLDER="cpp/"

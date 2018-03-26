@@ -64,7 +64,16 @@ public class gui {
         // the web application is finished.
         // Depending of your client you will need that the endpoint includes "?wsdl". 
         // You will have to check this for your own SOAP client, but our javascript client requires
-        // "?wsdl" to not be a part of the endpoint.
+        // "?wsdl" to not be a part of the endpoint
+
+	if (extraParameters != null)
+	{
+		String message = "ExtraParameters = " + extraParameters ;
+		System.out.print (message);
+	}
+	else
+		System.out.print (" NULL ExtraParameters");
+
         String WFMsoap = getExtraParameter(extraParameters, "WFM");
         WFMsoap = WFMsoap.replace("?wsdl", "");
         
@@ -104,10 +113,28 @@ public class gui {
 
     // Function for parsing the extraParameters input 
     private String getExtraParameter(String extraParameters, String key) {
+
+	System.out.print("Reading ExtraParameters ... ");
+
+	if (extraParameters == null || extraParameters.length() == 0)
+	{
+	    System.out.print ("NO ExtraParameters!");
+	    return "Not Found";
+	}
+
         String[] map = extraParameters.split(",");
-        for (String pair : map) {
+
+	System.out.print ("N. ExtraParameters ...  ");
+	System.out.print (map.length);
+        
+	for (String pair : map) {
+
+	    System.out.print("Reading PAIR ... ");
+	    System.out.print(pair);
+
             String[] keyValue = pair.split("=");
-            if (keyValue.length == 2 ) {
+        
+	    if (keyValue.length == 2 ) {
                 //log("::getExtraParameter - found {" + keyValue[0] + ", " + keyValue[1] + "}");
                 if (keyValue[0].equals(key)) {
                     return keyValue[1];
