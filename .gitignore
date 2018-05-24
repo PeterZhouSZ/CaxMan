@@ -14,10 +14,14 @@
 /global_checks/build/
 /support_structures/build/
 
+/demo_services/degenerate_cleaner/build
+/demo_services/orientation_optimization/build/
+/demo_services/slice_2_mesh/build/
+/demo_services/slicer/build/
+/demo_services/support_structures/build/
+
+/demo_services/slice_2_mesh/slice2mesh_service
+
 /build/
 /integrity_checks/integrity_checks.pro.user
 /thinwalls_and_cavities/thinwalls_and_cavities.pro.user
-
-
-
-
