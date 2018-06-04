@@ -1,0 +1,32 @@
+PROGRAM_NAME := slice2mesh_service
+SOURCES      := $(wildcard *.cpp)
+OBJS         := ${SOURCES:.cpp=.o}
+
+CPPFLAGS += -std=c++11
+CPPFLAGS += -I/root/third_party_libs/eigen
+CPPFLAGS += -I/root/third_party_libs/cinolib/include
+
+CPPFLAGS += -DCINOLIB_USES_BOOST
+CPPFLAGS += -I/usr/local/include
+CPPFLAGS += -I/root/third_party_libs/boost_1_67_0
+
+CPPFLAGS += -DTETLIBRARY
+CPPFLAGS += -DCINOLIB_USES_TETGEN
+CPPFLAGS += -I/root/third_party_libs/tetgen1.5.0
+LDFLAGS  += -L/root/third_party_libs/tetgen1.5.0/build/ -ltet
+
+CPPFLAGS += -DCINOLIB_USES_TRIANGLE
+LDFLAGS  += /root/third_party_libs/triangle/triangle.o 
+#LDFLAGS  += -ltriangle
+
+.PHONY: all clean distclean
+
+all: $(PROGRAM_NAME)
+
+$(PROGRAM_NAME): $(OBJS) 
+	$(LINK.cc) $(OBJS) -o $(PROGRAM_NAME)
+
+clean:
+	@- $(RM) $(OBJS)
+
+distclean: clean

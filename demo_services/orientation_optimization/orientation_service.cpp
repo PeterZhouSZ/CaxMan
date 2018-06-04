@@ -193,17 +193,17 @@ int main(int argc, char *argv[])
     Trimesh<> m(argv[1]);
     //m.show_mesh_flat();
 
-    string out_filename = argv[2];
+    char *out_filename = argv[2];
 
-    double wgt_srf_quality  = atof(argv[2]);
-    double wgt_print_time   = atof(argv[3]);
-    double wgt_supports     = atof(argv[4]);
-    double angle_thresh_deg = (argc>5)?atof(argv[5]):30.0;
-    int    n_dirs           = (argc>6)?atoi(argv[6]):500;
+    double wgt_srf_quality  = atof(argv[3]);
+    double wgt_print_time   = atof(argv[4]);
+    double wgt_supports     = atof(argv[5]);
+    double angle_thresh_deg = (argc>6)?atof(argv[6]):30.0;
+    int    n_dirs           = (argc>7)?atoi(argv[7]):500;
 
     orient(m, wgt_srf_quality, wgt_print_time, wgt_supports, angle_thresh_deg, n_dirs);
 
-    m.save(out_filename.c_str());
+    m.save(out_filename);
 
     //m.updateGL();
     //GLcanvas gui;
