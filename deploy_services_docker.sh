@@ -8,8 +8,6 @@ rm -r *
 
 cd ..
 
-#mvn package
-
 echo "Copying service executable ... "
 
 CPP_FOLDER="cpp/"
@@ -25,14 +23,17 @@ cp -r /root/CaxMan/stl2cli $CPP_FOLDER
 cp -r /root/CaxMan/support_structures $CPP_FOLDER
 cp -r /root/CaxMan/thinwalls_and_cavities $CPP_FOLDER
 
-echo "Copying libs ... " 
+cp -r /root/CaxMan/demo_services $CPP_FOLDER
+
+
+echo "Copying libs ... "
 
 LIB_FOLDER="libs/"
 mkdir -p $LIB_FOLDER
 
 cp -r /usr/local/lib/ $LIB_FOLDER
 
-echo "Copying third_party libs ... " 
+echo "Copying third_party libs ... "
 
 TP_LIB_FOLDER="third_party_libs/"
 mkdir -p $TP_LIB_FOLDER
@@ -53,8 +54,8 @@ printf "\nDOCKER_CONTAINER_ID = "
 
 printf "\nRestarting Glassfish in background ..."
 
-until $(curl --output /dev/null --silent --head --fail https://caxman.clesgo.net/imati/wp3/orientation_optimization?wsdl); 
-do 
+until $(curl --output /dev/null --silent --head --fail https://caxman.clesgo.net/imati/wp3/orientation_optimization?wsdl);
+do
 	printf '.';
 	sleep 1;
 done
