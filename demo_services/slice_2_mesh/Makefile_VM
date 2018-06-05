@@ -1,32 +1,60 @@
-PROGRAM_NAME := slice2mesh_service
-SOURCES      := $(wildcard *.cpp)
-OBJS         := ${SOURCES:.cpp=.o}
+LIB_DIR = /root/third_party_libs/
+EIGEN_DIR = $(LIB_DIR)eigen
+CINOLIB_DIR = $(LIB_DIR)cinolib/include
+TRIANGLE_DIR = $(LIB_DIR)triangle
+TETGEN_DIR = $(LIB_DIR)tetgen1.5.0
+BOOST_DIR = $(LIB_DIR)boost_1_67_0
 
-CPPFLAGS += -std=c++11
-CPPFLAGS += -I/root/third_party_libs/eigen
-CPPFLAGS += -I/root/third_party_libs/cinolib/include
+CC= g++
+RM= rm
+TAR= tar
 
-CPPFLAGS += -DCINOLIB_USES_BOOST
-CPPFLAGS += -I/usr/local/include
-CPPFLAGS += -I/root/third_party_libs/boost_1_67_0
+FLAGS = -std=c++11 -DIS64BITPLATFORM -DTETLIBRARY
+CFLAGS = -Wall -fpermissive -I./ -I$(BOOST_DIR) -I$(LIB_DIR) -I$(CINOLIB_DIR) -I$(TETGEN_DIR) -I$(EIGEN_DIR) -I$(TRIANGLE_DIR)
 
-CPPFLAGS += -DTETLIBRARY
-CPPFLAGS += -DCINOLIB_USES_TETGEN
-CPPFLAGS += -I/root/third_party_libs/tetgen1.5.0
-LDFLAGS  += -L/root/third_party_libs/tetgen1.5.0/build/ -ltet
+LIBS += -L$(TETGEN_DIR)/build -ltet
+LIBS += -L/usr/lib -ltriangle
 
-CPPFLAGS += -DCINOLIB_USES_TRIANGLE
-LDFLAGS  += /root/third_party_libs/triangle/triangle.o 
-#LDFLAGS  += -ltriangle
+SOURCES.C    = main.cpp \
+		cli_to_vol.cpp \
+		cli_to_vol_debug.cpp \
+		edge_processing.cpp \
+		filter_plc.cpp \
+		load_cli.cpp \
+		polygon.cpp \
+		segmentation.cpp \
+		slice.cpp \
+		sliced_obj.cpp \
+		tiny_chart_helper.cpp \
+		triangulate_quad.cpp		
 
-.PHONY: all clean distclean
 
-all: $(PROGRAM_NAME)
+INCLUDES =
 
-$(PROGRAM_NAME): $(OBJS) 
-	$(LINK.cc) $(OBJS) -o $(PROGRAM_NAME)
+OBJECTS  =  $(SOURCES.C:.C=.o)
 
-clean:
-	@- $(RM) $(OBJS)
+EXECUTABLES  =  ./build/slice2mesh
 
-distclean: clean
+#----------
+
+
+%.o:	%.C
+
+	$(CC) $(FLAGS) $(CFLAGS) -c -o $@ $<
+
+
+
+$(EXECUTABLES): $(OBJECTS)
+
+	mkdir -p ./build
+	$(CC) $(FLAGS) $(CFLAGS) $(OBJECTS) -o $(EXECUTABLES) $(LIBS)
+
+
+
+clean :
+	$(RM) -f *.o
+
+
+backup :
+	$(RM) -f backup.tgz
+	$(TAR) zcfv backup.tgz $(SOURCES.C) $(INCLUDES) Makefile
