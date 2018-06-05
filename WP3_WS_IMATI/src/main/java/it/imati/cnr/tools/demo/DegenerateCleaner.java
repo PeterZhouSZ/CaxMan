@@ -31,10 +31,9 @@ public class DegenerateCleaner
      * @param sessionToken
      * @param mesh_in
      * @param mesh_out
-     * @return 
      */
     @WebMethod(operationName = "DegenerateCleanerMethod")
-    public String degenerate_cleaner(
+    public void degenerate_cleaner(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -113,8 +112,6 @@ public class DegenerateCleaner
         {   
             System.err.println("ERROR: " + e.getMessage());
         }
-        
-        return null;
     }
     
 }

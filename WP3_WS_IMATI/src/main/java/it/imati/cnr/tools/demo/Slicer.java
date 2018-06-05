@@ -31,10 +31,9 @@ public class Slicer
      * @param mesh_in
      * @param layer_thickness
      * @param slices_out
-     * @return 
      */
     @WebMethod(operationName = "SliceMethod")
-    public String slice(
+    public void slice(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -121,7 +120,6 @@ public class Slicer
             System.err.println("ERROR: " + e.getMessage());
         }
         
-        return null;
     }
     
 }

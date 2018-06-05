@@ -32,11 +32,9 @@ public class Slice2Mesh
      * @param hatch_thickness
      * @param surface_out
      * @param volume_out
-     * @param mesh_out
-     * @return 
      */
     @WebMethod(operationName = "SliceToMeshMethod")
-    public String slice_to_mesh(
+    public void slice_to_mesh(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -149,8 +147,6 @@ public class Slice2Mesh
         {   
             System.err.println("ERROR: " + e.getMessage());
         }
-        
-        return null;
     }
     
 }

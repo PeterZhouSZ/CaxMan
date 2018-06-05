@@ -32,10 +32,9 @@ public class SupportStructureGeneration
      * @param density
      * @param threshold
      * @param mesh_out
-     * @return 
      */
     @WebMethod(operationName = "SupportStructureMethod")
-    public String support_structure(
+    public void support_structure(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -130,8 +129,6 @@ public class SupportStructureGeneration
             System.err.println("ERROR: " + e.getMessage());
         }
         
-        
-        return null;
     }
     
 }

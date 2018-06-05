@@ -35,10 +35,9 @@ public class OrientationOptimization
      * @param ws
      * @param threshold
      * @param ndirs
-     * @return 
      */
     @WebMethod(operationName = "OrientationOptimizationMethod")
-    public String orientation_optimization(
+    public void orientation_optimization(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -142,9 +141,6 @@ public class OrientationOptimization
         {   
             System.err.println("ERROR: " + e.getMessage());
         }
-        
-        
-        return null;
     }
     
 }
