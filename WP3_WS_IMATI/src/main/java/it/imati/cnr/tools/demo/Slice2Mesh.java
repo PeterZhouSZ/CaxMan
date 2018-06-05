@@ -67,11 +67,14 @@ public class Slice2Mesh
         String sdate = dateFormat.format(new Date());
             
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
-        String pathTool             = "/root/CaxMan/demo_services/slice_2_mesh/";
+        String pathTool             = "/root/CaxMan/demo_services/slice_2_mesh/build/";
         String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";      
         String outputSurfFilename       = "/root/CAxManIO/output_surf_mesh" + sdate + ".off";
         String outputVolFilename       = "/root/CAxManIO/output_volume_mesh" + sdate + ".mesh";
-        String outputURI            = "swift://caxman/imati-ge/output_volume_mesh" + sdate + ".off";
+        
+        String outputSurfaceURI            = "swift://caxman/imati-ge/output_surface_mesh" + sdate + ".off";
+        String outputVolumeURI            = "swift://caxman/imati-ge/output_volume_mesh" + sdate + ".mesh";
+
         
         String cmdDownload = "python " + pathGSSTools + "download_gss.py " + mesh_in + " " + downloadedFilename + " " + sessionToken;
         String cmdRunOperation = pathTool + "slice2mesh_service "   + downloadedFilename + " " 
@@ -79,8 +82,8 @@ public class Slice2Mesh
                                                                     + outputVolFilename + " " + hatch_thickness;
         
         
-        String cmdUploadOutputSurf = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + outputSurfFilename + " " + sessionToken;
-        String cmdUploadOutputVol = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + outputVolFilename + " " + sessionToken;
+        String cmdUploadOutputSurf = "python " + pathGSSTools + "upload_gss.py " + outputSurfaceURI + " " + outputSurfFilename + " " + sessionToken;
+        String cmdUploadOutputVol = "python " + pathGSSTools + "upload_gss.py " + outputVolumeURI + " " + outputVolFilename + " " + sessionToken;
 
         
         try
@@ -139,8 +142,8 @@ public class Slice2Mesh
                
             //##########################################################################################################
             // Return the address of the uploaded output
-            volume_out.value  = outputVolFilename;
-            surface_out.value = outputSurfFilename;
+            volume_out.value  = outputVolumeURI;
+            surface_out.value = outputSurfaceURI;
             
         }
         catch(IOException | InterruptedException e)

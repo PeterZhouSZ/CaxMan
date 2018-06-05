@@ -112,7 +112,7 @@ public class Slicer
                
             //##########################################################################################################
             // Return the address of the uploaded output
-            slices_out.value      = outputFilename;
+            slices_out.value      = outputURI;
             
         }
         catch(IOException | InterruptedException e)

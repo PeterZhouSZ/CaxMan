@@ -134,7 +134,7 @@ public class OrientationOptimization
                
             //##########################################################################################################
             // Return the address of the uploaded output
-            mesh_out.value      = outputFilename;
+            mesh_out.value      = outputURI;
             
         }
         catch(IOException | InterruptedException e)
