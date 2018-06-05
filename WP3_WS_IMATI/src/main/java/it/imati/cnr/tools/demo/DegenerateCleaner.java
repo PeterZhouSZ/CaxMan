@@ -22,7 +22,7 @@ import javax.xml.ws.Holder;
 @WebService(serviceName = "DegenerateCleanerService")
 public class DegenerateCleaner 
 {   
-    private final String namespace = "http://wp3_ws.cnr.imati.it/";
+    private final String namespace = "http://demo.tools.cnr.imati.it/";
 
 
     /**
