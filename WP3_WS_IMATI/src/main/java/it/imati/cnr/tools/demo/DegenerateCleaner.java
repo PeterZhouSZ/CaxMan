@@ -63,6 +63,13 @@ public class DegenerateCleaner
         String cmdRunOperation = pathTool + "deg_cleaner " + downloadedFilename + " " + outputFilename;
         String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + outputFilename + " " + sessionToken;
         
+        if (mesh_in == null)
+        {
+            mesh_out.value = "NO INPUT.";
+            return;
+        }
+        
+        
         try
         {
             //##########################################################################################################
