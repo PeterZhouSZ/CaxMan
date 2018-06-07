@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Insert output file name</title>
+        <script type="text/javascript">
+           
+    
+            // TODO: Find all parameters you expect to find in the parent (parent is the html document with the <iframe> tag.
+            var sessionToken = "";
+            var serviceID = "";
+            var WFMsoap = "";
+            if (parent.hasCloudflowVariables) {
+                if ((typeof parent.sessionToken !== 'undefined') && (parent.sessionToken !== "")) {
+                    sessionToken = parent.sessionToken;
+                }
+                if ((typeof parent.serviceID !== 'undefined') && (parent.serviceID !== "")) {
+                    serviceID = parent.serviceID;
+                }
+                if ((typeof parent.WFMsoap !== 'undefined') && (parent.WFMsoap !== "")) {
+                    WFMsoap = parent.WFMsoap;
+                }
+            }
+            if (!Date.now) {
+                Date.now = function() { return new Date().getTime(); }
+            }
+            
+            
+            
+            // TODO: When the application is finished and the user want to move on, call this function:
+            function Done() {
+                console.log("Telling WFM to proceed in the workflow");
+                
+                var wq = document.getElementById('wq').value;
+                var wt = document.getElementById('wt').value;
+                var ws = document.getElementById('ws').value;
+                
+                
+                console.log ("wq : " + wq);
+                console.log ("wt : " + wt);
+                console.log ("ws : " + ws);
+                
+                // TODO: If your web application has output parameters (besides status_base64) they should be sat as follows:
+                xmlOutputs = "<ServiceOutputs><wq>" + wq +"</wq>\n\
+                                              <wt>" + wt +"</wt>\n\
+                                              <ws>" + ws + "</ws>\n\
+                              </ServiceOutputs>";
+                
+                // If you don't have any outputs:
+                //xmlOutputs = "<ServiceOutputs></ServiceOutputs>";
+                
+                // Then we encode it:
+                xmlOutputs_base64 = btoa(xmlOutputs);
+                
+                
+                var namespace = "http://www.eu-cloudflow.eu/dfki/WorkflowManager2/";
+                var messageName ="serviceExecutionFinished";
+                var xmlToSend=  '<soapenv:Envelope '
+                    + 'xmlns:ns="' +  namespace + '" '
+                    + 'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">' 
+                    + ' <soapenv:Header />'
+                    + ' <soapenv:Body>'
+                    // We assume we only have one relevant namespace...
+                    + "<ns:" + messageName + '>'
+                    + "<serviceID>" + serviceID + "</serviceID>"
+                    + "<sessionToken>" + sessionToken + "</sessionToken>"
+                    + "<xmlOutputs_base64>" +  xmlOutputs_base64 + "</xmlOutputs_base64>"
+                    + "</ns:" + messageName + ">"
+                    + ' </soapenv:Body>'
+                    + '</soapenv:Envelope>';
+                var endpointURL = WFMsoap;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function(data) {
+                    console.log("Succesfully received a response from WFM");
+                };
+                xhr.open("POST", endpointURL, true);
+                xhr.setRequestHeader("Content-Type", "text/xml");
+                xhr.setRequestHeader("Accept", "text/xml");
+                xhr.setRequestHeader("SOAPAction", "http://www.eu-cloudflow.eu/dfki/WorkflowManager2/serviceExecutionFinished");
+                xhr.send(xmlToSend);
+            }
+        </script>
+    </head>
+    
+    <body>
+        <div style="padding:30px;">
+            <h2>My Web Application </h2>
+            <p>Orientation Optimization Parameters</p>
+            
+            <input id ="wq" type="number" name="WS" min ="0.0" max ="1.0" class="form-control" value="0.4"/>
+            <input id ="wt" type="number" name="WS" min ="0.0" max ="1.0" class="form-control" value="0.4"/>
+            <input id ="ws" type="number" name="WS" min ="0.0" max ="1.0" class="form-control" value="0.4"/>
+
+            
+            <input type="button" value="Proceed" onclick="Done();" />
+        </div>
+    </body>
+        
+</html>

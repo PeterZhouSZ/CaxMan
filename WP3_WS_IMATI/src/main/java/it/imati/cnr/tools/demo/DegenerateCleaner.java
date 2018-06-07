@@ -50,6 +50,11 @@ public class DegenerateCleaner
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<String> mesh_out)
     {
+        
+        System.out.print("[ INPUT MESH ] : " + mesh_in);
+
+        
+        
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
             
