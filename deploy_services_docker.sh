@@ -49,9 +49,6 @@ echo "Rebuilding services"
 
 ./build.sh
 
-
-
-print "##########################################################"
 printf "\nDOCKER_CONTAINER_ID = "
 ./run.sh
 
