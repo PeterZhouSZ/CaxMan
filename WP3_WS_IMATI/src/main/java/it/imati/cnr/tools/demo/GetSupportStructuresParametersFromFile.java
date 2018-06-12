@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.Holder;
+import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -27,9 +27,8 @@ import org.xml.sax.SAXException;
  *
  * @author daniela
  */
-@WebService(serviceName = "GetOrientationParametersFromFile")
-public class GetOrientationParametersFromFile 
-{
+@WebService(serviceName = "GetSupportStructuresParametersFromFile")
+public class GetSupportStructuresParametersFromFile {
 
     private final String namespace = "http://demo.tools.cnr.imati.it/";
 
@@ -38,14 +37,11 @@ public class GetOrientationParametersFromFile
      * @param serviceID
      * @param sessionToken
      * @param param_file_in
-     * @param wq
-     * @param wt
-     * @param ws
+     * @param density
      * @param threshold
-     * @param ndirs
      */
-    @WebMethod(operationName = "GetOrientationParametersFromFileMethod")
-    public void get_orientation_parameters(@WebParam(name            = "serviceID", 
+    @WebMethod(operationName = "GetSlice2MeshParametersFromFileMethod")
+    public void get_slice2mesh_parameters(@WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
             
@@ -57,27 +53,15 @@ public class GetOrientationParametersFromFile
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String param_file_in,
             
-             @WebParam(name            = "wq",
+            @WebParam(name            = "density",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.OUT) Holder<Double> wq,
-             
-              @WebParam(name            = "wt",
+                      mode            = WebParam.Mode.OUT)  Holder<Double> density,
+            
+            @WebParam(name            = "threshold",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.OUT)  Holder<Double> wt,
-              
-               @WebParam(name            = "ws",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.OUT)  Holder<Double> ws,
-               
-                @WebParam(name            = "threshold",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.OUT)  Holder<Double> threshold ,
-                
-                 @WebParam(name            = "ndirs",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.OUT)  Holder<Integer> ndirs) 
+                      mode            = WebParam.Mode.OUT)  Holder<Double> threshold) 
     {
-        
+         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
             
@@ -115,20 +99,13 @@ public class GetOrientationParametersFromFile
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            NodeList nList_ws = doc.getElementsByTagName("ws");
-            NodeList nList_wq = doc.getElementsByTagName("wq");
-            NodeList nList_wt = doc.getElementsByTagName("wt");
-            
+            NodeList nList_density = doc.getElementsByTagName("density");
             NodeList nList_threshold = doc.getElementsByTagName("threshold");
-            NodeList nList_ndirs = doc.getElementsByTagName("ndirs");
+
             
-            ws.value = Double.parseDouble(nList_ws.item(0).getTextContent());
-            wt.value = Double.parseDouble(nList_wt.item(0).getTextContent());
-            wq.value = Double.parseDouble(nList_wq.item(0).getTextContent());
-            
+            density.value = Double.parseDouble(nList_density.item(0).getTextContent());
             threshold.value = Double.parseDouble(nList_threshold.item(0).getTextContent());
-            ndirs.value = Integer.parseInt(nList_ndirs.item(0).getTextContent());
-            
+             
         }
         catch (ParserConfigurationException | SAXException | IOException e) 
         {
@@ -136,6 +113,5 @@ public class GetOrientationParametersFromFile
         } catch (InterruptedException ex) {
             Logger.getLogger(GetOrientationParametersFromFile.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 }
