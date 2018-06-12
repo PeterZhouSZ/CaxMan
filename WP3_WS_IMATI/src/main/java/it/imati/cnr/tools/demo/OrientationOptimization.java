@@ -80,8 +80,8 @@ public class OrientationOptimization
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
         String pathTool             = "/root/CaxMan/demo_services/orientation_optimization/build/";
         String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";      
-        String outputFilename       = "/root/CAxManIO/output_orientation" + sdate + ".off";
-        String outputURI            = "swift://caxman/imati-ge/output_orientation" + sdate + ".off";
+        String outputFilename       = "/root/CAxManIO/output_orientation_" + sdate + ".off";
+        String outputURI            = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
         
         String cmdDownload = "python " + pathGSSTools + "download_gss.py " + mesh_in + " " + downloadedFilename + " " + sessionToken;
         
@@ -91,6 +91,8 @@ public class OrientationOptimization
         String cmdUploadOutput = "python " + pathGSSTools + "upload_gss.py " + outputURI + " " + outputFilename + " " + sessionToken;
         
         //executable usage : orientatio_service inmesh outmesh wq wt ws [thresh=30] [ndirs=500]"
+        
+        mesh_out.value = "";
         
         try
         {
@@ -131,6 +133,9 @@ public class OrientationOptimization
             p3.waitFor();   // wait the upload process to finish its task
             
             System.out.print("[COMPLETED] : " + cmdUploadOutput);
+            
+            System.out.print("[UPLOADED OUTPUT] : " + outputURI);
+
                
             //##########################################################################################################
             // Return the address of the uploaded output
@@ -140,6 +145,8 @@ public class OrientationOptimization
         catch(IOException | InterruptedException e)
         {   
             System.err.println("ERROR: " + e.getMessage());
+            
+            mesh_out.value = e.getMessage();
         }
     }
     
