@@ -11,22 +11,30 @@ WQ=$6
 THRESHOLD=$7
 NDIRS=$8
 
-DOWNLOAD_TOOL=/root/infrastructureClients/gssClients/gssPythonClients/download_gss.py
-UPLOAD_TOOL=/root/infrastructureClients/gssClients/gssPythonClients/upload_gss.py
+DOWNLOAD_TOOL="/root/infrastructureClients/gssClients/gssPythonClients/download_gss.py"
+UPLOAD_TOOL="/root/infrastructureClients/gssClients/gssPythonClients/upload_gss.py"
 
-ORIENTATION_TOOL=/root/CaxMan/demo_services/orientation_optimization/build/orient_service
+ORIENTATION_TOOL="/root/CaxMan/demo_services/orientation_optimization/build/orient_service"
 
 DOWNLOADED_FILE=/root/CAxManIO/input.off
 OUTPUT_FILE=/root/CAxManIO/output.off
 
-rm $(DOWNLOADED_FILE)
-rm $(OUTPUT_FILE)
+rm -f $DOWNLOADED_FILE
+rm -f $OUTPUT_FILE
 
 # download file from gss
-python $(DOWNLOAD_TOOL) $(INPUT_MODEL_GSS) $(DOWNLOADED_FILE) $(TOKEN_GSS)
+cmd_download="python $DOWNLOAD_TOOL $INPUT_MODEL_GSS $DOWNLOADED_FILE $TOKEN_GSS"
+
+echo $cmd_download
+
+$cmd_download
 
 # run orientation optimization 
-$(ORIENTATION_TOOL) $(DOWNLOADED_FILE) $(OUTPUT_FILE) $(WQ) $(WT) $(WS) $(THRESHOLD) $(NDIRS)
+$ORIENTATION_TOOL $DOWNLOADED_FILE $OUTPUT_FILE $WQ $WT $WS $THRESHOLD $NDIRS
 
 # upload outputt file to gss 
-python $(UPLOAD_TOOL) $(OUTPUT_MODEL_GSS) $(OUTPUT_FILE) $(TOKEN_GSS)
+cmd_upload="python $UPLOAD_TOOL $OUTPUT_MODEL_GSS $OUTPUT_FILE $TOKEN_GSS"
+
+echo $cmd_upload
+
+$cmd_upload
