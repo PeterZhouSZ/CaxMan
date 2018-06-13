@@ -178,65 +178,65 @@ public class OrientationOptimizationAsync
     {
         
         //log("getStatus: serviceID = " + serviceID);
-        BufferedReader reader = null;
-        String folderName = "/tmp/" + serviceID;
-        String statusFileName = folderName + "/status.txt";
-        String resultFileName = folderName + "/result.txt";
-        
-        try {
-            
-            // Check old status if it exists:
-            String oldStatus = "-1";
-            if (new File(statusFileName).exists()) {
-                oldStatus = readFile(statusFileName);
-            }
-        
-            // Get the status file from the remote job
-            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
-            Process proc = Runtime.getRuntime().exec(statusFileName);
-            proc.waitFor();
-            proc.destroy();
-            
-            // Set the status_base64 value according to the value of the status file.
-            // We print some information to the Glassfish log for debug purposes.
-            String newStatus = readFile(statusFileName);
-            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
-                //log("\nUNCHANGED\n");
-                status_base64.value = "UNCHANGED";
-            }
-            else if ( newStatus.equals("100") ) {
-                //log("\nCOMPLETED\n");
-                status_base64.value = "COMPLETED";
-                mesh_out.value = readFile(resultFileName);
-            }
-            else {
-                //log("\nNeither unchanged nor completed, but:\n" + newStatus);
-                status_base64.value = newStatus;
-            }
-        } catch (IOException ex) {
-            //error(ex);
-            
-            //error("null:fileStatus=" + statusFileName);
-            
-            status_base64.value = "0";
-        } catch (InterruptedException t) {
-            //error(t.getMessage());
-        }finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException ex) {              
-                //error(ex);
-            }
-        }
-        
-        // If the status is updated and the job is not yet finished, we create
-        // a new progress bar based on the status file.
-        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
-            String html = "mflkdfòdf";//htmlStatusBar(status_base64.value);
-            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-        }
+//        BufferedReader reader = null;
+//        String folderName = "/tmp/" + serviceID;
+//        String statusFileName = folderName + "/status.txt";
+//        String resultFileName = folderName + "/result.txt";
+//        
+//        try {
+//            
+//            // Check old status if it exists:
+//            String oldStatus = "-1";
+//            if (new File(statusFileName).exists()) {
+//                oldStatus = readFile(statusFileName);
+//            }
+//        
+//            // Get the status file from the remote job
+//            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
+//            Process proc = Runtime.getRuntime().exec(statusFileName);
+//            proc.waitFor();
+//            proc.destroy();
+//            
+//            // Set the status_base64 value according to the value of the status file.
+//            // We print some information to the Glassfish log for debug purposes.
+//            String newStatus = readFile(statusFileName);
+//            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
+//                //log("\nUNCHANGED\n");
+//                status_base64.value = "UNCHANGED";
+//            }
+//            else if ( newStatus.equals("100") ) {
+//                //log("\nCOMPLETED\n");
+//                status_base64.value = "COMPLETED";
+//                mesh_out.value = readFile(resultFileName);
+//            }
+//            else {
+//                //log("\nNeither unchanged nor completed, but:\n" + newStatus);
+//                status_base64.value = newStatus;
+//            }
+//        } catch (IOException ex) {
+//            //error(ex);
+//            
+//            //error("null:fileStatus=" + statusFileName);
+//            
+//            status_base64.value = "0";
+//        } catch (InterruptedException t) {
+//            //error(t.getMessage());
+//        }finally {
+//            try {
+//                if (reader != null) {
+//                    reader.close();
+//                }
+//            } catch (IOException ex) {              
+//                //error(ex);
+//            }
+//        }
+//        
+//        // If the status is updated and the job is not yet finished, we create
+//        // a new progress bar based on the status file.
+//        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
+//            String html = "mflkdfòdf";//htmlStatusBar(status_base64.value);
+//            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+//        }
     }
 //    
 //    
