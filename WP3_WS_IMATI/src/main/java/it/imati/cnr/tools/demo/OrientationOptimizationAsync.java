@@ -161,6 +161,13 @@ public class OrientationOptimizationAsync
 
     
     // This method is called repetively by WFM
+    /**
+     * Web service operation
+     * @param serviceID
+     * @param sessionToken
+     * @param mesh_out
+     * @param status_base64
+     */
     @WebMethod(operationName = "getServiceStatus")
     public void getServiceStatus(
             @WebParam(name = "serviceID",
