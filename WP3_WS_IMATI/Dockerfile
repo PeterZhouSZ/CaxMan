@@ -11,7 +11,7 @@ RUN apt-get -y install python-pip
 RUN apt-get -y install python-suds
 
 # Install glassfish server
-RUN apt-get -y install software-properties-common 
+RUN apt-get -y install software-properties-common
 RUN apt-get -y install python-software-properties
 RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update
@@ -38,6 +38,7 @@ COPY infrastructureClients/ /root/infrastructureClients/
 RUN mkdir /root/CaxMan/
 COPY cpp/ /root/CaxMan/
 
+
 # Copy libzip (dinamically linked)
 RUN mkdir -p /usr/
 RUN mkdir -p /usr/local/
@@ -45,6 +46,10 @@ RUN mkdir -p /usr/local/
 COPY libs/ /usr/local/
 
 ENV LD_LIBRARY_PATH /usr/local/lib:/usr/lib:/lib
+
+# Copy scripts for async services
+RUN mkdir -p /usr/local/bin
+COPY scripts/. /usr/local/bin/
 
 
 # Copy third_party libs

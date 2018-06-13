@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.ws.Holder;
 
 /**
@@ -28,6 +29,7 @@ import javax.xml.ws.Holder;
 public class OrientationOptimizationAsync 
 {
     private final String namespace = "http://demo.tools.cnr.imati.it/";
+
 
     /**
      * Web service operation
@@ -84,21 +86,82 @@ public class OrientationOptimizationAsync
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT) Holder<String> status_base64)
     {
+         // Keep in mind that serviceID should be stored together with the application started 
+    // by the main service (startAsyncService) somehow so that getServiceStatus and 
+    // abortService services are able to recognize which running instance of the application to 
+    // get the status of or to kill.
+    // In this example we create one "workspace" for each execution in the /tmp/ directory, 
+    // where we create a folder /tmp/<serviceID>. This makes it possibly for the other two 
+    // services to look into this folder to check up on the correct running application.
+    
+        log("Async_example.startAsyncService - started Orientation Optimization with input:" + 
+                "\n\tserviceID =" + serviceID + 
+                "\n\tsessionToken =" + sessionToken);
+        
+        
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
-        String tool             = "/root/CaxMan/demo_services/scripts/orientation_optimization.sh";
-        String outputURI            = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
-        String cmdRunOperation = tool + " " + sessionToken + " " + mesh_in + " " + outputURI +
-                " " + wq + " " + wt + " " + ws + " " + threshold + " " + ndirs;
-        mesh_out.value = "";
-        System.out.print("[RUNNING] : " + cmdRunOperation);
+        
+        String outputURI = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
+               
+        
         try {
-            Process p2 = Runtime.getRuntime().exec(cmdRunOperation);
-        } catch (IOException ex) {
-            Logger.getLogger(OrientationOptimizationAsync.class.getName()).log(Level.SEVERE, null, ex);
+            // Create a folder in tmp based on the serviceID, which will serve
+            // as a local storage space for this service
+            String localFolderName = "/tmp/" + serviceID;
+            File temporaryFolder = new File(localFolderName);
+            if (temporaryFolder.exists() && !temporaryFolder.isDirectory()) {
+                throw new IOException("Temporary output path exist and is not a folder");
+            }
+            if (!temporaryFolder.exists()) {
+                temporaryFolder.mkdir();
+            }
+
+            // This could also be an input, but is here hardcoded so that the example
+            // will not grow too large.
+            String outputFolderGSS = "swift://caxman/imati-ge/";
+            
+            String statusFileName = localFolderName + "/status.txt";
+            String resultFileName = localFolderName + "/result.txt";
+            String fileToUploadName = localFolderName + "/output_orientation_" + sdate + ".off";
+            
+            // Start the long running job
+            String applicationFileName = "/usr/local/bin/asyncStarter.sh";
+            
+            ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID, 
+                    statusFileName, 
+                    resultFileName, 
+                    fileToUploadName, 
+                    outputFolderGSS,
+                    mesh_in,
+                    wq.toString(),
+                    wt.toString(),
+                    ws.toString(),
+                    threshold.toString(),
+                    ndirs.toString(),
+                    outputURI);
+            
+            Process detachedProc = procBuilder.start();
+            detachedProc.waitFor();
+            detachedProc.destroy();
+  
+            // The long running job is just started, so we create a GUI showing
+            // a progress bar on 0%
+            String html = htmlStatusBar("0");
+            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+            
+            // We do not know the name of the output file yet, and assign a dummy value to it.
+            // If this is not done, WFM throws a null exception and your workflow fails.
+            mesh_out.value = "UNSET";
+
+        } catch (IOException | InterruptedException t) {
+            error(t.getMessage());
         }
+
     }
+
     
+    // This method is called repetively by WFM
     @WebMethod(operationName = "getServiceStatus")
     public void getServiceStatus(
             @WebParam(name = "serviceID",
@@ -109,7 +172,7 @@ public class OrientationOptimizationAsync
                     mode = WebParam.Mode.IN) String sessionToken,
             @WebParam(name = "outputFile", 
                     targetNamespace = namespace, 
-                    mode = WebParam.Mode.OUT) Holder<String> outputFile,
+                    mode = WebParam.Mode.OUT) Holder<String> mesh_out,
             @WebParam(name = "status_base64", 
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.OUT) Holder<String> status_base64) 
@@ -120,6 +183,61 @@ public class OrientationOptimizationAsync
         String folderName = "/tmp/" + serviceID;
         String statusFileName = folderName + "/status.txt";
         String resultFileName = folderName + "/result.txt";
+        
+        try {
+            
+            // Check old status if it exists:
+            String oldStatus = "-1";
+            if (new File(statusFileName).exists()) {
+                oldStatus = readFile(statusFileName);
+            }
+        
+            // Get the status file from the remote job
+            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
+            Process proc = Runtime.getRuntime().exec(statusFileName);
+            proc.waitFor();
+            proc.destroy();
+            
+            // Set the status_base64 value according to the value of the status file.
+            // We print some information to the Glassfish log for debug purposes.
+            String newStatus = readFile(statusFileName);
+            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
+                log("\nUNCHANGED\n");
+                status_base64.value = "UNCHANGED";
+            }
+            else if ( newStatus.equals("100") ) {
+                log("\nCOMPLETED\n");
+                status_base64.value = "COMPLETED";
+                mesh_out.value = readFile(resultFileName);
+            }
+            else {
+                log("\nNeither unchanged nor completed, but:\n" + newStatus);
+                status_base64.value = newStatus;
+            }
+        } catch (IOException ex) {
+            error(ex);
+            
+            error("null:fileStatus=" + statusFileName);
+            
+            status_base64.value = "0";
+        } catch (InterruptedException t) {
+            error(t.getMessage());
+        }finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException ex) {              
+                error(ex);
+            }
+        }
+        
+        // If the status is updated and the job is not yet finished, we create
+        // a new progress bar based on the status file.
+        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
+            String html = htmlStatusBar(status_base64.value);
+            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+        }
     }
     
     
@@ -206,4 +324,5 @@ public class OrientationOptimizationAsync
     private void error(IOException ex) {
         Logger.getLogger(OrientationOptimizationAsync.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
 }

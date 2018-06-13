@@ -1,0 +1,41 @@
+Async training
+------------------
+
+This folder contains scripts that will be used as an example for an asynchronous service in CloudFlow.
+
+All scripts should be in "/usr/local/bin/" directory on both machines-
+ 
+All temporary files for result and status are stored in "/tmp/$service_id/" on both machines.
+
+Machine with Glassfish server
+    - asyncStarter.sh: /usr/local/bin/asyncStarter.sh
+	Input: see launchRemote.sh
+	Simply just calls launchRemote.sh with all inputs and redirects its output
+
+    - launchRemote.sh: /usr/local/bin/launchRemote.sh
+	Input:	- session_id: keystone token
+		- service_id: From WFM
+		- status_file: Status file name (Typically "status.txt")
+		- result_file_name: result file name (Typically "result.txt")
+		- file_to_upload: local file name for file that should be uploaded at the end.
+		- gss_output_folder: the folder where to upload the async result
+	Creates a folder on tmp for local and remote and sets up and start a remote job (asyncSleeper on compute)
+
+    - remoteCopying.sh:
+	Input: 	- fileToCopy
+	Copies the file from remote server (compute) to local (glassfish).
+
+Compute machine:
+    - /usr/local/bin/asyncSleeper.sh
+	Input:	- sessionID: keystone token
+		- statusFile: File to print the status
+		- fileToUpload: The final result file that will be uploaded to GSS
+		- resultFile: for writing the final gss url for the result
+		- gssOutputFolder: folder name that should be used in GSS
+	DOES NOT PRINT 100! Glassfish machine needs to copy the result file first before printing 100
+
+    - /usr/local/bin/upload_gss.sh
+	Input:  - url: GSS file identifier
+		- filenameIn: File to upload to GSS
+		- sessionToken: keystone token
+
