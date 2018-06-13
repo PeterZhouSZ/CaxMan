@@ -34,17 +34,21 @@ echo "target_dir: $target_dir"
 
 # Create the target dir on the local and remote machine.
 #mkdir -p $target_dir <-- done from java from before
-#ssh root@10.30.1.112 "mkdir -p $target_dir"
+#ssh root@10.30.1.112 mkdir -p $target_dir
 mkdir -p $target_dir
 
 # Make sure there is a status file:
-echo "0" > target_dir/$status_file_basename
+echo "0" > $target_dir/$status_file_basename
 
 # Start the long running job on the compute machine
 echo "Starting the remote job ..."  >> $logFile
 #ssh root@10.30.1.112 "/usr/local/bin/asyncSleeper.sh $session_id $target_dir/$status_file_basename $target_dir/$file_to_upload_basename $target_dir/$result_file_basename $gss_output_folder"
 
-"/usr/local/bin/orientation_optimization.sh $session_id $mesh_in $out_uri $wq $wt $ws $threshold $ndirs $target_dir $result_file $file_to_upload"
+cmd="/usr/local/bin/orientation_optimization.sh $session_id $mesh_in $out_uri $wq $wt $ws $threshold $ndirs $target_dir $result_file $file_to_upload"
+
+echo "RUNNING $cmd"
+
+$cmd
 
 echo "The remote job is done."  >> $logFile
 

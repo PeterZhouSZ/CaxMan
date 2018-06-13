@@ -41,4 +41,4 @@ cmd_upload="python $UPLOAD_TOOL $OUTPUT_MODEL_GSS $OUTPUT_FILE $TOKEN_GSS"
 
 echo $cmd_upload
 
-$cmd_upload > $result_file
+$cmd_upload > $RESULT_FILE
