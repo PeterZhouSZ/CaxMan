@@ -56,23 +56,23 @@ public class OrientationOptimizationAsync
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String mesh_in,
             
-             @WebParam(name            = "wq",
+            @WebParam(name            = "wq",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  Double wq,
              
-              @WebParam(name            = "wt",
+            @WebParam(name            = "wt",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  Double wt,
               
-               @WebParam(name            = "ws",
+            @WebParam(name            = "ws",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  Double ws,
                
-                @WebParam(name            = "threshold",
+            @WebParam(name            = "threshold",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  Double threshold ,
                 
-                 @WebParam(name            = "ndirs",
+            @WebParam(name            = "ndirs",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  Integer ndirs,
             
@@ -84,31 +84,17 @@ public class OrientationOptimizationAsync
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT) Holder<String> status_base64)
     {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String sdate = dateFormat.format(new Date());
+        String tool             = "/root/CaxMan/demo_services/scripts/orientation_optimization.sh";
+        String outputURI            = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
+        String cmdRunOperation = tool + " " + sessionToken + " " + mesh_in + " " + outputURI +
+                " " + wq + " " + wt + " " + ws + " " + threshold + " " + ndirs;
+        mesh_out.value = "";
+        System.out.print("[RUNNING] : " + cmdRunOperation);
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            String sdate = dateFormat.format(new Date());
-            
-           
-            String tool             = "/root/CaxMan/demo_services/scripts/orientation_optimization.sh";
-            String outputURI            = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
-            
-            
-            String cmdRunOperation = tool + " " + sessionToken + " " + mesh_in + " " + outputURI +
-                    " " + wq + " " + wt + " " + ws + " " + threshold + " " + ndirs;
-                        
-            //executable usage : orientation_service inmesh outmesh wq wt ws [thresh=30] [ndirs=500]"
-            
-            mesh_out.value = "";
-            
-            System.out.print("[RUNNING] : " + cmdRunOperation);
             Process p2 = Runtime.getRuntime().exec(cmdRunOperation);
-                    
-            p2.waitFor();
-            p2.destroy();
-            
-        } 
-        catch (IOException | InterruptedException ex) 
-        {
+        } catch (IOException ex) {
             Logger.getLogger(OrientationOptimizationAsync.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
