@@ -5,7 +5,10 @@
  */
 package it.imati.cnr.tools.demo;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -157,84 +160,84 @@ public class OrientationOptimizationAsync
     }
 
     
-//    // This method is called repetively by WFM
-//    @WebMethod(operationName = "getServiceStatus")
-//    public void getServiceStatus(
-//            @WebParam(name = "serviceID",
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.IN) String serviceID,
-//            @WebParam(name = "sessionToken",
-//                    targetNamespace = namespace,
-//                    mode = WebParam.Mode.IN) String sessionToken,
-//            @WebParam(name = "outputFile", 
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.OUT) Holder<String> mesh_out,
-//            @WebParam(name = "status_base64", 
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.OUT) Holder<String> status_base64) 
-//    {
-//        
-//        log("getStatus: serviceID = " + serviceID);
-//        BufferedReader reader = null;
-//        String folderName = "/tmp/" + serviceID;
-//        String statusFileName = folderName + "/status.txt";
-//        String resultFileName = folderName + "/result.txt";
-//        
-//        try {
-//            
-//            // Check old status if it exists:
-//            String oldStatus = "-1";
-//            if (new File(statusFileName).exists()) {
-//                oldStatus = readFile(statusFileName);
-//            }
-//        
-//            // Get the status file from the remote job
-//            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
-//            Process proc = Runtime.getRuntime().exec(statusFileName);
-//            proc.waitFor();
-//            proc.destroy();
-//            
-//            // Set the status_base64 value according to the value of the status file.
-//            // We print some information to the Glassfish log for debug purposes.
-//            String newStatus = readFile(statusFileName);
-//            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
-//                log("\nUNCHANGED\n");
-//                status_base64.value = "UNCHANGED";
-//            }
-//            else if ( newStatus.equals("100") ) {
-//                log("\nCOMPLETED\n");
-//                status_base64.value = "COMPLETED";
-//                mesh_out.value = readFile(resultFileName);
-//            }
-//            else {
-//                log("\nNeither unchanged nor completed, but:\n" + newStatus);
-//                status_base64.value = newStatus;
-//            }
-//        } catch (IOException ex) {
-//            error(ex);
-//            
-//            error("null:fileStatus=" + statusFileName);
-//            
-//            status_base64.value = "0";
-//        } catch (InterruptedException t) {
-//            error(t.getMessage());
-//        }finally {
-//            try {
-//                if (reader != null) {
-//                    reader.close();
-//                }
-//            } catch (IOException ex) {              
-//                error(ex);
-//            }
-//        }
-//        
-//        // If the status is updated and the job is not yet finished, we create
-//        // a new progress bar based on the status file.
-//        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
-//            String html = htmlStatusBar(status_base64.value);
-//            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-//        }
-//    }
+    // This method is called repetively by WFM
+    @WebMethod(operationName = "getServiceStatus")
+    public void getServiceStatus(
+            @WebParam(name = "serviceID",
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.IN) String serviceID,
+            @WebParam(name = "sessionToken",
+                    targetNamespace = namespace,
+                    mode = WebParam.Mode.IN) String sessionToken,
+            @WebParam(name = "outputFile", 
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.OUT) Holder<String> mesh_out,
+            @WebParam(name = "status_base64", 
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.OUT) Holder<String> status_base64) 
+    {
+        
+        //log("getStatus: serviceID = " + serviceID);
+        BufferedReader reader = null;
+        String folderName = "/tmp/" + serviceID;
+        String statusFileName = folderName + "/status.txt";
+        String resultFileName = folderName + "/result.txt";
+        
+        try {
+            
+            // Check old status if it exists:
+            String oldStatus = "-1";
+            if (new File(statusFileName).exists()) {
+                oldStatus = readFile(statusFileName);
+            }
+        
+            // Get the status file from the remote job
+            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
+            Process proc = Runtime.getRuntime().exec(statusFileName);
+            proc.waitFor();
+            proc.destroy();
+            
+            // Set the status_base64 value according to the value of the status file.
+            // We print some information to the Glassfish log for debug purposes.
+            String newStatus = readFile(statusFileName);
+            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
+                //log("\nUNCHANGED\n");
+                status_base64.value = "UNCHANGED";
+            }
+            else if ( newStatus.equals("100") ) {
+                //log("\nCOMPLETED\n");
+                status_base64.value = "COMPLETED";
+                mesh_out.value = readFile(resultFileName);
+            }
+            else {
+                //log("\nNeither unchanged nor completed, but:\n" + newStatus);
+                status_base64.value = newStatus;
+            }
+        } catch (IOException ex) {
+            //error(ex);
+            
+            //error("null:fileStatus=" + statusFileName);
+            
+            status_base64.value = "0";
+        } catch (InterruptedException t) {
+            //error(t.getMessage());
+        }finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException ex) {              
+                //error(ex);
+            }
+        }
+        
+        // If the status is updated and the job is not yet finished, we create
+        // a new progress bar based on the status file.
+        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
+            String html = "mflkdfòdf";//htmlStatusBar(status_base64.value);
+            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+        }
+    }
 //    
 //    
 //    @WebMethod(operationName = "abortService")
@@ -288,18 +291,18 @@ public class OrientationOptimizationAsync
 //        return html;
 //    }
 //    
-//    /*
-//    *  Utility function for reading a file
-//    */
-//    private String readFile(String fileName) throws FileNotFoundException, IOException {
-//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-//        String msg;
-//        if ( (msg = reader.readLine()) == null ) {
-//            throw new IOException("Registration::getStatus: No content in " + fileName);
-//        }   
-//        return msg;
-//    }
-//    
+    /*
+    *  Utility function for reading a file
+    */
+    private String readFile(String fileName) throws FileNotFoundException, IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String msg;
+        if ( (msg = reader.readLine()) == null ) {
+            throw new IOException("Registration::getStatus: No content in " + fileName);
+        }   
+        return msg;
+    }
+    
 //    /*
 //    *  Utility function for less verbose logging
 //    */
