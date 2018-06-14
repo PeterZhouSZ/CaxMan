@@ -132,7 +132,7 @@ public class OrientationOptimizationAsync
             String fileToUploadName = localFolderName + "/output_orientation_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
-            String applicationFileName = "/usr/local/bin/asyncStarter_orientation.sh";
+            String applicationFileName = "/usr/local/bin/asyncStarter.sh";
             
             ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID,  
                     statusFileName, 
@@ -217,7 +217,7 @@ public class OrientationOptimizationAsync
             //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
             //Process proc = Runtime.getRuntime().exec(statusFileName);
             //proc.waitFor();
-            //proc.destroy();   
+            //proc.destroy();
             
             // Set the status_base64 value according to the value of the status file.
             // We print some information to the Glassfish log for debug purposes.
