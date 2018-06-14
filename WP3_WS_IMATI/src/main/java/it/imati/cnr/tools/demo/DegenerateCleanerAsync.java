@@ -25,8 +25,8 @@ import javax.xml.ws.Holder;
  *
  * @author daniela
  */
-@WebService(serviceName = "OrientationOptimizationAsyncService")
-public class OrientationOptimizationAsync 
+@WebService(serviceName = "DegenerateCleanerAsyncService")
+public class DegenerateCleanerAsync 
 {
     private final String namespace = "http://demo.tools.cnr.imati.it/";
 
@@ -36,16 +36,11 @@ public class OrientationOptimizationAsync
      * @param serviceID
      * @param sessionToken
      * @param mesh_in
-     * @param wq
-     * @param wt
      * @param mesh_out
-     * @param ws
-     * @param threshold
-     * @param ndirs
      * @param status_base64
      */
-    @WebMethod(operationName = "OrientationOptimizationMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
-    public void orientation_optimization_async(
+    @WebMethod(operationName = "DegenerateCleanerMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
+    public void degenerate_cleaner_async(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -57,27 +52,7 @@ public class OrientationOptimizationAsync
             @WebParam(name            = "mesh_in",
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String mesh_in,
-            
-            @WebParam(name            = "wq",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double wq,
-             
-            @WebParam(name            = "wt",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double wt,
-              
-            @WebParam(name            = "ws",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double ws,
-               
-            @WebParam(name            = "threshold",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double threshold ,
-                
-            @WebParam(name            = "ndirs",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Integer ndirs,
-            
+        
             @WebParam(name            = "mesh_out", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.OUT)  Holder<String> mesh_out,
@@ -94,7 +69,7 @@ public class OrientationOptimizationAsync
     // where we create a folder /tmp/<serviceID>. This makes it possibly for the other two 
     // services to look into this folder to check up on the correct running application.
     
-        log("Async_example.startAsyncService - started Orientation Optimization with input:" + 
+        log("Async_example.startAsyncService - started DegenerateCleaner with input:" + 
                 "\n\tserviceID =" + serviceID + 
                 "\n\tsessionToken =" + sessionToken);
         
@@ -102,7 +77,7 @@ public class OrientationOptimizationAsync
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
         
-        String outputURI = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
+        String outputURI = "swift://caxman/imati-ge/output_deg_cleaner_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
                
         System.out.print("[EXPECTED FINAL OUTPUT] " + outputURI);
         
@@ -129,7 +104,7 @@ public class OrientationOptimizationAsync
             
             String statusFileName = localFolderName + "/status.txt";
             String resultFileName = localFolderName + "/result.txt";
-            String fileToUploadName = localFolderName + "/output_orientation_" + sdate + ".off";
+            String fileToUploadName = localFolderName + "/output_deg_cleaner_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
             String applicationFileName = "/usr/local/bin/asyncStarter_orientation.sh";
@@ -140,11 +115,6 @@ public class OrientationOptimizationAsync
                     fileToUploadName, 
                     outputFolderGSS,	///////////////// until this parameter, leave as it is - then add parameters to your sh
                     mesh_in,
-                    wq.toString(),
-                    wt.toString(),
-                    ws.toString(),
-                    threshold.toString(),
-                    ndirs.toString(),
                     outputURI);
             
             System.out.print("[STARTING APPLICATION]" + applicationFileName);

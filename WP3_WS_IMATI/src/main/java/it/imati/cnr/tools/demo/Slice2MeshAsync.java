@@ -25,8 +25,8 @@ import javax.xml.ws.Holder;
  *
  * @author daniela
  */
-@WebService(serviceName = "OrientationOptimizationAsyncService")
-public class OrientationOptimizationAsync 
+@WebService(serviceName = "Slice2MeshSupportStructuresGenerationAsyncService")
+public class Slice2MeshAsync 
 {
     private final String namespace = "http://demo.tools.cnr.imati.it/";
 
@@ -36,16 +36,16 @@ public class OrientationOptimizationAsync
      * @param serviceID
      * @param sessionToken
      * @param mesh_in
-     * @param wq
-     * @param wt
+     * @param hatch_thickness
+     * @param surface_out
+     * @param volume_out
+     * @param density
      * @param mesh_out
-     * @param ws
      * @param threshold
-     * @param ndirs
      * @param status_base64
      */
-    @WebMethod(operationName = "OrientationOptimizationMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
-    public void orientation_optimization_async(
+    @WebMethod(operationName = "Slice2MeshMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
+    public void slice2mesh_async(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -58,29 +58,17 @@ public class OrientationOptimizationAsync
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String mesh_in,
             
-            @WebParam(name            = "wq",
+            @WebParam(name            = "hatch_thickness",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double wq,
-             
-            @WebParam(name            = "wt",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double wt,
-              
-            @WebParam(name            = "ws",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double ws,
-               
-            @WebParam(name            = "threshold",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double threshold ,
-                
-            @WebParam(name            = "ndirs",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Integer ndirs,
+                      mode            = WebParam.Mode.IN)  Double hatch_thickness,
             
-            @WebParam(name            = "mesh_out", 
+            @WebParam(name            = "surface_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> mesh_out,
+                      mode            = WebParam.Mode.OUT)  Holder<String> surface_out,
+            
+            @WebParam(name            = "volume_out", 
+                      targetNamespace = namespace, 
+                      mode            = WebParam.Mode.OUT)  Holder<String> volume_out,
             
             @WebParam(name            = "status_base64", 
                       targetNamespace = namespace, 
@@ -102,9 +90,11 @@ public class OrientationOptimizationAsync
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
         
-        String outputURI = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
+        String outputURI_volume = "swift://caxman/imati-ge/output_volume_" + sdate + ".mesh";   ///////////////// UPDATE WITH YOURS
+        String outputURI_srf = "swift://caxman/imati-ge/output_surface_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
                
-        System.out.print("[EXPECTED FINAL OUTPUT] " + outputURI);
+        System.out.print("[EXPECTED FINAL OUTPUT VOLUME] " + outputURI_volume);
+        System.out.print("[EXPECTED FINAL OUTPUT SURFACE] " + outputURI_srf);
         
         try {
             // Create a folder in tmp based on the serviceID, which will serve
@@ -129,23 +119,22 @@ public class OrientationOptimizationAsync
             
             String statusFileName = localFolderName + "/status.txt";
             String resultFileName = localFolderName + "/result.txt";
-            String fileToUploadName = localFolderName + "/output_orientation_" + sdate + ".off";
+            String fileToUploadName_volume = localFolderName + "/output_volume_" + sdate + ".mesh";
+            String fileToUploadName_surface = localFolderName + "/output_surface_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
-            String applicationFileName = "/usr/local/bin/asyncStarter_orientation.sh";
+            String applicationFileName = "/usr/local/bin/asyncStarter_slice2mesh.sh";
             
             ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID,  
                     statusFileName, 
                     resultFileName, 
-                    fileToUploadName, 
+                    fileToUploadName_volume,
+                    fileToUploadName_surface,
                     outputFolderGSS,	///////////////// until this parameter, leave as it is - then add parameters to your sh
                     mesh_in,
-                    wq.toString(),
-                    wt.toString(),
-                    ws.toString(),
-                    threshold.toString(),
-                    ndirs.toString(),
-                    outputURI);
+                    hatch_thickness.toString(),
+                    outputURI_volume,
+                    outputURI_srf);
             
             System.out.print("[STARTING APPLICATION]" + applicationFileName);
             
@@ -164,7 +153,8 @@ public class OrientationOptimizationAsync
             
             // We do not know the name of the output file yet, and assign a dummy value to it.
             // If this is not done, WFM throws a null exception and your workflow fails.
-            mesh_out.value = "UNSET";
+            volume_out.value = "UNSET";
+            surface_out.value = "UNSET";
 
         } 
         catch (IOException | InterruptedException t) 
@@ -179,7 +169,8 @@ public class OrientationOptimizationAsync
      * Web service operation
      * @param serviceID
      * @param sessionToken
-     * @param mesh_out
+     * @param volume_out
+     * @param surface_out
      * @param status_base64
      */
     @WebMethod(operationName = "getServiceStatus")
@@ -190,9 +181,12 @@ public class OrientationOptimizationAsync
             @WebParam(name = "sessionToken",
                     targetNamespace = namespace,
                     mode = WebParam.Mode.IN) String sessionToken,
-            @WebParam(name = "outputFile", 
+            @WebParam(name = "mesh_out", 
                     targetNamespace = namespace, 
-                    mode = WebParam.Mode.OUT) Holder<String> mesh_out,
+                    mode = WebParam.Mode.OUT) Holder<String> volume_out,
+            @WebParam(name = "surface_out", 
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.OUT) Holder<String> surface_out,
             @WebParam(name = "status_base64", 
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.OUT) Holder<String> status_base64) 
@@ -203,7 +197,8 @@ public class OrientationOptimizationAsync
         BufferedReader reader = null;
         String folderName = "/tmp/" + serviceID;
         String statusFileName = folderName + "/status.txt";
-        String resultFileName = folderName + "/result.txt";
+        String resultFileName_volume = folderName + "/result_volume.txt";
+        String resultFileName_surface = folderName + "/result_surface.txt";
         
         try {
             
@@ -229,7 +224,8 @@ public class OrientationOptimizationAsync
             else if ( newStatus.equals("100") ) {
                 log("\nCOMPLETED\n");
                 status_base64.value = "COMPLETED";
-                mesh_out.value = readFile(resultFileName);
+                volume_out.value = readFile(resultFileName_volume);
+                surface_out.value = readFile(resultFileName_surface);
             }
             else {
                 log("\nNeither unchanged nor completed, but:\n" + newStatus);
