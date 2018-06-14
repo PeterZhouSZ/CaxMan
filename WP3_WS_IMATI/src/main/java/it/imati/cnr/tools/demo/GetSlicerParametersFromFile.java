@@ -101,7 +101,6 @@ public class GetSlicerParametersFromFile {
 
             layer_thickness.value = Double.parseDouble(nList.item(0).getTextContent());
 
-
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
