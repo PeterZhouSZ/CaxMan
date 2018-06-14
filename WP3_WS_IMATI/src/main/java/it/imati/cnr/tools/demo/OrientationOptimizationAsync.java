@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.imati.cnr.tools.demo;
+package it.imati.cnr.tools.demo;	///////////////// UPDATE WITH YOURS
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,7 +44,7 @@ public class OrientationOptimizationAsync
      * @param ndirs
      * @param status_base64
      */
-    @WebMethod(operationName = "OrientationOptimizationMethod")
+    @WebMethod(operationName = "OrientationOptimizationMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
     public void orientation_optimization_async(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
@@ -84,7 +84,7 @@ public class OrientationOptimizationAsync
             
             @WebParam(name            = "status_base64", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT) Holder<String> status_base64)
+                      mode            = WebParam.Mode.OUT) Holder<String> status_base64) ///////////////// LEAVE status_base64 parameter - mandatory in CAxMan
     {
          // Keep in mind that serviceID should be stored together with the application started 
     // by the main service (startAsyncService) somehow so that getServiceStatus and 
@@ -102,7 +102,7 @@ public class OrientationOptimizationAsync
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
         
-        String outputURI = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";
+        String outputURI = "swift://caxman/imati-ge/output_orientation_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
                
         System.out.print("[EXPECTED FINAL OUTPUT] " + outputURI);
         
@@ -131,14 +131,14 @@ public class OrientationOptimizationAsync
             String resultFileName = localFolderName + "/result.txt";
             String fileToUploadName = localFolderName + "/output_orientation_" + sdate + ".off";
             
-            // Start the long running job
+            // Start the long running job - leave this as it is
             String applicationFileName = "/usr/local/bin/asyncStarter.sh";
             
-            ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID, 
+            ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID,  
                     statusFileName, 
                     resultFileName, 
                     fileToUploadName, 
-                    outputFolderGSS,
+                    outputFolderGSS,	///////////////// until this parameter, leave as it is - then add parameters to your sh
                     mesh_in,
                     wq.toString(),
                     wt.toString(),
@@ -215,9 +215,9 @@ public class OrientationOptimizationAsync
         
             // Get the status file from the remote job
             //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
-            Process proc = Runtime.getRuntime().exec(statusFileName);
-            proc.waitFor();
-            proc.destroy();
+            //Process proc = Runtime.getRuntime().exec(statusFileName);
+            //proc.waitFor();
+            //proc.destroy();
             
             // Set the status_base64 value according to the value of the status file.
             // We print some information to the Glassfish log for debug purposes.
@@ -241,10 +241,6 @@ public class OrientationOptimizationAsync
             error("null:fileStatus=" + statusFileName);
             
             status_base64.value = "0";
-        } catch (InterruptedException t) 
-        {
-            
-            error(t.getMessage());
         }
         finally 
         {
