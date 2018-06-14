@@ -48,7 +48,7 @@ public class Slicer
             
             @WebParam(name            = "layer_thickness",
                       targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  String layer_thickness,
+                      mode            = WebParam.Mode.IN)  Double layer_thickness,
             
             @WebParam(name            = "slices_out", 
                       targetNamespace = namespace, 
