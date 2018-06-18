@@ -96,15 +96,16 @@ public class GetSlicerParametersFromFile {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
             Element slicer_params = doc.getElementById("slicer_params");
+            
+            System.out.printf("Found tag " + slicer_params.getTagName());
 
             NodeList nList = slicer_params.getElementsByTagName("layer_thickness");
 
             layer_thickness.value = Double.parseDouble(nList.item(0).getTextContent());
-
-
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
+            System.err.printf(e.getMessage());
 
         } catch (InterruptedException ex) {
             Logger.getLogger(GetOrientationParametersFromFile.class.getName()).log(Level.SEVERE, null, ex);
