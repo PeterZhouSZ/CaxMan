@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.Holder;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -115,12 +116,14 @@ public class GetOrientationParametersFromFile
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            NodeList nList_ws = doc.getElementsByTagName("ws");
-            NodeList nList_wq = doc.getElementsByTagName("wq");
-            NodeList nList_wt = doc.getElementsByTagName("wt");
+            Element orientation_params = doc.getElementById("orientation_params");
             
-            NodeList nList_threshold = doc.getElementsByTagName("threshold");
-            NodeList nList_ndirs = doc.getElementsByTagName("ndirs");
+            NodeList nList_ws = orientation_params.getElementsByTagName("ws");
+            NodeList nList_wq = orientation_params.getElementsByTagName("wq");
+            NodeList nList_wt = orientation_params.getElementsByTagName("wt");
+            
+            NodeList nList_threshold = orientation_params.getElementsByTagName("threshold");
+            NodeList nList_ndirs = orientation_params.getElementsByTagName("ndirs");
             
             ws.value = Double.parseDouble(nList_ws.item(0).getTextContent());
             wt.value = Double.parseDouble(nList_wt.item(0).getTextContent());
