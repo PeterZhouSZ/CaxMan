@@ -71,7 +71,7 @@ public class SupportStructureGeneration
         String cmdDownload = "python " + pathGSSTools + "download_gss.py " + mesh_in + " " + downloadedFilename + " " + sessionToken;
         
         
-        String cmdRunOperation = pathTool + "supports_service " + downloadedFilename + " " + outputFilename +  " " + density;
+        String cmdRunOperation = pathTool + "support_structures " + downloadedFilename + " " + outputFilename +  " " + density;
         
         if (threshold != null)
             cmdRunOperation += " " + threshold;
