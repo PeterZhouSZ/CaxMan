@@ -190,7 +190,7 @@ public class OrientationOptimizationAsync
             @WebParam(name = "sessionToken",
                     targetNamespace = namespace,
                     mode = WebParam.Mode.IN) String sessionToken,
-            @WebParam(name = "outputFile", 
+            @WebParam(name = "mesh_out", 
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.OUT) Holder<String> mesh_out,
             @WebParam(name = "status_base64", 
