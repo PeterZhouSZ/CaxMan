@@ -116,7 +116,7 @@ public class GetOrientationParametersFromFile
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            Element orientation_params = doc.getElementById("orientation_params");
+            Element orientation_params = (Element) doc.getElementsByTagName("orientation_parameters").item(0);
             
             NodeList nList_ws = orientation_params.getElementsByTagName("ws");
             NodeList nList_wq = orientation_params.getElementsByTagName("wq");

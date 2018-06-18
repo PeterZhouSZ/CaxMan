@@ -95,7 +95,7 @@ public class GetSlicerParametersFromFile {
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            Element slicer_params = (Element) doc.getElementsByTagName("slicer_params").item(0);
+            Element slicer_params = (Element) doc.getElementsByTagName("slicer_parameters").item(0);
             
             NodeList nList = slicer_params.getElementsByTagName("layer_thickness");
 

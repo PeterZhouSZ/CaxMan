@@ -95,7 +95,7 @@ public class GetSlice2MeshParametersFromFile {
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            Element slice2mesh_params = doc.getElementById("slice2mesh_params");
+            Element slice2mesh_params = (Element) doc.getElementsByTagName("slice2mesh_parameters").item(0);
 
             NodeList nList = slice2mesh_params.getElementsByTagName("hatch_thickness");
 

@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.Holder;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -99,10 +100,11 @@ public class GetSupportStructuresParametersFromFile {
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            NodeList nList_density = doc.getElementsByTagName("density");
-            NodeList nList_threshold = doc.getElementsByTagName("threshold");
-
+            Element support_params = (Element) doc.getElementsByTagName("support_structures_parameters").item(0);
             
+            NodeList nList_density = support_params.getElementsByTagName("density");
+            NodeList nList_threshold = support_params.getElementsByTagName("threshold");
+
             density.value = Double.parseDouble(nList_density.item(0).getTextContent());
             threshold.value = Double.parseDouble(nList_threshold.item(0).getTextContent());
              
