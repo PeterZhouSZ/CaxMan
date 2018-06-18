@@ -116,14 +116,14 @@ public class GetOrientationParametersFromFile
             doc.getDocumentElement().normalize();
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             
-            Element orientation_params = doc.getElementById("orientation_params");
+            //Element orientation_params = doc.getElementById("orientation_params");
             
-            NodeList nList_ws = orientation_params.getElementsByTagName("ws");
-            NodeList nList_wq = orientation_params.getElementsByTagName("wq");
-            NodeList nList_wt = orientation_params.getElementsByTagName("wt");
+            NodeList nList_ws = doc.getElementsByTagName("ws");
+            NodeList nList_wq = doc.getElementsByTagName("wq");
+            NodeList nList_wt = doc.getElementsByTagName("wt");
             
-            NodeList nList_threshold = orientation_params.getElementsByTagName("threshold");
-            NodeList nList_ndirs = orientation_params.getElementsByTagName("ndirs");
+            NodeList nList_threshold = doc.getElementsByTagName("threshold");
+            NodeList nList_ndirs = doc.getElementsByTagName("ndirs");
             
             ws.value = Double.parseDouble(nList_ws.item(0).getTextContent());
             wt.value = Double.parseDouble(nList_wt.item(0).getTextContent());
@@ -135,6 +135,7 @@ public class GetOrientationParametersFromFile
         }
         catch (ParserConfigurationException | SAXException | IOException e)
         {
+            System.out.printf(e.getMessage());
             
         } catch (InterruptedException ex) {
             Logger.getLogger(GetOrientationParametersFromFile.class.getName()).log(Level.SEVERE, null, ex);
