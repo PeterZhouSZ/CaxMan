@@ -68,7 +68,7 @@ public class Slice2Mesh
             
         String pathGSSTools         = "/root/infrastructureClients/gssClients/gssPythonClients/";
         String pathTool             = "/root/CaxMan/demo_services/slice_2_mesh/build/";
-        String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".off";      
+        String downloadedFilename   = "/root/CAxManIO/dowloaded_" + sdate + ".cli";      
         String outputSurfFilename       = "/root/CAxManIO/output_surf_mesh" + sdate + ".off";
         String outputVolFilename       = "/root/CAxManIO/output_volume_mesh" + sdate + ".mesh";
         
@@ -77,7 +77,7 @@ public class Slice2Mesh
 
         
         String cmdDownload = "python " + pathGSSTools + "download_gss.py " + mesh_in + " " + downloadedFilename + " " + sessionToken;
-        String cmdRunOperation = pathTool + "slice2mesh_service "   + downloadedFilename + " " 
+        String cmdRunOperation = pathTool + "slice2mesh "   + downloadedFilename + " " 
                                                                     + outputSurfFilename + " " 
                                                                     + outputVolFilename + " " + hatch_thickness;
         
