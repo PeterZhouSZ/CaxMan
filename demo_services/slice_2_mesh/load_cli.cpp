@@ -114,6 +114,7 @@ Slice make_slice(const double                   z,
 
 void load_CLI(const char * filename, const double machine_precision, std::vector<Slice> & slices)
 {
+    setlocale(LC_NUMERIC, "en_US.UTF-8"); // makes sure "." is the decimal separator
     assert(slices.empty());
 
     ifstream                 f(filename);
