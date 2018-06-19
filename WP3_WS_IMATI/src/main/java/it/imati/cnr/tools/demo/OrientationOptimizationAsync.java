@@ -183,7 +183,7 @@ public class OrientationOptimizationAsync
      * @param status_base64
      */
     @WebMethod(operationName = "getServiceStatus")
-    public void getServiceStatus(
+    public void getServiceStatus_orientation(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,
@@ -297,7 +297,7 @@ public class OrientationOptimizationAsync
      * @param result
      */
     @WebMethod(operationName = "abortService")
-    public void abortService(
+    public void abortService_orientation(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,

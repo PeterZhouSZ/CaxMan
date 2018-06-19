@@ -175,7 +175,7 @@ public class Slice2MeshAsync
      * @param status_base64
      */
     @WebMethod(operationName = "getServiceStatus")
-    public void getServiceStatus(
+    public void getServiceStatus_slice2mesh(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,
@@ -193,7 +193,7 @@ public class Slice2MeshAsync
                     mode = WebParam.Mode.OUT) Holder<String> status_base64) 
     {
         
-        //log("getStatus: serviceID = " + serviceID);
+        log("getStatus: serviceID = " + serviceID);
         
         BufferedReader reader = null;
         String folderName = "/tmp/" + serviceID;
@@ -223,7 +223,7 @@ public class Slice2MeshAsync
             // We print some information to the Glassfish log for debug purposes.
             String newStatus = readFile(statusFileName);
             if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
-                //log("\nUNCHANGED\n");
+                log("\nUNCHANGED\n");
                 status_base64.value = "UNCHANGED";
                 
                 System.out.printf("STATUS:" + status_base64.value);
@@ -232,7 +232,7 @@ public class Slice2MeshAsync
                                 
             }
             else if ( newStatus.equals("100") ) {
-                //log("\nCOMPLETED\n");
+                log("\nCOMPLETED\n");
                 status_base64.value = "COMPLETED";
                 volume_out.value = readFile(resultFileName_volume);
                 surface_out.value = readFile(resultFileName_surface);
@@ -242,25 +242,25 @@ public class Slice2MeshAsync
                 System.out.printf("RESULT SURFACE:" + volume_out.value);
             }
             else {
-                //log("\nNeither unchanged nor completed, but:\n" + newStatus);
+                log("\nNeither unchanged nor completed, but:\n" + newStatus);
                 status_base64.value = newStatus;
                 
                 System.out.printf("STATUS:" + status_base64.value);
             }
             
-            //String html = htmlStatusBar(newStatus);
+            String html = htmlStatusBar(newStatus);
             
             if (!status_base64.value.equals("COMPLETED"))
             {
                 System.out.printf("Status: " + status_base64.value);
-                //status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+                status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
             }
         
         } 
         catch (IOException ex) 
         {
-            //error(ex);
-            //error("null:fileStatus=" + statusFileName);
+            error(ex);
+            error("null:fileStatus=" + statusFileName);
             
             status_base64.value = "0";
             
@@ -276,7 +276,7 @@ public class Slice2MeshAsync
                 }
             } catch (IOException ex) 
             {              
-                //error(ex);
+                error(ex);
             }
         }
         
@@ -287,65 +287,65 @@ public class Slice2MeshAsync
 //            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
         //}
     }
-////    
-////    
-//    /**
-//     * Web service operation
-//     * @param serviceID
-//     * @param sessionToken
-//     * @param result
-//     */
-//    @WebMethod(operationName = "abortService")
-//    public void abortService(
-//            @WebParam(name = "serviceID",
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.IN) String serviceID,
-//            @WebParam(name = "sessionToken",
-//                    targetNamespace = namespace,
-//                    mode = WebParam.Mode.IN) String sessionToken,
-//            @WebParam(name = "result",
-//                    targetNamespace = namespace,
-//                    mode = WebParam.Mode.OUT) Holder<Boolean> result)
-//    {
-//        // Here you should implement functionality to kill/abort the job started by startAsyncService
-//        // based on the unique serviceID.
-//        
-//        // The "result" parameter should be true if the job was succesfully aborted,
-//        // and false if the opposite.
-//        
-//        // Since this implementation does nothing, we return false:
-//        result.value = false;
-//    }
 //    
 //    
-//    
-//    /*
-//    *  Utility function for HTML progress bar
-//    */
-//    private String htmlStatusBar(String progressAsString) {
-//        int progress = new Integer(progressAsString);
-//        int maxWidth = 800;
-//
-//        int relativeProgress = (int)((progress/100.0 ) * maxWidth);
-//
-//        String html = "<html>\n" +
-//            "<head>\n" +
-//            "<title>blah</title>\n" +
-//            //"<link href=\"https://api.eu-cloudflow.eu/portal/twopointo/styles/style.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
-//            "</head>\n" +
-//            "<body style=\"margin: 20px; padding: 20px;\">\n" +
-//            "<h1>Running Slice2Mesh ... </h1>\n" +
-//            "<div style=\"border-radius: 5px; border-color: lightblueblue; border-style:dashed; width: " + maxWidth + "px; height: 80px;padding:0; margin: 0; border-width: 3px;\">\n" +
-//            "<div style=\"position: relative; top: -3px; left: -3px; border-radius: 5px; border-color: lightblue; border-style:solid; width: " + relativeProgress + "px; height: 80px;padding:0; margin: 0; border-width: 3px; background-color: lightblue;\">\n" +
-//            "<h1 style=\"margin-left: 20px;\" >" + progress + "%</h1>\n" +
-//            "</div>\n" +
-//            "</div>\n" +
-//            "</head>\n" +
-//            "</body>";
-//        
-//        return html;
-//    }
-// 
+    /**
+     * Web service operation
+     * @param serviceID
+     * @param sessionToken
+     * @param result
+     */
+    @WebMethod(operationName = "abortService")
+    public void abortService_slice2mesh(
+            @WebParam(name = "serviceID",
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.IN) String serviceID,
+            @WebParam(name = "sessionToken",
+                    targetNamespace = namespace,
+                    mode = WebParam.Mode.IN) String sessionToken,
+            @WebParam(name = "result",
+                    targetNamespace = namespace,
+                    mode = WebParam.Mode.OUT) Holder<Boolean> result)
+    {
+        // Here you should implement functionality to kill/abort the job started by startAsyncService
+        // based on the unique serviceID.
+        
+        // The "result" parameter should be true if the job was succesfully aborted,
+        // and false if the opposite.
+        
+        // Since this implementation does nothing, we return false:
+        result.value = false;
+    }
+    
+    
+    
+    /*
+    *  Utility function for HTML progress bar
+    */
+    private String htmlStatusBar(String progressAsString) {
+        int progress = new Integer(progressAsString);
+        int maxWidth = 800;
+
+        int relativeProgress = (int)((progress/100.0 ) * maxWidth);
+
+        String html = "<html>\n" +
+            "<head>\n" +
+            "<title>blah</title>\n" +
+            //"<link href=\"https://api.eu-cloudflow.eu/portal/twopointo/styles/style.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+            "</head>\n" +
+            "<body style=\"margin: 20px; padding: 20px;\">\n" +
+            "<h1>Running Slice2Mesh ... </h1>\n" +
+            "<div style=\"border-radius: 5px; border-color: lightblueblue; border-style:dashed; width: " + maxWidth + "px; height: 80px;padding:0; margin: 0; border-width: 3px;\">\n" +
+            "<div style=\"position: relative; top: -3px; left: -3px; border-radius: 5px; border-color: lightblue; border-style:solid; width: " + relativeProgress + "px; height: 80px;padding:0; margin: 0; border-width: 3px; background-color: lightblue;\">\n" +
+            "<h1 style=\"margin-left: 20px;\" >" + progress + "%</h1>\n" +
+            "</div>\n" +
+            "</div>\n" +
+            "</head>\n" +
+            "</body>";
+        
+        return html;
+    }
+ 
     /*
     *  Utility function for reading a file
     */
@@ -357,26 +357,26 @@ public class Slice2MeshAsync
         }   
         return msg;
     }
-//    
-//    /*
-//    *  Utility function for less verbose logging
-//    */
-//    private void log(String message) {
-//        Logger.getLogger(this.getClass().getName()).log(Level.INFO, message);
-//    }
-//    
-//    /*
-//    *  Utility function for less verbose error message in log
-//    */
-//    private void error(String message) {
-//        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, message);
-//    }
-//    
-//    /*
-//    *  Utility function for less verbose error message in log
-//    */
-//    private void error(IOException ex) {
-//        Logger.getLogger(Slice2MeshAsync.class.getName()).log(Level.SEVERE, null, ex);
-//    }
+    
+    /*
+    *  Utility function for less verbose logging
+    */
+    private void log(String message) {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, message);
+    }
+    
+    /*
+    *  Utility function for less verbose error message in log
+    */
+    private void error(String message) {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, message);
+    }
+    
+    /*
+    *  Utility function for less verbose error message in log
+    */
+    private void error(IOException ex) {
+        Logger.getLogger(Slice2MeshAsync.class.getName()).log(Level.SEVERE, null, ex);
+    }
     
 }
