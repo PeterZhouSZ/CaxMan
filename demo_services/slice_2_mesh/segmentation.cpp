@@ -70,6 +70,6 @@ void detect_tiny_charts(       Trimesh<>                 & plc,
         }
     }
 
-    Trimesh<> m(plc.vector_coords(), bad_stuff);
+    Trimesh<> m(serialized_xyz_from_vec3d(plc.vector_verts()), bad_stuff);
     m.save("/Users/cino/Desktop/bad_stuff.off");
 }

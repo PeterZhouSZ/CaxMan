@@ -142,7 +142,7 @@ void TinyChartHelper::sort_chain(const std::set<uint>    & edges,
 
 cinolib::Trimesh<> TinyChartHelper::push_chart_inside_PLC()
 {
-    std::vector<double> coords = plc.vector_coords();
+    std::vector<double> coords = serialized_xyz_from_vec3d(plc.vector_verts());
     std::vector<uint>   polys  = cinolib::serialized_vids_from_polys(plc.vector_polys());
     std::set<uint>      updated_tris;
     std::vector<uint>   tris_edits;

@@ -6,16 +6,15 @@
 #include "common.h"
 #include "segmentation.h"
 
+#include <cinolib/io/read_CLI.h>
+#include <cinolib/drawable_sliced_object.h>
+
 // default parameters
 double      hatch_thickness = 0.0;    // if 0 hatches (i.e. supports) won't be considered, if > 0 will be thickened and added to the mesh
 bool        bake_vp         = false;  // if true a surface mesh describing the boundary of virtual prototype will be produced
 bool        vp_only         = false;  // do only the virtual prototype (no volumetric mesh will be produced)
 bool        verbose         = false;  // enable the verbose mode
-
 std::string file_in;
-
-std::string surface_out;
-std::string volume_out;
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -23,11 +22,7 @@ void set_parameters(int argc, char *argv[])
 {
     file_in = std::string(argv[1]);
 
-    surface_out = std::string(argv[2]);
-    volume_out = std::string(argv[3]);
-
-
-    for(int i=4; i<argc; ++i)
+    for(int i=2; i<argc; ++i)
     {
         if (strcmp(argv[i], "-verbose") == 0)
         {
@@ -58,10 +53,10 @@ void set_parameters(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    if (argc < 4)
+    if (argc < 2)
     {
         std::cout << "                                                      " << std::endl;
-        std::cout << "expected usage: slice2mesh input.cli out.off out.mesh [hatch_thickness]" << std::endl;
+        std::cout << "expected usage: slice2mesh input.cli [hatch_thickness]" << std::endl;
         std::cout << "                                                      " << std::endl;
 
         //std::cout << "Flags:                                                                          " << std::endl;
@@ -72,14 +67,21 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    //std::vector<std::vector<std::vector<vec3d>>> internal_polylines;
+    //std::vector<std::vector<std::vector<vec3d>>> external_polylines;
+    //std::vector<std::vector<std::vector<vec3d>>> open_polylines;
+    //std::vector<std::vector<std::vector<vec3d>>> hatches;
+    //read_CLI(argv[1],internal_polylines,external_polylines,open_polylines,hatches);
+    //exit(0);
+
     //set_parameters(argc, argv);
     //Trimesh<> plc = cli2PLC(file_in.c_str(), hatch_thickness);
 
-    Trimesh<> plc = cli2PLC(argv[1], (argc>4) ? atof(argv[4]) : 0);
-    plc.save(surface_out.c_str());
+    Trimesh<> plc = cli2PLC(argv[1], (argc>2) ? atof(argv[2]) : 0);
+    plc.save("output.off");
 
     Tetmesh<> tets = PLC2tets(plc);
-    tets.save(volume_out.c_str());
+    tets.save("output.mesh");
 
     //std::vector< std::vector<uint> > tiny_charts;
     //detect_tiny_charts(plc, 0.3, tiny_charts);

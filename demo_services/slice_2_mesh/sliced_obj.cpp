@@ -26,7 +26,7 @@ std::ostream & operator<<(std::ostream & in, const SlicedObj & obj)
 SlicedObj::SlicedObj(const char * filename, const double machine_precision)
 {
     load_CLI(filename, machine_precision, *this);
-    append_lid();
+    if(size()>1) append_lid();
 }
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

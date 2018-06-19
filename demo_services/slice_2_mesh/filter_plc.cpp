@@ -31,5 +31,5 @@ void filter_PLC_by_label(const cinolib::Trimesh<>  & plc,
     }
 
     // TODO: remove unreferenced vertices (if any) and re-index the whole PLC!!!!
-    coords = plc.vector_coords();
+    coords = serialized_xyz_from_vec3d(plc.vector_verts());
 }
