@@ -266,7 +266,7 @@ public class DegenerateCleanerAsync
      * @param result
      */
     @WebMethod(operationName = "abortService")
-    public void abortService_orientation_cleaner(
+    public void abortService_cleaner(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,

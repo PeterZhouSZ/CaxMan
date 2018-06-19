@@ -335,7 +335,8 @@ public class SupportStructureGenerationAsync
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         String msg;
         if ( (msg = reader.readLine()) == null ) {
-            throw new IOException("Registration::getStatus: No content in " + fileName);
+            msg = "EMPTY";
+            //throw new IOException("Registration::getStatus: No content in " + fileName);
         }   
         return msg;
     }
