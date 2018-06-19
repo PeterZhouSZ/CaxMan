@@ -53,8 +53,8 @@ COPY scripts/. /usr/local/bin/
 
 
 # Copy third_party libs
-RUN mkdir -p /root/third_party_libs
-COPY third_party_libs/third_party_libs/ /root/third_party_libs/
+#RUN mkdir -p /root/third_party_libs
+#COPY third_party_libs/third_party_libs/ /root/third_party_libs/
 
 # Crete output directory
 RUN mkdir /root/CAxManIO/
