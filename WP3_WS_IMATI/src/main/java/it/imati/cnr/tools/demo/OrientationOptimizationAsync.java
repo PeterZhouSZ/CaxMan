@@ -156,11 +156,7 @@ public class OrientationOptimizationAsync
             System.out.print("[DETACHED APPLICATION]" + applicationFileName);
             
   
-            // The long running job is just started, so we create a GUI showing
-            // a progress bar on 0%
-            String html = htmlStatusBar("0");
-            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-            
+            status_base64.value = "0";
             
             // We do not know the name of the output file yet, and assign a dummy value to it.
             // If this is not done, WFM throws a null exception and your workflow fails.
@@ -248,9 +244,6 @@ public class OrientationOptimizationAsync
                 
                 System.out.printf("STATUS:" + status_base64.value);
             }
-            
-            String html = htmlStatusBar(newStatus);
-            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
         
         } 
         catch (IOException ex) 
@@ -313,34 +306,6 @@ public class OrientationOptimizationAsync
         result.value = false;
     }
     
-    
-    
-    /*
-    *  Utility function for HTML progress bar
-    */
-    private String htmlStatusBar(String progressAsString) {
-        int progress = new Integer(progressAsString);
-        int maxWidth = 800;
-
-        int relativeProgress = (int)((progress/100.0 ) * maxWidth);
-
-        String html = "<html>\n" +
-            "<head>\n" +
-            "<title>blah</title>\n" +
-            //"<link href=\"https://api.eu-cloudflow.eu/portal/twopointo/styles/style.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
-            "</head>\n" +
-            "<body style=\"margin: 20px; padding: 20px;\">\n" +
-            "<h1>Doing automatic registration</h1>\n" +
-            "<div style=\"border-radius: 5px; border-color: lightblueblue; border-style:dashed; width: " + maxWidth + "px; height: 80px;padding:0; margin: 0; border-width: 3px;\">\n" +
-            "<div style=\"position: relative; top: -3px; left: -3px; border-radius: 5px; border-color: lightblue; border-style:solid; width: " + relativeProgress + "px; height: 80px;padding:0; margin: 0; border-width: 3px; background-color: lightblue;\">\n" +
-            "<h1 style=\"margin-left: 20px;\" >" + progress + "%</h1>\n" +
-            "</div>\n" +
-            "</div>\n" +
-            "</head>\n" +
-            "</body>";
-        
-        return html;
-    }
  
     /*
     *  Utility function for reading a file
