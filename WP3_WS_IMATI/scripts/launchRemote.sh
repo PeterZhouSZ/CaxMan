@@ -20,6 +20,8 @@ out_uri=${13}
 
 logFile=/tmp/training_log.txt
 
+echo "0" > $target_dir/$status_file_basename
+
 echo -e "\n\nAsync service deployed on 10.30.1.106" >> $logFile
 echo "service_id: $service_id" >> $logFile
 echo "status_file: $status_file" >> $logFile
@@ -38,7 +40,7 @@ echo "target_dir: $target_dir"
 mkdir -p $target_dir
 
 # Make sure there is a status file:
-echo "0" > $target_dir/$status_file_basename
+echo "30" > $target_dir/$status_file_basename
 
 # Start the long running job on the compute machine
 echo "Starting the remote job ..."  >> $logFile
@@ -52,9 +54,11 @@ $cmd
 
 echo "The remote job is done."  >> $logFile
 
+echo "70" > $target_dir/$status_file_basename
+
 # Fetch the data.
 #scp root@10.30.1.112:$target_dir/$result_file_basename $target_dir/$result_file_basename
 
 # Print status to remote status file (which is the one being read by getServiceStatus
 #ssh root@10.30.1.112 "echo 100 > $target_dir/$status_file_basename"
-echo 100 > $target_dir/$status_file_basename
+echo "100" > $target_dir/$status_file_basename

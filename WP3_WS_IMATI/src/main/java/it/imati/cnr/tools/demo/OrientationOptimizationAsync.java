@@ -250,7 +250,12 @@ public class OrientationOptimizationAsync
             }
             
             String html = htmlStatusBar(newStatus);
-            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+            
+            if (!status_base64.value.equals("COMPLETED"))
+            {
+                System.out.printf("Status: " + status_base64.value);
+                status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+            }
         
         } 
         catch (IOException ex) 
