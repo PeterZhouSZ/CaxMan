@@ -25,8 +25,8 @@ import javax.xml.ws.Holder;
  *
  * @author daniela
  */
-@WebService(serviceName = "SlicerAsyncService")
-public class SlicerAsync 
+@WebService(serviceName = "DegenerateCleanerAsyncService")
+public class DegenerateCleanerAsync 
 {
     private final String namespace = "http://demo.tools.cnr.imati.it/";
 
@@ -36,12 +36,11 @@ public class SlicerAsync
      * @param serviceID
      * @param sessionToken
      * @param mesh_in
-     * @param layer_thickness
-     * @param slices_out
+     * @param mesh_out
      * @param status_base64
      */
-    @WebMethod(operationName = "SlicerMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
-    public void slicer_async(
+    @WebMethod(operationName = "DegenerateCleanerMethod") ///////////////// UPDATE WITH YOUR NAME AND PARAMETERS
+    public void degenerate_cleaner_async(
             @WebParam(name            = "serviceID", 
                       targetNamespace = namespace, 
                       mode            = WebParam.Mode.IN)  String serviceID,
@@ -53,13 +52,9 @@ public class SlicerAsync
                       targetNamespace = namespace,
                       mode            = WebParam.Mode.IN)  String mesh_in,
             
-            @WebParam(name            = "layer_thickness",
-                      targetNamespace = namespace,
-                      mode            = WebParam.Mode.IN)  Double layer_thickness,
-                        
-            @WebParam(name            = "slices_out", 
+            @WebParam(name            = "mesh_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> slices_out,
+                      mode            = WebParam.Mode.OUT)  Holder<String> mesh_out,
             
             @WebParam(name            = "status_base64", 
                       targetNamespace = namespace, 
@@ -73,7 +68,7 @@ public class SlicerAsync
     // where we create a folder /tmp/<serviceID>. This makes it possibly for the other two 
     // services to look into this folder to check up on the correct running application.
     
-        log("Async_example.startAsyncService - started Slicer with input:" + 
+        log("Async_example.startAsyncService - started DegenerateCleaner with input:" + 
                 "\n\tserviceID =" + serviceID + 
                 "\n\tsessionToken =" + sessionToken);
         
@@ -81,7 +76,7 @@ public class SlicerAsync
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
         
-        String outputURI = "swift://caxman/imati-ge/output_slices_" + sdate + ".cli";   ///////////////// UPDATE WITH YOURS
+        String outputURI = "swift://caxman/imati-ge/output_clean_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
                
         System.out.print("[EXPECTED FINAL OUTPUT] " + outputURI);
         
@@ -108,10 +103,10 @@ public class SlicerAsync
             
             String statusFileName = localFolderName + "/status.txt";
             String resultFileName = localFolderName + "/result.txt";
-            String fileToUploadName = localFolderName + "/output_slices_" + sdate + ".cli";
+            String fileToUploadName = localFolderName + "/output_clean_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
-            String applicationFileName = "/usr/local/bin/asyncStarter_slicer.sh";
+            String applicationFileName = "/usr/local/bin/asyncStarter_cleaner.sh";
             
             ProcessBuilder procBuilder = new ProcessBuilder(applicationFileName, sessionToken, serviceID,  
                     statusFileName, 
@@ -119,7 +114,6 @@ public class SlicerAsync
                     fileToUploadName, 
                     outputFolderGSS,	///////////////// until this parameter, leave as it is - then add parameters to your sh
                     mesh_in,
-                    layer_thickness.toString(),
                     outputURI);
             
             System.out.print("[STARTING APPLICATION]" + applicationFileName);
@@ -139,7 +133,7 @@ public class SlicerAsync
             
             // We do not know the name of the output file yet, and assign a dummy value to it.
             // If this is not done, WFM throws a null exception and your workflow fails.
-            slices_out.value = "UNSET";
+            mesh_out.value = "UNSET";
 
         } 
         catch (IOException | InterruptedException t) 
@@ -154,20 +148,20 @@ public class SlicerAsync
      * Web service operation
      * @param serviceID
      * @param sessionToken
-     * @param slices_out
+     * @param mesh_out
      * @param status_base64
      */
     @WebMethod(operationName = "getServiceStatus")
-    public void getServiceStatus_slicer(
+    public void getServiceStatus_cleaner(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,
             @WebParam(name = "sessionToken",
                     targetNamespace = namespace,
                     mode = WebParam.Mode.IN) String sessionToken,
-            @WebParam(name            = "slices_out", 
+            @WebParam(name            = "mesh_out", 
                       targetNamespace = namespace, 
-                      mode            = WebParam.Mode.OUT)  Holder<String> slices_out,
+                      mode            = WebParam.Mode.OUT)  Holder<String> mesh_out,
             @WebParam(name = "status_base64", 
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.OUT) Holder<String> status_base64) 
@@ -180,7 +174,7 @@ public class SlicerAsync
         String statusFileName = folderName + "/status.txt";
         String resultFileName = folderName + "/result.txt";
         
-        slices_out.value = "UNSET";
+        mesh_out.value = "UNSET";
         status_base64.value = "UNSET";
         
         try {
@@ -212,10 +206,10 @@ public class SlicerAsync
             else if ( newStatus.equals("100") ) {
                 log("\nCOMPLETED\n");
                 status_base64.value = "COMPLETED";
-                slices_out.value = readFile(resultFileName);
+                mesh_out.value = readFile(resultFileName);
                 
                 System.out.printf("STATUS:" + status_base64.value);
-                System.out.printf("RESULT MESH:" + slices_out.value);
+                System.out.printf("RESULT MESH:" + mesh_out.value);
             }
             else {
                 log("\nNeither unchanged nor completed, but:\n" + newStatus);
@@ -272,7 +266,7 @@ public class SlicerAsync
      * @param result
      */
     @WebMethod(operationName = "abortService")
-    public void abortService_orientation_supports(
+    public void abortService_orientation_cleaner(
             @WebParam(name = "serviceID",
                     targetNamespace = namespace, 
                     mode = WebParam.Mode.IN) String serviceID,
@@ -310,7 +304,7 @@ public class SlicerAsync
             //"<link href=\"https://api.eu-cloudflow.eu/portal/twopointo/styles/style.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
             "</head>\n" +
             "<body style=\"margin: 20px; padding: 20px;\">\n" +
-            "<h1>Running Slicer ... </h1>\n" +
+            "<h1>Running Degenerate Cleaner ... </h1>\n" +
             "<div style=\"border-radius: 5px; border-color: lightblueblue; border-style:dashed; width: " + maxWidth + "px; height: 80px;padding:0; margin: 0; border-width: 3px;\">\n" +
             "<div style=\"position: relative; top: -3px; left: -3px; border-radius: 5px; border-color: lightblue; border-style:solid; width: " + relativeProgress + "px; height: 80px;padding:0; margin: 0; border-width: 3px; background-color: lightblue;\">\n" +
             "<h1 style=\"margin-left: 20px;\" >" + progress + "%</h1>\n" +
