@@ -101,8 +101,8 @@ public class DegenerateCleanerAsync
             // will not grow too large.
             String outputFolderGSS = "swift://caxman/imati-ge/";
             
-            String statusFileName = localFolderName + "/status.txt";
-            String resultFileName = localFolderName + "/result.txt";
+            String statusFileName = localFolderName + "/status_cleaner.txt";
+            String resultFileName = localFolderName + "/result_cleaner.txt";
             String fileToUploadName = localFolderName + "/output_clean_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
@@ -171,8 +171,8 @@ public class DegenerateCleanerAsync
         
         BufferedReader reader = null;
         String folderName = "/tmp/" + serviceID;
-        String statusFileName = folderName + "/status.txt";
-        String resultFileName = folderName + "/result.txt";
+        String statusFileName = folderName + "/status_cleaner.txt";
+        String resultFileName = folderName + "/result_cleaner.txt";
         
         mesh_out.value = "UNSET";
         status_base64.value = "UNSET";

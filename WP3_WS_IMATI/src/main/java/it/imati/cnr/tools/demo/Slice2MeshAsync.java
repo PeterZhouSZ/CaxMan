@@ -114,7 +114,7 @@ public class Slice2MeshAsync
             // will not grow too large.
             String outputFolderGSS = "swift://caxman/imati-ge/";
             
-            String statusFileName = localFolderName + "/status.txt";
+            String statusFileName = localFolderName + "/status_slice2mesh.txt";
             
             String resultFileName_volume = localFolderName + "/result_volume.txt";
             String resultFileName_surface = localFolderName + "/result_surface.txt";
@@ -197,7 +197,7 @@ public class Slice2MeshAsync
         
         BufferedReader reader = null;
         String folderName = "/tmp/" + serviceID;
-        String statusFileName = folderName + "/status.txt";
+        String statusFileName = folderName + "/status_slice2mesh.txt";
         String resultFileName_volume = folderName + "/result_volume.txt";
         String resultFileName_surface = folderName + "/result_surface.txt";
         

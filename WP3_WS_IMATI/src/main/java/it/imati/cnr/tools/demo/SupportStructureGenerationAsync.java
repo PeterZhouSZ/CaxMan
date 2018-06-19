@@ -111,8 +111,8 @@ public class SupportStructureGenerationAsync
             // will not grow too large.
             String outputFolderGSS = "swift://caxman/imati-ge/";
             
-            String statusFileName = localFolderName + "/status.txt";
-            String resultFileName = localFolderName + "/result.txt";
+            String statusFileName = localFolderName + "/status_supports.txt";
+            String resultFileName = localFolderName + "/result_supports.txt";
             String fileToUploadName = localFolderName + "/output_supports_" + sdate + ".off";
             
             // Start the long running job - leave this as it is
@@ -183,8 +183,8 @@ public class SupportStructureGenerationAsync
         
         BufferedReader reader = null;
         String folderName = "/tmp/" + serviceID;
-        String statusFileName = folderName + "/status.txt";
-        String resultFileName = folderName + "/result.txt";
+        String statusFileName = folderName + "/status_supports.txt";
+        String resultFileName = folderName + "/result_supports.txt";
         
         mesh_out.value = "UNSET";
         status_base64.value = "UNSET";
