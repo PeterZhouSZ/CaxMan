@@ -166,127 +166,127 @@ public class Slice2MeshAsync
     }
 
     
-//    /**
-//     * Web service operation
-//     * @param serviceID
-//     * @param sessionToken
-//     * @param surface_out
-//     * @param volume_out
-//     * @param status_base64
-//     */
-//    @WebMethod(operationName = "getServiceStatus")
-//    public void getServiceStatus(
-//            @WebParam(name = "serviceID",
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.IN) String serviceID,
-//            @WebParam(name = "sessionToken",
-//                    targetNamespace = namespace,
-//                    mode = WebParam.Mode.IN) String sessionToken,
-//            @WebParam(name            = "surface_out", 
-//                      targetNamespace = namespace, 
-//                      mode            = WebParam.Mode.OUT)  Holder<String> surface_out,           
-//            @WebParam(name            = "volume_out", 
-//                      targetNamespace = namespace, 
-//                      mode            = WebParam.Mode.OUT)  Holder<String> volume_out,
-//            @WebParam(name = "status_base64", 
-//                    targetNamespace = namespace, 
-//                    mode = WebParam.Mode.OUT) Holder<String> status_base64) 
-//    {
-//        
-//        log("getStatus: serviceID = " + serviceID);
-//        
-//        BufferedReader reader = null;
-//        String folderName = "/tmp/" + serviceID;
-//        String statusFileName = folderName + "/status.txt";
-//        String resultFileName_volume = folderName + "/result_volume.txt";
-//        String resultFileName_surface = folderName + "/result_surface.txt";
-//        
-//        volume_out.value = "UNSET";
-//        surface_out.value = "UNSET";
-//        status_base64.value = "UNSET";
-//        
-//        try {
-//            
-//            // Check old status if it exists:
-//            String oldStatus = "-1";
-//            if (new File(statusFileName).exists()) {
-//                oldStatus = readFile(statusFileName);
-//            }
-//        
-//            // Get the status file from the remote job
-//            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
-//            //Process proc = Runtime.getRuntime().exec(statusFileName);
-//            //proc.waitFor();
-//            //proc.destroy();
-//            
-//            // Set the status_base64 value according to the value of the status file.
-//            // We print some information to the Glassfish log for debug purposes.
-//            String newStatus = readFile(statusFileName);
-//            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
-//                log("\nUNCHANGED\n");
-//                status_base64.value = "UNCHANGED";
-//                
-//                System.out.printf("STATUS:" + status_base64.value);
-//                System.out.printf("OLD STATUS:" + oldStatus);
-//                System.out.printf("NEW STATUS:" + newStatus);
-//                                
-//            }
-//            else if ( newStatus.equals("100") ) {
-//                log("\nCOMPLETED\n");
-//                status_base64.value = "COMPLETED";
-//                volume_out.value = readFile(resultFileName_volume);
-//                surface_out.value = readFile(resultFileName_surface);
-//                
-//                System.out.printf("STATUS:" + status_base64.value);
-//                System.out.printf("RESULT VOLUME:" + volume_out.value);
-//                System.out.printf("RESULT SURFACE:" + volume_out.value);
-//            }
-//            else {
-//                log("\nNeither unchanged nor completed, but:\n" + newStatus);
-//                status_base64.value = newStatus;
-//                
-//                System.out.printf("STATUS:" + status_base64.value);
-//            }
-//            
+    /**
+     * Web service operation
+     * @param serviceID
+     * @param sessionToken
+     * @param surface_out
+     * @param volume_out
+     * @param status_base64
+     */
+    @WebMethod(operationName = "getServiceStatus")
+    public void getServiceStatus(
+            @WebParam(name = "serviceID",
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.IN) String serviceID,
+            @WebParam(name = "sessionToken",
+                    targetNamespace = namespace,
+                    mode = WebParam.Mode.IN) String sessionToken,
+            @WebParam(name            = "surface_out", 
+                      targetNamespace = namespace, 
+                      mode            = WebParam.Mode.OUT)  Holder<String> surface_out,           
+            @WebParam(name            = "volume_out", 
+                      targetNamespace = namespace, 
+                      mode            = WebParam.Mode.OUT)  Holder<String> volume_out,
+            @WebParam(name = "status_base64", 
+                    targetNamespace = namespace, 
+                    mode = WebParam.Mode.OUT) Holder<String> status_base64) 
+    {
+        
+        //log("getStatus: serviceID = " + serviceID);
+        
+        BufferedReader reader = null;
+        String folderName = "/tmp/" + serviceID;
+        String statusFileName = folderName + "/status.txt";
+        String resultFileName_volume = folderName + "/result_volume.txt";
+        String resultFileName_surface = folderName + "/result_surface.txt";
+        
+        volume_out.value = "UNSET";
+        surface_out.value = "UNSET";
+        status_base64.value = "UNSET";
+        
+        try {
+            
+            // Check old status if it exists:
+            String oldStatus = "-1";
+            if (new File(statusFileName).exists()) {
+                oldStatus = readFile(statusFileName);
+            }
+        
+            // Get the status file from the remote job
+            //String readStatusCommand = "remoteCopying.sh " + statusFileName;           
+            //Process proc = Runtime.getRuntime().exec(statusFileName);
+            //proc.waitFor();
+            //proc.destroy();
+            
+            // Set the status_base64 value according to the value of the status file.
+            // We print some information to the Glassfish log for debug purposes.
+            String newStatus = readFile(statusFileName);
+            if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
+                //log("\nUNCHANGED\n");
+                status_base64.value = "UNCHANGED";
+                
+                System.out.printf("STATUS:" + status_base64.value);
+                System.out.printf("OLD STATUS:" + oldStatus);
+                System.out.printf("NEW STATUS:" + newStatus);
+                                
+            }
+            else if ( newStatus.equals("100") ) {
+                //log("\nCOMPLETED\n");
+                status_base64.value = "COMPLETED";
+                volume_out.value = readFile(resultFileName_volume);
+                surface_out.value = readFile(resultFileName_surface);
+                
+                System.out.printf("STATUS:" + status_base64.value);
+                System.out.printf("RESULT VOLUME:" + volume_out.value);
+                System.out.printf("RESULT SURFACE:" + volume_out.value);
+            }
+            else {
+                //log("\nNeither unchanged nor completed, but:\n" + newStatus);
+                status_base64.value = newStatus;
+                
+                System.out.printf("STATUS:" + status_base64.value);
+            }
+            
+            //String html = htmlStatusBar(newStatus);
+            
+            if (!status_base64.value.equals("COMPLETED"))
+            {
+                System.out.printf("Status: " + status_base64.value);
+                //status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+            }
+        
+        } 
+        catch (IOException ex) 
+        {
+            //error(ex);
+            //error("null:fileStatus=" + statusFileName);
+            
+            status_base64.value = "0";
+            
+            System.out.printf("ERROR:" + ex.getMessage());
+        }
+        finally 
+        {
+            try 
+            {
+                if (reader != null) 
+                {
+                    reader.close();
+                }
+            } catch (IOException ex) 
+            {              
+                //error(ex);
+            }
+        }
+        
+        // If the status is updated and the job is not yet finished, we create
+        // a new progress bar based on the status file.
+        //if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
 //            String html = htmlStatusBar(newStatus);
-//            
-//            if (!status_base64.value.equals("COMPLETED"))
-//            {
-//                System.out.printf("Status: " + status_base64.value);
-//                status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-//            }
-//        
-//        } 
-//        catch (IOException ex) 
-//        {
-//            error(ex);
-//            error("null:fileStatus=" + statusFileName);
-//            
-//            status_base64.value = "0";
-//            
-//            System.out.printf("ERROR:" + ex.getMessage());
-//        }
-//        finally 
-//        {
-//            try 
-//            {
-//                if (reader != null) 
-//                {
-//                    reader.close();
-//                }
-//            } catch (IOException ex) 
-//            {              
-//                error(ex);
-//            }
-//        }
-//        
-//        // If the status is updated and the job is not yet finished, we create
-//        // a new progress bar based on the status file.
-//        //if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
-////            String html = htmlStatusBar(newStatus);
-////            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-//        //}
-//    }
+//            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+        //}
+    }
 ////    
 ////    
 //    /**
@@ -346,17 +346,17 @@ public class Slice2MeshAsync
 //        return html;
 //    }
 // 
-//    /*
-//    *  Utility function for reading a file
-//    */
-//    private String readFile(String fileName) throws FileNotFoundException, IOException {
-//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-//        String msg;
-//        if ( (msg = reader.readLine()) == null ) {
-//            throw new IOException("Registration::getStatus: No content in " + fileName);
-//        }   
-//        return msg;
-//    }
+    /*
+    *  Utility function for reading a file
+    */
+    private String readFile(String fileName) throws FileNotFoundException, IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String msg;
+        if ( (msg = reader.readLine()) == null ) {
+            throw new IOException("Registration::getStatus: No content in " + fileName);
+        }   
+        return msg;
+    }
 //    
 //    /*
 //    *  Utility function for less verbose logging
