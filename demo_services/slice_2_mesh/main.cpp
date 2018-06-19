@@ -6,9 +6,6 @@
 #include "common.h"
 #include "segmentation.h"
 
-#include <cinolib/io/read_CLI.h>
-#include <cinolib/drawable_sliced_object.h>
-
 // default parameters
 double      hatch_thickness = 0.0;    // if 0 hatches (i.e. supports) won't be considered, if > 0 will be thickened and added to the mesh
 bool        bake_vp         = false;  // if true a surface mesh describing the boundary of virtual prototype will be produced
@@ -77,11 +74,11 @@ int main(int argc, char *argv[])
     //set_parameters(argc, argv);
     //Trimesh<> plc = cli2PLC(file_in.c_str(), hatch_thickness);
 
-    Trimesh<> plc = cli2PLC(argv[1], (argc>2) ? atof(argv[2]) : 0);
-    plc.save("output.off");
+    Trimesh<> plc = cli2PLC(argv[1], (argc>4) ? atof(argv[4]) : 0);
+    plc.save(argv[2]);
 
     Tetmesh<> tets = PLC2tets(plc);
-    tets.save("output.mesh");
+    tets.save(argv[3]);
 
     //std::vector< std::vector<uint> > tiny_charts;
     //detect_tiny_charts(plc, 0.3, tiny_charts);
