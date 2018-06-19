@@ -6,10 +6,6 @@
 #include "common.h"
 #include "segmentation.h"
 
-#include <cinolib/string_utilities.h>
-#include <cinolib/io/read_CLI.h>
-#include <cinolib/drawable_sliced_object.h>
-
 // default parameters
 double      hatch_thickness = 0.0;    // if 0 hatches (i.e. supports) won't be considered, if > 0 will be thickened and added to the mesh
 bool        bake_vp         = false;  // if true a surface mesh describing the boundary of virtual prototype will be produced
