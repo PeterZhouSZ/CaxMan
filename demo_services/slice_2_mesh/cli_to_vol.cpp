@@ -320,6 +320,11 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
         std::vector<double> holes_in, coords_out;
         std::vector<uint> tris_out;
         triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", coords_out, tris_out);
+
+        Trimesh<> m_tmp;
+        triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", m_tmp);
+        m_tmp.save("./debug.off");
+
         //if (coords_in.size()/2 != coords_out.size()/3)
         //{
         //    std::cout << "coords in: " << coords_in.size()/2 << "\tcoords_out: " << coords_out.size()/3 << std::endl;
