@@ -225,15 +225,22 @@ public class OrientationOptimizationAsync
             if ( (oldStatus.equals(newStatus)) && (!newStatus.equals("100")) ) {
                 log("\nUNCHANGED\n");
                 status_base64.value = "UNCHANGED";
+                
+                System.out.printf("STATUS:" + status_base64.value);
             }
             else if ( newStatus.equals("100") ) {
                 log("\nCOMPLETED\n");
                 status_base64.value = "COMPLETED";
                 mesh_out.value = readFile(resultFileName);
+                
+                System.out.printf("STATUS:" + status_base64.value);
+                System.out.printf("RESULT MESH:" + mesh_out.value);
             }
             else {
                 log("\nNeither unchanged nor completed, but:\n" + newStatus);
                 status_base64.value = newStatus;
+                
+                System.out.printf("STATUS:" + status_base64.value);
             }
         } catch (IOException ex) 
         {
@@ -241,6 +248,8 @@ public class OrientationOptimizationAsync
             error("null:fileStatus=" + statusFileName);
             
             status_base64.value = "0";
+            
+            System.out.printf("ERROR:" + ex.getMessage());
         }
         finally 
         {
@@ -258,10 +267,10 @@ public class OrientationOptimizationAsync
         
         // If the status is updated and the job is not yet finished, we create
         // a new progress bar based on the status file.
-        if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
+        //if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
             String html = htmlStatusBar(status_base64.value);
             status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
-        }
+        //}
     }
 //    
 //    
