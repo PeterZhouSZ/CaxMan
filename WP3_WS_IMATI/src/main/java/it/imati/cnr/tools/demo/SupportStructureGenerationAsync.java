@@ -86,7 +86,7 @@ public class SupportStructureGenerationAsync
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());
         
-        String outputURI = "swift://caxman/imati-ge/output_upports_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
+        String outputURI = "swift://caxman/imati-ge/output_supports_" + sdate + ".off";   ///////////////// UPDATE WITH YOURS
                
         System.out.print("[EXPECTED FINAL OUTPUT] " + outputURI);
         
@@ -316,7 +316,7 @@ public class SupportStructureGenerationAsync
             //"<link href=\"https://api.eu-cloudflow.eu/portal/twopointo/styles/style.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
             "</head>\n" +
             "<body style=\"margin: 20px; padding: 20px;\">\n" +
-            "<h1>Running Orientation Optimization ... </h1>\n" +
+            "<h1>Running Support Structures Generation ... </h1>\n" +
             "<div style=\"border-radius: 5px; border-color: lightblueblue; border-style:dashed; width: " + maxWidth + "px; height: 80px;padding:0; margin: 0; border-width: 3px;\">\n" +
             "<div style=\"position: relative; top: -3px; left: -3px; border-radius: 5px; border-color: lightblue; border-style:solid; width: " + relativeProgress + "px; height: 80px;padding:0; margin: 0; border-width: 3px; background-color: lightblue;\">\n" +
             "<h1 style=\"margin-left: 20px;\" >" + progress + "%</h1>\n" +
