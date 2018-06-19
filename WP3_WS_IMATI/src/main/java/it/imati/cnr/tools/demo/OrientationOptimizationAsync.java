@@ -242,7 +242,12 @@ public class OrientationOptimizationAsync
                 
                 System.out.printf("STATUS:" + status_base64.value);
             }
-        } catch (IOException ex) 
+            
+            String html = htmlStatusBar(newStatus);
+            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+        
+        } 
+        catch (IOException ex) 
         {
             error(ex);
             error("null:fileStatus=" + statusFileName);
@@ -268,8 +273,8 @@ public class OrientationOptimizationAsync
         // If the status is updated and the job is not yet finished, we create
         // a new progress bar based on the status file.
         //if ( !status_base64.value.equals("UNCHANGED") && !status_base64.value.equals("COMPLETED") ) {
-            String html = htmlStatusBar(status_base64.value);
-            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+//            String html = htmlStatusBar(newStatus);
+//            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
         //}
     }
 //    
