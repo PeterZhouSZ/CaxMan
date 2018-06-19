@@ -56,6 +56,7 @@ void cli2PLC(const char          * filename,
              std::vector<int>    & labels)
 {
     obj = SlicedObj(filename, hatch_thickness);
+    obj.triangulate().save("slicedobj.obj");
     if(obj.size()<2) return;
 
     initialize();
