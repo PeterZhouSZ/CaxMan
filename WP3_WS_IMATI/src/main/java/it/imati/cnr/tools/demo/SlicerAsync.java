@@ -75,7 +75,8 @@ public class SlicerAsync
     
         log("Async_example.startAsyncService - started Slicer with input:" + 
                 "\n\tserviceID =" + serviceID + 
-                "\n\tsessionToken =" + sessionToken);
+                "\n\tsessionToken =" + sessionToken +
+                "\n\tMesh_in = " + mesh_in);
         
         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");

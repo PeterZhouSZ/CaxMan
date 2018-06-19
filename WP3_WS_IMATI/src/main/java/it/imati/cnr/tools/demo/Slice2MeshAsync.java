@@ -79,10 +79,11 @@ public class Slice2MeshAsync
     // where we create a folder /tmp/<serviceID>. This makes it possibly for the other two 
     // services to look into this folder to check up on the correct running application.
     
-        //log("Async_example.startAsyncService - started Slice2Mesh with input:" + 
-        //        "\n\tserviceID =" + serviceID + 
-        //        "\n\tsessionToken =" + sessionToken);
-        
+        log("Async_example.startAsyncService - started Slice2Mesh with input:" + 
+                "\n\tserviceID =" + serviceID + 
+                "\n\tsessionToken =" + sessionToken +
+                "\n\tSlices_in = " + slices_in  );
+
         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String sdate = dateFormat.format(new Date());

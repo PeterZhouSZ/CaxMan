@@ -80,7 +80,8 @@ public class SupportStructureGenerationAsync
     
         log("Async_example.startAsyncService - started SupportStructureGeneration with input:" + 
                 "\n\tserviceID =" + serviceID + 
-                "\n\tsessionToken =" + sessionToken);
+                "\n\tsessionToken =" + sessionToken +
+                "\n\tMesh_in = " + mesh_in);
         
         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");

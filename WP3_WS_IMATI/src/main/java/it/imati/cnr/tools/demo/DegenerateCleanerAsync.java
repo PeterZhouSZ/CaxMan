@@ -70,7 +70,8 @@ public class DegenerateCleanerAsync
     
         log("Async_example.startAsyncService - started DegenerateCleaner with input:" + 
                 "\n\tserviceID =" + serviceID + 
-                "\n\tsessionToken =" + sessionToken);
+                "\n\tsessionToken =" + sessionToken +
+                "\n\tMesh_in = " + mesh_in);
         
         
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -173,6 +174,8 @@ public class DegenerateCleanerAsync
         String folderName = "/tmp/" + serviceID;
         String statusFileName = folderName + "/status_cleaner.txt";
         String resultFileName = folderName + "/result_cleaner.txt";
+        
+        
         
         mesh_out.value = "UNSET";
         status_base64.value = "UNSET";
