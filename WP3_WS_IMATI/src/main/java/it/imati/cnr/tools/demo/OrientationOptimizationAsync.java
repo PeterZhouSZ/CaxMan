@@ -205,6 +205,9 @@ public class OrientationOptimizationAsync
         String statusFileName = folderName + "/status.txt";
         String resultFileName = folderName + "/result.txt";
         
+        mesh_out.value = "UNSET";
+        status_base64.value = "UNSET";
+        
         try {
             
             // Check old status if it exists:
@@ -227,6 +230,9 @@ public class OrientationOptimizationAsync
                 status_base64.value = "UNCHANGED";
                 
                 System.out.printf("STATUS:" + status_base64.value);
+                System.out.printf("OLD STATUS:" + oldStatus);
+                System.out.printf("NEW STATUS:" + newStatus);
+                                
             }
             else if ( newStatus.equals("100") ) {
                 log("\nCOMPLETED\n");
