@@ -336,7 +336,7 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
             int nverts = coords_in.size()/2;
             if (v0 >= nverts || v1 >= nverts || v2 >= nverts)
             {
-                std::cout << "skip triangle " << tid << "(" << v0 << "," << v1 << "," << v2 << ") as it contains a newly generated vertex!" << std::endl;
+                std::cout << "triangle " << tid << "(" << v0 << "," << v1 << "," << v2 << ") as it contains a newly generated vertex! (N_IN_VERTS " << nverts << ")" << std::endl;
                 continue;
             }
 
