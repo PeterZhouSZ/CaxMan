@@ -149,8 +149,8 @@ public class Slice2MeshAsync
   
             // The long running job is just started, so we create a GUI showing
             // a progress bar on 0%
-            //String html = htmlStatusBar("0");
-            //status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
+            String html = htmlStatusBar("0");
+            status_base64.value = DatatypeConverter.printBase64Binary(html.getBytes());
             
             
             // We do not know the name of the output file yet, and assign a dummy value to it.
