@@ -56,7 +56,6 @@ void cli2PLC(const char          * filename,
              std::vector<int>    & labels)
 {
     obj = SlicedObj(filename, hatch_thickness);
-    obj.triangulate().save("slicedobj.obj");
     if(obj.size()<2) return;
 
     initialize();
@@ -303,7 +302,7 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
         std::vector<double> coords_in;
         std::vector<uint>   verts;
         std::map<uint,uint> v_map;
-        int fresh_id = 0;
+        uint fresh_id = 0;
         for(int vid : unique_slice_verts)
         {
             verts.push_back(vid);
@@ -320,9 +319,10 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
             segs_in.push_back(v_map.at(vid));
         }
 
-       //for(auto c : coords_in) std::cout << "coord: " << c << std::endl;
-       //for(auto c : segs_in)   std::cout << "seg: " << c << std::endl;
+        if(coords_in.empty()) continue;
 
+        //for(auto c : coords_in) std::cout << "coord: " << c << std::endl;
+        //for(auto c : segs_in)   std::cout << "seg: " << c << std::endl;
         std::vector<double> holes_in, coords_out;
         std::vector<uint> tris_out;
         triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", coords_out, tris_out);
@@ -394,6 +394,6 @@ cinolib::Tetmesh<> PLC2tets(cinolib::Trimesh<> & PLC)
     if(PLC.num_verts()==0) return cinolib::Tetmesh<>();
     std::vector<double> coords_out;
     std::vector<uint>   tets_out, edges_in; // empty
-    tetgen_wrap(serialized_xyz_from_vec3d(PLC.vector_verts()), serialized_vids_from_polys(PLC.vector_polys()), edges_in, "q", coords_out, tets_out);
+    tetgen_wrap(serialized_xyz_from_vec3d(PLC.vector_verts()), serialized_vids_from_polys(PLC.vector_polys()), edges_in, "", coords_out, tets_out);
     return cinolib::Tetmesh<>(coords_out, tets_out);
 }

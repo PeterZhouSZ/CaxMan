@@ -44,6 +44,10 @@ void read_polyline(string line, std::vector<double> & points)
 
 std::vector<Polygon2D> make_open_curves(const vector< vector<double> > open_curves, const double machine_precision)
 {
+    std::vector<Polygon2D> buffered_curves;
+    if (open_curves.empty())  return buffered_curves;
+    if (machine_precision==0) return buffered_curves;
+
     // boost::buffer strategies
     //
     boost::geometry::strategy::buffer::distance_symmetric<double> distance_strategy(machine_precision);
@@ -51,9 +55,6 @@ std::vector<Polygon2D> make_open_curves(const vector< vector<double> > open_curv
     boost::geometry::strategy::buffer::end_flat                   end_strategy;
     boost::geometry::strategy::buffer::point_square               circle_strategy;
     boost::geometry::strategy::buffer::side_straight              side_strategy;
-
-    std::vector<Polygon2D> buffered_curves;
-    if (open_curves.empty()) return buffered_curves;
 
     for(vector<double> c : open_curves)
     {
@@ -66,8 +67,7 @@ std::vector<Polygon2D> make_open_curves(const vector< vector<double> > open_curv
         std::vector<BoostPolygon> res;
         boost::geometry::buffer(ls, res, distance_strategy, side_strategy,
                                 join_strategy, end_strategy, circle_strategy);
-        assert(res.size()==1);
-        buffered_curves.push_back(Polygon2D(res.front()));                
+        if(res.size()==1) buffered_curves.push_back(Polygon2D(res.front()));
     }
 
     return buffered_curves;
@@ -85,7 +85,7 @@ Slice make_slice(const double                   z,
     for(auto r : outer_rings) polys.push_back(Polygon2D(r));
     for(auto h : inner_holes) holes.push_back(Polygon2D(h));
 
-    assert(!polys.empty());
+    //assert(!polys.empty());
 
     for(Polygon2D & r : polys)
     for(Polygon2D   h : holes)
