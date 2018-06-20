@@ -3,6 +3,7 @@
 #include <cinolib/geometry/vec3.h>
 #include <cinolib/meshes/meshes.h>
 #include <cinolib/sphere_coverage.h>
+#include <cmath>
 
 using namespace cinolib;
 
@@ -43,8 +44,9 @@ double get_overhangs(const Trimesh<>         & m,
 void define_rotation(const vec3d & build_dir, vec3d & axis, double & angle)
 {
     vec3d z = vec3d(0,0,1);
-    axis    = build_dir.cross(z); axis.normalize();
     angle   = acos(build_dir.dot(z));
+    if(angle<0.01)return;
+    axis    = build_dir.cross(z); axis.normalize();
     assert(!std::isnan(angle));
 }
 
@@ -120,6 +122,7 @@ bool orient(Trimesh<>    & m,
 {
     std::vector<vec3d> dir_pool;
     sphere_coverage(n_dirs, dir_pool);
+    dir_pool.push_back(vec3d(0,0,1)); // also consider current dir
 
     double            best_obj = FLT_MAX;
     vec3d             best_dir;
@@ -138,7 +141,7 @@ bool orient(Trimesh<>    & m,
                      wgt_print_time  * height      +
                      wgt_supports    * sup_area;
 
-        if(obj < best_obj)
+        if(obj <= best_obj)
         {
             best_obj      = obj;
             best_dir      = build_dir;
@@ -153,7 +156,15 @@ bool orient(Trimesh<>    & m,
     }
     else
     {
-        std::cout << "OPTIMUM REACHED - Energy: " << best_obj << std::endl;
+        std::cout << "OPTIMUM REACHED - Energy: " << best_obj << "\taxis:" << best_dir << std::endl;
+        //double frac_part, int_part;
+        //for(int i=0; i<3; ++i)
+        //{
+        //    frac_part = std::modf(best_dir[i],&int_part);
+        //    std::cout << best_dir[i] << "\t" << int_part << "\t" << frac_part << std::endl;
+        //    if(fabs(best_dir[i]-frac_part)<0.1) best_dir[i] = int_part;
+        //}
+        //std::cout << "Quantized dir: " << best_dir << std::endl;
         std::vector<uint> overhangs;
         get_overhangs(m, best_dir, angle_thresh_deg, overhangs);
         for(int pid : best_supports) m.poly_data(pid).color = Color::RED();
