@@ -43,7 +43,6 @@ echo "10" > $target_dir/$status_file_basename
 
 # Start the long running job on the compute machine
 echo "Starting the remote job ..."  >> $logFile
-#ssh root@10.30.1.112 "/usr/local/bin/asyncSleeper.sh $session_id $target_dir/$status_file_basename $target_dir/$file_to_upload_basename $target_dir/$result_file_basename $gss_output_folder"
 
 cmd="/usr/local/bin/slice2mesh.sh $session_id $slices_in $out_uri_volume $out_uri_surface $hatch_thickness $target_dir $status_file_basename $result_file_volume $result_file_surface $file_to_upload_volume $file_to_upload_surface "
 

@@ -303,10 +303,12 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
         std::vector<double> coords_in;
         std::vector<uint>   verts;
         std::map<uint,uint> v_map;
+        int fresh_id = 0;
         for(int vid : unique_slice_verts)
         {
             verts.push_back(vid);
-            v_map[vid] = v_map.size();
+            v_map[vid] = fresh_id;
+            ++fresh_id;
 
             coords_in.push_back(v_list[vid].pos.x());
             coords_in.push_back(v_list[vid].pos.y());
@@ -318,16 +320,19 @@ void mesh_horizontal(std::vector<uint> & tris, std::vector<int> & labels)
             segs_in.push_back(v_map.at(vid));
         }
 
+       //for(auto c : coords_in) std::cout << "coord: " << c << std::endl;
+       //for(auto c : segs_in)   std::cout << "seg: " << c << std::endl;
+
         std::vector<double> holes_in, coords_out;
         std::vector<uint> tris_out;
         triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", coords_out, tris_out);
 
-        static int count = 0;
-        Trimesh<> m_tmp;
-        triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", m_tmp);
-        std::string fname("./debug");
-        fname += std::to_string(count++) + ".off";
-        m_tmp.save(fname.c_str());
+        //static int count = 0;
+        //Trimesh<> m_tmp;
+        //triangle_wrap(coords_in, segs_in, holes_in, obj.slice(sid).z_coord, "Q", m_tmp);
+        //std::string fname("./debug");
+        //fname += std::to_string(count++) + ".off";
+        //m_tmp.save(fname.c_str());
 
         //if (coords_in.size()/2 != coords_out.size()/3)
         //{

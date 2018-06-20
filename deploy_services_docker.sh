@@ -14,14 +14,14 @@ CPP_FOLDER="cpp/"
 
 mkdir -p $CPP_FOLDER
 
-cp -r /root/CaxMan/detect_voids_service $CPP_FOLDER
-cp -r /root/CaxMan/global_checks $CPP_FOLDER
-cp -r /root/CaxMan/integrity_checks $CPP_FOLDER
-cp -r /root/CaxMan/orientation_service $CPP_FOLDER
-cp -r /root/CaxMan/slice2mesh $CPP_FOLDER
-cp -r /root/CaxMan/stl2cli $CPP_FOLDER
-cp -r /root/CaxMan/support_structures $CPP_FOLDER
-cp -r /root/CaxMan/thinwalls_and_cavities $CPP_FOLDER
+#cp -r /root/CaxMan/detect_voids_service $CPP_FOLDER
+#cp -r /root/CaxMan/global_checks $CPP_FOLDER
+#cp -r /root/CaxMan/integrity_checks $CPP_FOLDER
+#cp -r /root/CaxMan/orientation_service $CPP_FOLDER
+#cp -r /root/CaxMan/slice2mesh $CPP_FOLDER
+#cp -r /root/CaxMan/stl2cli $CPP_FOLDER
+#cp -r /root/CaxMan/support_structures $CPP_FOLDER
+#cp -r /root/CaxMan/thinwalls_and_cavities $CPP_FOLDER
 
 cp -r /root/CaxMan/demo_services $CPP_FOLDER
 
@@ -33,12 +33,12 @@ mkdir -p $LIB_FOLDER
 
 cp -r /usr/local/lib/ $LIB_FOLDER
 
-echo "Copying third_party libs ... "
+#echo "Copying third_party libs ... "
 
-TP_LIB_FOLDER="third_party_libs/"
-mkdir -p $TP_LIB_FOLDER
+#TP_LIB_FOLDER="third_party_libs/"
+#mkdir -p $TP_LIB_FOLDER
 
-cp -r /root/third_party_libs $TP_LIB_FOLDER
+#cp -r /root/third_party_libs $TP_LIB_FOLDER
 
 echo "Stopping and killing existing docker images ... "
 
