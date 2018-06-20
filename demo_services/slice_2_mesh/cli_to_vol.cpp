@@ -394,6 +394,6 @@ cinolib::Tetmesh<> PLC2tets(cinolib::Trimesh<> & PLC)
     if(PLC.num_verts()==0) return cinolib::Tetmesh<>();
     std::vector<double> coords_out;
     std::vector<uint>   tets_out, edges_in; // empty
-    tetgen_wrap(serialized_xyz_from_vec3d(PLC.vector_verts()), serialized_vids_from_polys(PLC.vector_polys()), edges_in, "", coords_out, tets_out);
+    tetgen_wrap(serialized_xyz_from_vec3d(PLC.vector_verts()), serialized_vids_from_polys(PLC.vector_polys()), edges_in, "T1e-11", coords_out, tets_out);
     return cinolib::Tetmesh<>(coords_out, tets_out);
 }
