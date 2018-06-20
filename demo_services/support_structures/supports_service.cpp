@@ -79,7 +79,8 @@ void detect_overhangs(const Trimesh<>         & m,
         vec3d n = m.poly_data(pid).normal;
         if (n.angle_deg(build_dir)-90>thresh)
         {
-            pids.push_back(pid);
+            if(m.poly_area(pid) > 0.0001*m.mesh_area())
+                pids.push_back(pid);
         }
     }
 }
