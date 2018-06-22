@@ -46,7 +46,7 @@ echo "Starting the remote job ..."  >> $logFile
 
 cmd="/usr/local/bin/slice2mesh.sh $session_id $slices_in $out_uri_volume $out_uri_surface $hatch_thickness $target_dir $status_file_basename $result_file_volume $result_file_surface $file_to_upload_volume $file_to_upload_surface "
 
-echo "RUNNING $cmd"
+echo "\n RUNNING $cmd \n"
 
 $cmd
 

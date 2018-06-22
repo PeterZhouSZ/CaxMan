@@ -46,7 +46,7 @@ echo "Starting the remote job ..."  >> $logFile
 
 cmd="/usr/local/bin/support_structures.sh $session_id $mesh_in $out_uri $density $threshold $target_dir $status_file_basename $result_file $file_to_upload "
 
-echo "RUNNING $cmd"
+echo "\n RUNNING $cmd \n"
 
 $cmd
 

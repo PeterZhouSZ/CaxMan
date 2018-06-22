@@ -35,7 +35,11 @@ $cmd_download
 echo "40" > $TARGET_DIR/$STATUS_FILE
 
 # run orientation optimization
-$SLICER_TOOL $DOWNLOADED_FILE $OUTPUT_FILE -l $LAYER_THICKNESS
+cmd="$SLICER_TOOL $DOWNLOADED_FILE $OUTPUT_FILE -l $LAYER_THICKNESS -q 0.01"
+
+$echo $cmd
+
+$cmd
 
 echo "70" > $TARGET_DIR/$STATUS_FILE
 

@@ -48,7 +48,7 @@ echo "Starting the remote job ..."  >> $logFile
 
 cmd="/usr/local/bin/orientation_optimization.sh $session_id $mesh_in $out_uri $wq $wt $ws $threshold $ndirs $target_dir $status_file_basename $result_file $file_to_upload "
 
-echo "RUNNING $cmd"
+echo "\n RUNNING $cmd \n"
 
 $cmd
 

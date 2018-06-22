@@ -44,7 +44,7 @@ echo "Starting the remote job ..."  >> $logFile
 
 cmd="/usr/local/bin/slicer.sh $session_id $mesh_in $out_uri $layer_thickness $target_dir $status_file_basename $result_file $file_to_upload "
 
-echo "RUNNING $cmd"
+echo "\n RUNNING $cmd \n"
 
 $cmd
 
