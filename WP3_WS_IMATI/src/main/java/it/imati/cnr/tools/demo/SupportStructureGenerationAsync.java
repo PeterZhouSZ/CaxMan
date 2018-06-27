@@ -131,9 +131,9 @@ public class SupportStructureGenerationAsync
             
             System.out.print("[STARTING APPLICATION]" + applicationFileName);
             
-            Process detachedProc = procBuilder.start();
-            detachedProc.waitFor();
-            detachedProc.destroy();
+            procBuilder.start();
+            //detachedProc.waitFor();
+            //detachedProc.destroy();
             
             System.out.print("[DETACHED APPLICATION]" + applicationFileName);
             
@@ -149,7 +149,7 @@ public class SupportStructureGenerationAsync
             mesh_out.value = "UNSET";
 
         } 
-        catch (IOException | InterruptedException t) 
+        catch (IOException  t) 
         {   
             System.out.print("[ERROR]" + t.getMessage());
         }
