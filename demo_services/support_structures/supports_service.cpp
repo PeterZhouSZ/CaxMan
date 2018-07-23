@@ -200,6 +200,13 @@ void extrude_supports(const std::vector<tri_seg_inters>        & supp_segments,
         vec3d C = m.poly_sample_at(og_tid, obj.bary_beg);
         vec3d D = m.poly_sample_at(og_tid, obj.bary_end);
 
+        // discard small supports (I am assuming 0.1 support thickening at both sides!)
+        if(A.dist(B) < 0.4) continue;
+
+        // detach the upper profile of the support from the mesh
+        C.z() -= 0.01;
+        D.z() -= 0.01;
+
         int base = coords.size()/3;
         tris.push_back(base);
         tris.push_back(base + 1);
