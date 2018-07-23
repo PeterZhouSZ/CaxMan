@@ -1,6 +1,4 @@
 #include "edge_processing.h"
-
-//#include "intersection.h"
 #include <cinolib/intersection.h>
 
 enum
@@ -11,7 +9,123 @@ enum
     _D_ = 3,
 };
 
-using namespace std;
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+void lift_unlifted_edge_extrema(const SlicedObj<> & obj, SLICE2MESH_data & data)
+{
+    for(uint sid=0; sid<obj.num_slices()-1;         ++sid) // for each slice
+    for(uint eid=0; eid<data.e_list.at(sid).size(); ++eid) // for each segment
+    for(int  ext=0; ext<2;                          ++ext) // for each segment extrema
+    {
+        E_data & e   = data.e_list.at(sid).at(eid);
+        int      vid = e.endpoints[ext];
+        if(data.v_list.at(vid).lifted_image == -1)
+        {
+            data.v_list.at(vid).lifted_image = data.v_list.size(); // fresh_id
+            V_data vd;
+            vd.pos      = data.v_list.at(vid).pos;
+            vd.pos.z()  = obj.slice_z(sid+1);
+            data.v_list.push_back(vd);
+        }
+    }
+}
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+std::vector<int> order_split_points(const SLICE2MESH_data & data, const int vid_beg, const int vid_end, const std::set<int> & splits)
+{
+    std::vector<int> ordered_splits;
+    if (splits.empty()) return ordered_splits;
+
+    vec3d A = data.v_list.at(vid_beg).pos;
+    vec3d B = data.v_list.at(vid_end).pos;
+    vec3d u = B-A;
+    assert(u.length() > 0);
+
+    std::vector<std::pair<double,int>> dot_list;
+    for(int vid : splits)
+    {
+        vec3d  P   = data.v_list.at(vid).pos;
+        vec3d  v   = P - A;
+        double dot = u.dot(v);
+        if (dot < 0)
+        {
+            //cout << endl;
+            //cout << vid_beg << "\t" << vid_end << endl;
+            //cout << A << endl;
+            //cout << B << endl;
+            //cout << P << endl;
+            //cout << "AB " << (A-B).length() << endl;
+            //cout << "PA " << (P-A).length() << endl;
+            //cout << "PB " << (P-B).length() << endl;
+            //cout << "uv"  << u.dot(v) << endl;
+            //cout << endl;
+            //assert(dot < 0)
+        }
+        else
+        if (u.dot(v) >= u.dot(u))
+        {
+            //cout << endl;
+            //cout << vid_beg << "\t" << vid_end << endl;
+            //cout << A << endl;
+            //cout << B << endl;
+            //cout << P << endl;
+            //cout << "AB " << (A-B).length() << endl;
+            //cout << "PA " << (P-A).length() << endl;
+            //cout << "PB " << (P-B).length() << endl;
+            //cout << "uv - uu " << u.dot(v) << "\t" << u.dot(u) << endl;
+            //cout << endl;
+            //assert(u.dot(v) < u.dot(u));
+        }
+        else
+        dot_list.push_back(std::make_pair(dot, vid));
+    }
+
+    std::sort(dot_list.begin(), dot_list.end());
+
+    for(std::pair<double,int> p : dot_list)
+    {
+        ordered_splits.push_back(p.second);
+    }
+
+    return ordered_splits;
+}
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+void order_split_points(const SlicedObj<> & obj, SLICE2MESH_data & data)
+{
+    for(uint sid=0; sid<obj.num_slices()-1;         ++sid) // for each slice
+    for(uint eid=0; eid<data.e_list.at(sid).size(); ++eid) // for each segment
+    {
+        E_data & e = data.e_list.at(sid).at(eid);
+        int vid_A  = e.endpoints[0];
+        int vid_B  = e.endpoints[1];
+        int vid_C  = data.v_list.at(vid_A).lifted_image;
+        int vid_D  = data.v_list.at(vid_B).lifted_image;
+
+        assert(vid_A != -1); assert(vid_B != -1);
+        assert(vid_C != -1); assert(vid_D != -1);
+
+        e.ordered_bot_splits = order_split_points(data, vid_A, vid_B, e.bot_splits);
+        e.ordered_top_splits = order_split_points(data, vid_C, vid_D, e.top_splits);
+    }
+}
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+void edge_wise_intersections(const SlicedObj<> & obj, SLICE2MESH_data & data)
+{
+    for(uint sid=0; sid<obj.num_slices()-1;           ++sid) // for each slice
+    for(uint ei =0; ei <data.e_list.at(sid  ).size(); ++ei ) // for each segment below
+    for(uint ej =0; ej <data.e_list.at(sid+1).size(); ++ej ) // for each segment above
+    {
+        process_edge_pair(data.v_list, data.e_list.at(sid).at(ei), data.e_list.at(sid+1).at(ej));
+    }
+
+    lift_unlifted_edge_extrema(obj, data);
+    order_split_points(obj, data);
+}
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -27,8 +141,6 @@ void process_edge_pair(std::vector<V_data> & points,
                        E_data              & e_below,
                        E_data              & e_above)
 {
-    using namespace cinolib;
-
     int vids[4] =
     {
         e_below.endpoints[0],
@@ -42,7 +154,7 @@ void process_edge_pair(std::vector<V_data> & points,
     vec2d C(points[vids[_C_]].pos.x(), points[vids[_C_]].pos.y());
     vec2d D(points[vids[_D_]].pos.x(), points[vids[_D_]].pos.y());
 
-    vector<vec2d> res;
+    std::vector<vec2d> res;
     segment2D_intersection(A,B,C,D,res);
     //segment_intersection_2D(A, B, C, D, res); // discard z-coord
 

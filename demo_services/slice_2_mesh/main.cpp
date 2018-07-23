@@ -1,115 +1,100 @@
-#include <iostream>
-#include <vector>
-
-#include "filter_plc.h"
-#include "cli_to_vol.h"
+#include <cinolib/sliced_object.h>
+#include <cinolib/string_utilities.h>
+#include <cinolib/profiler.h>
 #include "common.h"
-#include "segmentation.h"
+#include "slice2plc.h"
+#include "plc2tet.h"
+
+using namespace cinolib;
 
 // default parameters
-double      hatch_thickness = 0.0;    // if 0 hatches (i.e. supports) won't be considered, if > 0 will be thickened and added to the mesh
-bool        bake_vp         = false;  // if true a surface mesh describing the boundary of virtual prototype will be produced
-bool        vp_only         = false;  // do only the virtual prototype (no volumetric mesh will be produced)
-bool        verbose         = false;  // enable the verbose mode
-std::string file_in;
+double      hatch_thickness = 0.01;
+bool        export_plc      = false;
+bool        export_tetmesh  = true;
+std::string tetgen_flags    = "Q";
+std::string base_name;
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 void set_parameters(int argc, char *argv[])
 {
-    file_in = std::string(argv[1]);
+    base_name = get_file_name(argv[1], false);
 
     for(int i=2; i<argc; ++i)
     {
-        if (strcmp(argv[i], "-verbose") == 0)
+        if(strcmp(argv[i], "-plc") == 0)
         {
-            verbose = true;
-            std::cout << "info: enable verbose mode" << std::endl;
+            export_plc = true;
+            std::cout << "info: export PLC" << std::endl;
         }
-        if (strcmp(argv[i], "-vp") == 0)
+        if(strcmp(argv[i], "-plc-only") == 0)
         {
-            bake_vp = true;
-            std::cout << "info: enable the generation of the virtual prototype" << std::endl;
+            export_plc     = true;
+            export_tetmesh = false;
+            std::cout << "info: export ONLY the PLC" << std::endl;
         }
-        if (strcmp(argv[i], "-vp-only") == 0)
-        {
-            bake_vp = true;
-            vp_only = true;
-            std::cout << "info: enable the generation of the virtual prototype (no volumetric mesh will be produced!)" << std::endl;
-        }
-        if (strcmp(argv[i], "-with-hatch") == 0 && i+1<argc)
+        if(strcmp(argv[i], "-hatch") == 0 && i+1<argc)
         {
             hatch_thickness = atof(argv[++i]);
-            std::cout << "info: enable hatch meshing (hatch thickness is " << hatch_thickness << ")" << std::endl;
+            std::cout << "info: set hatch thickness to " << hatch_thickness << std::endl;
         }
-
+        if(strcmp(argv[i], "-tetflags") == 0 && i+1<argc)
+        {
+            tetgen_flags = std::string(argv[++i]);
+            std::cout << "info: set tetgen flags to " << tetgen_flags << std::endl;
+        }
     }
 }
 
-//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    if(argc < 2)
     {
-        std::cout << "                                                      " << std::endl;
-        std::cout << "expected usage: slice2mesh input.cli [hatch_thickness]" << std::endl;
-        std::cout << "                                                      " << std::endl;
-
-        //std::cout << "Flags:                                                                          " << std::endl;
-        //std::cout << "  -verbose       enable verbose mode                                            " << std::endl;
-        //std::cout << "  -with-hatch t  thicken hatches (i.e. supports) and include them in the output " << std::endl;
-        //std::cout << "  -vp            export the Virtual Prototype                                   " << std::endl;
-        //std::cout << "  -vp-only       export ONLY the Virtual Prototype\n\n                          " << std::endl;
+        std::cout << "                                                                                       " << std::endl;
+        std::cout << "expected usage: slice2mesh input.cli [flags]                                           " << std::endl;
+        std::cout << "                                                                                       " << std::endl;
+        std::cout << "Flags:                                                                                 " << std::endl;
+        std::cout << "  -hatch    h  thicken 1D hatches by h amount and mesh them (default h=0.01)           " << std::endl;
+        std::cout << "  -tetflags f  use f flags when calling tetgen to produce the tetmesh (default f=\"Q\")" << std::endl;
+        std::cout << "  -plc         export the PLC as a non-manifold triangle mesh                          " << std::endl;
+        std::cout << "  -plc-only    export ONLY the PLC                                                     " << std::endl;
+        //std::cout << "  -subsmp   f  slice subsampling. consider only one every f slices\n\n                 " << std::endl;
         return -1;
     }
 
-    //std::vector<std::vector<std::vector<vec3d>>> internal_polylines;
-    //std::vector<std::vector<std::vector<vec3d>>> external_polylines;
-    //std::vector<std::vector<std::vector<vec3d>>> open_polylines;
-    //std::vector<std::vector<std::vector<vec3d>>> hatches;
-    //read_CLI(argv[1],internal_polylines,external_polylines,open_polylines,hatches);
-    //exit(0);
+    set_parameters(argc,argv);
 
-    //set_parameters(argc, argv);
-    //Trimesh<> plc = cli2PLC(file_in.c_str(), hatch_thickness);
+    Profiler profiler;
 
-    Trimesh<> plc = cli2PLC(argv[1], (argc>4) ? atof(argv[4]) : 0);
-    plc.save(argv[2]);
+    profiler.push("Create Sliced Obj");
+    SlicedObj<> obj(argv[1], hatch_thickness);
+    profiler.pop();
 
-    Tetmesh<> tets = PLC2tets(plc);
-    tets.save(argv[3]);
+    obj.save((base_name+"_slices.off").c_str());
+    if(obj.num_slices()<2)
+    {
+        std::cerr << "ERROR: less than two slices were found!" << std::endl;
+        exit(0);
+    }
 
-    //std::vector< std::vector<uint> > tiny_charts;
-    //detect_tiny_charts(plc, 0.3, tiny_charts);
+    Trimesh<> plc;
+    profiler.push("slice2plc");
+    slice2plc(obj, plc);
+    profiler.pop();
 
-//    if (bake_vp)
-//    {
-//        std::string vp_filename = file_in;
-//        vp_filename.resize(file_in.size()-4);
-//        vp_filename.append("_vp.off");
-//        std::vector<double> coords_out;
-//        std::vector<uint>   tris_out, dummy;
-//        filter_PLC_by_label(plc, SRF_FACE_UP|SRF_FACE_DOWN|SRF_FACE_VERT, coords_out, tris_out);
-//        write_OFF(vp_filename.c_str(), coords_out, tris_out, dummy);
-//    }
+    if(export_plc) plc.save((base_name+".off").c_str());
 
-//    if (!vp_only)
-//    {
-//        std::string obj_filename = file_in;
-//        obj_filename.resize(file_in.size()-4);
-//        obj_filename.append("_PLC.off");
-//        plc.save(obj_filename.c_str());
-//        obj_filename.resize(file_in.size()-4);
-//        obj_filename.append("_colored_PLC.obj");
-//        plc.save(obj_filename.c_str());
+    Tetmesh<> m;
+    if(export_tetmesh)
+    {
+        profiler.push("plc2mesh");
+        plc2tet(plc, obj, tetgen_flags.c_str(), m);
+        profiler.pop();
 
-//        Tetmesh<> tets = PLC2tets(plc);
-//        std::string tets_filename = file_in;
-//        tets_filename.resize(file_in.size()-4);
-//        tets_filename.append(".vtu");
-//        tets.save(tets_filename.c_str());
-//    }
+        m.save((base_name+".mesh").c_str());
+    }
 
     return 0;
 }
