@@ -27,3 +27,5 @@
 /thinwalls_and_cavities/thinwalls_and_cavities.pro.user
 
 support_structures/build/output.zip
+
+*.o

@@ -1,5 +1,4 @@
 #include <cinolib/sliced_object.h>
-#include <cinolib/string_utilities.h>
 #include <cinolib/profiler.h>
 #include "common.h"
 #include "slice2plc.h"
@@ -12,26 +11,26 @@ double      hatch_thickness = 0.01;
 bool        export_plc      = false;
 bool        export_tetmesh  = true;
 std::string tetgen_flags    = "Q";
-std::string base_name;
+std::string plc_filename;
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 void set_parameters(int argc, char *argv[])
 {
-    base_name = get_file_name(argv[1], false);
-
-    for(int i=2; i<argc; ++i)
+    for(int i=3; i<argc; ++i)
     {
-        if(strcmp(argv[i], "-plc") == 0)
+        if(strcmp(argv[i], "-plc") == 0 && i+1<argc)
         {
             export_plc = true;
-            std::cout << "info: export PLC" << std::endl;
+            plc_filename = std::string(argv[++i]);
+            std::cout << "info: export PLC on: " << plc_filename << std::endl;
         }
-        if(strcmp(argv[i], "-plc-only") == 0)
+        if(strcmp(argv[i], "-plc-only") == 0 && i+1<argc)
         {
             export_plc     = true;
             export_tetmesh = false;
-            std::cout << "info: export ONLY the PLC" << std::endl;
+            plc_filename = std::string(argv[++i]);
+            std::cout << "info: export ONLY the PLC on: " << plc_filename << std::endl;
         }
         if(strcmp(argv[i], "-hatch") == 0 && i+1<argc)
         {
@@ -50,16 +49,16 @@ void set_parameters(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-    if(argc < 2)
+    if(argc < 3)
     {
         std::cout << "                                                                                       " << std::endl;
-        std::cout << "expected usage: slice2mesh input.cli [flags]                                           " << std::endl;
+        std::cout << "expected usage: slice2mesh input.cli output.mesh [flags]                                           " << std::endl;
         std::cout << "                                                                                       " << std::endl;
         std::cout << "Flags:                                                                                 " << std::endl;
         std::cout << "  -hatch    h  thicken 1D hatches by h amount and mesh them (default h=0.01)           " << std::endl;
         std::cout << "  -tetflags f  use f flags when calling tetgen to produce the tetmesh (default f=\"Q\")" << std::endl;
-        std::cout << "  -plc         export the PLC as a non-manifold triangle mesh                          " << std::endl;
-        std::cout << "  -plc-only    export ONLY the PLC                                                     " << std::endl;
+        std::cout << "  -plc      s  export the PLC on a file s (it's a non manifold trimesh)                " << std::endl;
+        std::cout << "  -plc-only s  export ONLY the PLC                                                     " << std::endl;
         //std::cout << "  -subsmp   f  slice subsampling. consider only one every f slices\n\n                 " << std::endl;
         return -1;
     }
@@ -72,7 +71,6 @@ int main(int argc, char *argv[])
     SlicedObj<> obj(argv[1], hatch_thickness);
     profiler.pop();
 
-    obj.save((base_name+"_slices.off").c_str());
     if(obj.num_slices()<2)
     {
         std::cerr << "ERROR: less than two slices were found!" << std::endl;
@@ -84,7 +82,7 @@ int main(int argc, char *argv[])
     slice2plc(obj, plc);
     profiler.pop();
 
-    if(export_plc) plc.save((base_name+".off").c_str());
+    if(export_plc) plc.save(plc_filename.c_str());
 
     Tetmesh<> m;
     if(export_tetmesh)
@@ -92,8 +90,7 @@ int main(int argc, char *argv[])
         profiler.push("plc2mesh");
         plc2tet(plc, obj, tetgen_flags.c_str(), m);
         profiler.pop();
-
-        m.save((base_name+".mesh").c_str());
+        m.save(argv[2]);
     }
 
     return 0;
