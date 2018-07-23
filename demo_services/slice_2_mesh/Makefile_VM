@@ -10,23 +10,16 @@ RM= rm
 TAR= tar
 
 FLAGS = -std=c++11 -DIS64BITPLATFORM -DTETLIBRARY -DCINOLIB_USES_BOOST -DCINOLIB_USES_TRIANGLE -DCINOLIB_USES_TETGEN
-CFLAGS = -Wall -fpermissive -I./ -I$(BOOST_DIR) -I$(LIB_DIR) -I$(CINOLIB_DIR) -I$(TETGEN_DIR) -I$(EIGEN_DIR) -I$(TRIANGLE_DIR)
+CFLAGS = -Wall -fpermissive -O3 -DNDEBUG -I./ -I$(BOOST_DIR) -I$(LIB_DIR) -I$(CINOLIB_DIR) -I$(TETGEN_DIR) -I$(EIGEN_DIR) -I$(TRIANGLE_DIR)
 
 LIBS += -L$(TETGEN_DIR)/build -ltet
 LIBS += -L/usr/lib -ltriangle
 
 SOURCES.C    = main.cpp \
-		cli_to_vol.cpp \
-		cli_to_vol_debug.cpp \
+		plc2tet.cpp \
+		slice2plc.cpp \
 		edge_processing.cpp \
-		filter_plc.cpp \
-		load_cli.cpp \
-		polygon.cpp \
-		segmentation.cpp \
-		slice.cpp \
-		sliced_obj.cpp \
-		tiny_chart_helper.cpp \
-		triangulate_quad.cpp		
+                trianglulate.cpp
 
 
 INCLUDES =
